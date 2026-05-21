@@ -1,19 +1,46 @@
 import './bootstrap';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from '@/Utils/Contexts/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider, useAuth } from '@/Utils/Contexts/AuthContext';
+import { ThemeProvider } from '@/Utils/Contexts/ThemeContext';
+import queryClient from '@/Utils/Libs/QueryClient';
+import Login from '@/Pages/Auth/Login/Login';
+import Dashboard from '@/Pages/Admin/Dashboard/Dashboard';
 import '../css/app.css';
 
-const queryClient = new QueryClient();
+function ProtectedRoute({ children }) {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? children : <Navigate to="/login" replace />;
+}
+
+function GuestRoute({ children }) {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? <Navigate to="/portal/dashboard" replace /> : children;
+}
+
+function AppRoutes() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
+                <Route path="/portal/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
+            </Routes>
+        </BrowserRouter>
+    );
+}
 
 const el = document.getElementById('app');
 if (el) {
     createRoot(el).render(
         <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <App />
-            </AuthProvider>
+            <ThemeProvider>
+                <AuthProvider>
+                    <AppRoutes />
+                </AuthProvider>
+            </ThemeProvider>
         </QueryClientProvider>
     );
 }
