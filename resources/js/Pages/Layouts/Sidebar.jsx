@@ -65,8 +65,17 @@ const navItems = [
 
             {
                 label: 'Procurement',
-                path: '/portal/procurement',
                 icon: HardHat,
+                children: [
+                    {
+                        label: 'Purchase Request',
+                        path: '/portal/purchase-request',
+                    },
+                    {
+                        label: 'Purchase Order',
+                        path: '/portal/purchase-order',
+                    }
+                ],
             },
 
             {
