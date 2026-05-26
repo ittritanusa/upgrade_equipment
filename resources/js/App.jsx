@@ -18,6 +18,15 @@ import Project from '@/Pages/Admin/Project/Project';
 import CreateProject from '@/Pages/Admin/Project/CreateProject';
 import DetailProject from '@/Pages/Admin/Project/DetailProject';
 
+// Module Budget & RAB
+import RABProject from '@/Pages/Admin/Budget/Rab/rab_project';
+import CreateRABProject from '@/Pages/Admin/Budget/Rab/create_rab_project';
+import DetailRABProject from '@/Pages/Admin/Budget/Rab/detail_rab_project';
+
+import RealisasiBudget from '@/Pages/Admin/Budget/RealisasiBudget/realisasi_budget';
+import CreateRealisasiBudget from '@/Pages/Admin/Budget/RealisasiBudget/create_realisasi_budget';
+import DetailRealisasiBudget from '@/Pages/Admin/Budget/RealisasiBudget/detail_realisasi_budget';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -36,9 +45,20 @@ function AppRoutes() {
             <Routes>
                 <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
                 <Route path="/portal/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+
+                {/* Module Project */}
                 <Route path="/portal/project" element={<ProtectedRoute><Project /></ProtectedRoute>} />
                 <Route path="/portal/project/create" element={<ProtectedRoute><CreateProject /></ProtectedRoute>} />
                 <Route path="/portal/project/detail" element={<ProtectedRoute><DetailProject /></ProtectedRoute>} />
+
+                {/* Module Budget & RAB */}
+                <Route path="/portal/budget/rab-project" element={<ProtectedRoute><RABProject /></ProtectedRoute>} />
+                <Route path="/portal/budget/rab-project/create" element={<ProtectedRoute><CreateRABProject /></ProtectedRoute>} />
+                <Route path="/portal/budget/rab-project/detail" element={<ProtectedRoute><DetailRABProject /></ProtectedRoute>} />
+
+                <Route path="/portal/budget/realisasi" element={<ProtectedRoute><RealisasiBudget /></ProtectedRoute>} />
+                <Route path="/portal/budget/realisasi/create" element={<ProtectedRoute><CreateRealisasiBudget /></ProtectedRoute>} />
+                <Route path="/portal/budget/realisasi/detail" element={<ProtectedRoute><DetailRealisasiBudget /></ProtectedRoute>} />
                 <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
             </Routes>
         </BrowserRouter>

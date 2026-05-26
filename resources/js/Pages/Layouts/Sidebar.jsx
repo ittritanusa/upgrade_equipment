@@ -45,21 +45,9 @@ const navItems = [
                         path: '/portal/budget/rab-project',
                     },
                     {
-                        label: 'Budget Overview',
-                        path: '/portal/budget/overview',
-                    },
-                    {
                         label: 'Realisasi Budget',
                         path: '/portal/budget/realisasi',
-                    },
-                    {
-                        label: 'Import Realisasi Budget',
-                        path: '/portal/budget/import-realisasi',
-                    },
-                    {
-                        label: 'Cashflow Overview',
-                        path: '/portal/budget/cashflow',
-                    },
+                    }
                 ],
             },
 
