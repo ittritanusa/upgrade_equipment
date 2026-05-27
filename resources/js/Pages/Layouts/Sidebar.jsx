@@ -194,8 +194,41 @@ const navItems = [
 
             {
                 label: 'HR & Manpower',
-                path: '/portal/manpower',
                 icon: HardHat,
+                children: [
+                    {
+                        label: 'HR Dashboard',
+                        path: '/portal/manpower/dashboard',
+                    },
+                    {
+                        label: 'Employee Management',
+                        path: '/portal/manpower/employee',
+                    },
+                    {
+                        label: 'Data Attendance',
+                        path: '/portal/manpower/attendance',
+                    },
+                    {
+                        label: 'Input Attendance',
+                        path: '/portal/manpower/attendance/create',
+                    },
+                    // {
+                    //     label: 'Leave Attendance',
+                    //     path: '/portal/manpower/master-leave',
+                    // },
+                    {
+                        label: 'Payroll & Compensation',
+                        path: '/portal/manpower/payroll',
+                    },
+                    {
+                        label: 'KPI Setting',
+                        path: '/portal/manpower/kpi-setting',
+                    },
+                    {
+                        label: 'KPI Monitoring',
+                        path: '/portal/manpower/kpi-monitoring',
+                    },
+                ],
             },
 
             {

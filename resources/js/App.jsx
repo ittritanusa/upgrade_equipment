@@ -116,6 +116,38 @@ import CreatePettyCash from '@/Pages/Admin/Finance/PettyCash/create_petty_cash';
 import EditPettyCash from '@/Pages/Admin/Finance/PettyCash/edit_petty_cash';
 import DetailPettyCash from '@/Pages/Admin/Finance/PettyCash/detail_petty_cash';
 
+// Module Tax Management
+import TaxDashboard from '@/Pages/Admin/Tax/Dashboard/Dashboard';
+
+import TaxPayment from '@/Pages/Admin/Tax/Payment/tax_payment';
+import CreateTaxPayment from '@/Pages/Admin/Tax/Payment/create_tax_payment';
+import EditTaxPayment from '@/Pages/Admin/Tax/Payment/edit_tax_payment';
+
+// Module HR & Manpower
+import HRDashboard from '@/Pages/Admin/HR/Dashboard/dashboard';
+
+import LeaveManagement from '@/Pages/Admin/HR/LeaveManagement/leave';
+import CreateLeaveManagement from '@/Pages/Admin/HR/LeaveManagement/create_leave';
+
+import EmployeeManagement from '@/Pages/Admin/HR/Employee/employee';
+import CreateEmployeeManagement from '@/Pages/Admin/HR/Employee/create_employee';
+import EditEmployeeManagement from '@/Pages/Admin/HR/Employee/edit_employee';
+import DetailEmployeeManagement from '@/Pages/Admin/HR/Employee/detail_employee';
+
+import Attandance from '@/Pages/Admin/HR/Attandance/attandance';
+import CreateAttandance from '@/Pages/Admin/HR/Attandance/create_attandance';
+
+import Payroll from '@/Pages/Admin/HR/Payroll/payroll';
+import CreatePayroll from '@/Pages/Admin/HR/Payroll/create_payroll';
+
+import KPISetting from '@/Pages/Admin/HR/KPI/kpi_setting';
+import CreateKPISetting from '@/Pages/Admin/HR/KPI/create_kpi_setting';
+import EditKPISetting from '@/Pages/Admin/HR/KPI/edit_kpi_setting';
+import DetailKPISetting from '@/Pages/Admin/HR/KPI/detail_kpi_setting';
+
+import KPIMonitoring from '@/Pages/Admin/HR/KPI/kpi_monitoring';
+import DetailKPIMonitoring from '@/Pages/Admin/HR/KPI/detail_kpi_monitoring';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -236,6 +268,38 @@ function AppRoutes() {
                 <Route path="/portal/finance/petty-cash/create" element={<ProtectedRoute><CreatePettyCash /></ProtectedRoute>} />
                 <Route path="/portal/finance/petty-cash/edit" element={<ProtectedRoute><EditPettyCash /></ProtectedRoute>} />
                 <Route path="/portal/finance/petty-cash/detail" element={<ProtectedRoute><DetailPettyCash /></ProtectedRoute>} />
+
+                {/* Module Tax Management */}
+                <Route path="/portal/tax/dashboard" element={<ProtectedRoute><TaxDashboard /></ProtectedRoute>} />
+                
+                <Route path="/portal/tax/payment" element={<ProtectedRoute><TaxPayment /></ProtectedRoute>} />
+                <Route path="/portal/tax/payment/create" element={<ProtectedRoute><CreateTaxPayment /></ProtectedRoute>} />
+                <Route path="/portal/tax/payment/edit" element={<ProtectedRoute><EditTaxPayment /></ProtectedRoute>} />
+
+                {/* Module HR & Manpower */}
+                <Route path="/portal/manpower/dashboard" element={<ProtectedRoute><HRDashboard /></ProtectedRoute>} />
+                
+                <Route path="/portal/manpower/master-leave" element={<ProtectedRoute><LeaveManagement /></ProtectedRoute>} />
+                <Route path="/portal/manpower/master-leave/create" element={<ProtectedRoute><CreateLeaveManagement /></ProtectedRoute>} />
+                
+                <Route path="/portal/manpower/employee" element={<ProtectedRoute><EmployeeManagement /></ProtectedRoute>} />
+                <Route path="/portal/manpower/employee/create" element={<ProtectedRoute><CreateEmployeeManagement /></ProtectedRoute>} />
+                <Route path="/portal/manpower/employee/edit" element={<ProtectedRoute><EditEmployeeManagement /></ProtectedRoute>} />
+                <Route path="/portal/manpower/employee/detail" element={<ProtectedRoute><DetailEmployeeManagement /></ProtectedRoute>} />
+                
+                <Route path="/portal/manpower/attendance" element={<ProtectedRoute><Attandance /></ProtectedRoute>} />
+                <Route path="/portal/manpower/attendance/create" element={<ProtectedRoute><CreateAttandance /></ProtectedRoute>} />
+                
+                <Route path="/portal/manpower/payroll" element={<ProtectedRoute><Payroll /></ProtectedRoute>} />
+                <Route path="/portal/manpower/payroll/create" element={<ProtectedRoute><CreatePayroll /></ProtectedRoute>} />
+                
+                <Route path="/portal/manpower/kpi-setting" element={<ProtectedRoute><KPISetting /></ProtectedRoute>} />
+                <Route path="/portal/manpower/kpi-setting/create" element={<ProtectedRoute><CreateKPISetting /></ProtectedRoute>} />
+                <Route path="/portal/manpower/kpi-setting/edit" element={<ProtectedRoute><EditKPISetting /></ProtectedRoute>} />
+                <Route path="/portal/manpower/kpi-setting/detail" element={<ProtectedRoute><DetailKPISetting /></ProtectedRoute>} />
+                
+                <Route path="/portal/manpower/kpi-monitoring" element={<ProtectedRoute><KPIMonitoring /></ProtectedRoute>} />
+                <Route path="/portal/manpower/kpi-monitoring/detail" element={<ProtectedRoute><DetailKPIMonitoring /></ProtectedRoute>} />
 
                 <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
             </Routes>
