@@ -8,6 +8,7 @@ import {
     Users,
     HardHat,
     Package,
+    Wallet,
     Receipt,
     ClipboardList,
     Settings,
@@ -76,20 +77,119 @@ const navItems = [
 
             {
                 label: 'Inventory & Warehouse',
-                path: '/portal/inventory',
                 icon: Package,
+                children: [
+                    {
+                        label: 'Dashboard Inventory',
+                        path: '/portal/inventory/dashboard',
+                    },
+                    {
+                        label: 'Warehouse Management',
+                        path: '/portal/inventory/warehouse',
+                    },
+                    {
+                        label: 'Kategori & Satuan',
+                        path: '/portal/inventory/category-unit',
+                    },
+                    {
+                        label: 'Master Item & Material',
+                        path: '/portal/inventory/master-item',
+                    },
+                    {
+                        label: 'Goods Receipt',
+                        path: '/portal/inventory/goods-receipt',
+                    },
+                    {
+                        label: 'Goods Issue',
+                        path: '/portal/inventory/goods-issue',
+                    },
+                    {
+                        label: 'Stock Opname',
+                        path: '/portal/inventory/stock-opname',
+                    },
+                    {
+                        label: 'Stock Adjustment',
+                        path: '/portal/inventory/stock-adjustment',
+                    },
+                    {
+                        label: 'Inter Warehouse Transfer',
+                        path: '/portal/inventory/inter-warehouse-transfer',
+                    }
+                ],
             },
 
             {
                 label: 'Accounting & Finance',
-                path: '/portal/finance',
-                icon: Package,
+                icon: Wallet,
+                children: [
+                    {
+                        label: 'Finance Dashboard',
+                        path: '/portal/finance/dashboard',
+                    },
+                    {
+                        label: 'Chart of Account (COA)',
+                        path: '/portal/finance/coa',
+                    },
+                    {
+                        label: 'Journal Entry',
+                        path: '/portal/finance/journal-entry',
+                    },
+                    {
+                        label: 'General Ledger',
+                        path: '/portal/finance/general-ledger',
+                    },
+                    {
+                        label: 'Account Receivable',
+                        path: '/portal/finance/account-receivable',
+                    },
+                    {
+                        label: 'Account Payable',
+                        path: '/portal/finance/account-payable',
+                    },
+                    {
+                        label: 'Petty Cash',
+                        path: '/portal/finance/petty-cash',
+                    }
+                ],
             },
 
             {
                 label: 'Tax Management',
-                path: '/portal/tax',
-                icon: Package,
+                icon: Receipt,
+                children: [
+                    {
+                        label: 'Tax Dashboard',
+                        path: '/portal/tax/dashboard',
+                    },
+                    // {
+                    //     label: 'Tax Master',
+                    //     path: '/portal/tax/master',
+                    // },
+                    // {
+                    //     label: 'PPH',
+                    //     path: '/portal/tax/pph',
+                    // },
+                    // {
+                    //     label: 'PPN',
+                    //     path: '/portal/tax/ppn',
+                    // },
+                    // {
+                    //     label: 'Tax Invoice (Faktur Pajak)',
+                    //     path: '/portal/tax/faktur-pajak',
+                    // },
+                    {
+                        label: 'Tax Payment',
+                        path: '/portal/tax/payment',
+                    },
+                    // {
+                    //     label: 'Tax Reporting',
+                    //     path: '/portal/tax/reporting',
+                    // },
+                    // {
+                    //     label: 'Tax Reconciliation',
+                    //     path: '/portal/tax/reconciliation',
+                    // }
+                ],
             },
 
             {

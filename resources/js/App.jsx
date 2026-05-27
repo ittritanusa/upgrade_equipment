@@ -44,6 +44,78 @@ import PurchaseOrder from '@/Pages/Admin/Procurement/PO/purchase_order';
 import CreatePurchaseOrder from '@/Pages/Admin/Procurement/PO/create_purchase_order';
 import DetailPurchaseOrder from '@/Pages/Admin/Procurement/PO/detail_purchase_order';
 
+// Module Inventory & Warehouse
+import DashboardInventory from '@/Pages/Admin/Inventory/Dashboard/dashboard';
+
+import MasterItemMaterial from '@/Pages/Admin/Inventory/MasterData/item_material';
+import CreateMasterItemMaterial from '@/Pages/Admin/Inventory/MasterData/create_item_material';
+import EditMasterItemMaterial from '@/Pages/Admin/Inventory/MasterData/edit_item_material';
+import DetailMasterItemMaterial from '@/Pages/Admin/Inventory/MasterData/detail_item_material';
+
+import KategoriSatuan from '@/Pages/Admin/Inventory/KategoriSatuan/kategori_satuan';
+import TambahHierarkiKelompok from '@/Pages/Admin/Inventory/KategoriSatuan/create_hierarki_kelompok';
+import EditHierarkiKelompok from '@/Pages/Admin/Inventory/KategoriSatuan/edit_hierarki_kelompok';
+import TambahSatuan from '@/Pages/Admin/Inventory/KategoriSatuan/create_satuan';
+import EditSatuan from '@/Pages/Admin/Inventory/KategoriSatuan/edit_satuan';
+
+import GoodsReceipt from '@/Pages/Admin/Inventory/GR/goods_receipt';
+import TambahGoodsReceipt from '@/Pages/Admin/Inventory/GR/create_goods_receipt';
+import EditGoodsReceipt from '@/Pages/Admin/Inventory/GR/edit_goods_receipt';
+import DetailGoodsReceipt from '@/Pages/Admin/Inventory/GR/detail_goods_receipt';
+import PrintGoodsReceipt from '@/Pages/Admin/Inventory/GR/print_goods_receipt';
+
+import GoodsIssue from '@/Pages/Admin/Inventory/GI/goods_issue';
+import CreateGoodsIssue from '@/Pages/Admin/Inventory/GI/create_goods_issue';
+import EditGoodsIssue from '@/Pages/Admin/Inventory/GI/edit_goods_issue';
+import DetailGoodsIssue from '@/Pages/Admin/Inventory/GI/detail_goods_issue';
+import PrintGoodsIssue from '@/Pages/Admin/Inventory/GI/print_goods_issue';
+
+import StockOpname from '@/Pages/Admin/Inventory/Stock/stock_opname';
+import StockAdjustment from '@/Pages/Admin/Inventory/Stock/stock_adjustment';
+import CreateStockAdjustment from '@/Pages/Admin/Inventory/Stock/create_stock_adjustment';
+import DetailStockAdjustment from '@/Pages/Admin/Inventory/Stock/detail_stock_adjustment';
+
+import InterWarehouseTf from '@/Pages/Admin/Inventory/InterWahouseTransfer/stock_transfer';
+import CreateInterWarehouseTf from '@/Pages/Admin/Inventory/InterWahouseTransfer/create_stock_transfer';
+import DetailInterWarehouseTf from '@/Pages/Admin/Inventory/InterWahouseTransfer/detail_stock_transfer';
+import PrintInterWarehouseTf from '@/Pages/Admin/Inventory/InterWahouseTransfer/print_stock_transfer';
+
+import WarehouseManagement from '@/Pages/Admin/Inventory/Warehouse/warehouse';
+import CreateWarehouseManagement from '@/Pages/Admin/Inventory/Warehouse/create_warehouse';
+import EditWarehouseManagement from '@/Pages/Admin/Inventory/Warehouse/edit_warehouse';
+import DetailWarehouseManagement from '@/Pages/Admin/Inventory/Warehouse/detail_warehouse';
+
+// Module Accounting & Finance
+import FinanceDashboard from '@/Pages/Admin/Finance/Dashboard/dashboard';
+
+import FinanceCOA from '@/Pages/Admin/Finance/COA/coa';
+import CreateFinanceCOA from '@/Pages/Admin/Finance/COA/create_coa';
+import EditFinanceCOA from '@/Pages/Admin/Finance/COA/edit_coa';
+import DetailFinanceCOA from '@/Pages/Admin/Finance/COA/detail_coa';
+
+import JournalEntry from '@/Pages/Admin/Finance/Journal/journal_entry';
+import CreateJournalEntry from '@/Pages/Admin/Finance/Journal/create_journal_entry';
+import EditJournalEntry from '@/Pages/Admin/Finance/Journal/edit_journal_entry';
+import DetailJournalEntry from '@/Pages/Admin/Finance/Journal/detail_journal_entry';
+import PrintJournalEntry from '@/Pages/Admin/Finance/Journal/print_journal_entry';
+
+import GeneralLedger from '@/Pages/Admin/Finance/GL/general_ledger';
+
+import AccountReceivable from '@/Pages/Admin/Finance/AR/account_receivable';
+import CreateAccountReceivable from '@/Pages/Admin/Finance/AR/create_invoice';
+import DetailAccountReceivable from '@/Pages/Admin/Finance/AR/detail_account_receivable';
+import EditAccountReceivable from '@/Pages/Admin/Finance/AR/edit_invoice';
+
+import AccountPayable from '@/Pages/Admin/Finance/AP/account_payable';
+import CreateAccountPayable from '@/Pages/Admin/Finance/AP/create_account_payable';
+import EditAccountPayable from '@/Pages/Admin/Finance/AP/edit_account_payable';
+import DetailAccountPayable from '@/Pages/Admin/Finance/AP/detail_account_payable';
+
+import PettyCash from '@/Pages/Admin/Finance/PettyCash/petty_cash';
+import CreatePettyCash from '@/Pages/Admin/Finance/PettyCash/create_petty_cash';
+import EditPettyCash from '@/Pages/Admin/Finance/PettyCash/edit_petty_cash';
+import DetailPettyCash from '@/Pages/Admin/Finance/PettyCash/detail_petty_cash';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -93,6 +165,78 @@ function AppRoutes() {
                 <Route path="/portal/purchase-order" element={<ProtectedRoute><PurchaseOrder /></ProtectedRoute>} />
                 <Route path="/portal/purchase-order/create" element={<ProtectedRoute><CreatePurchaseOrder /></ProtectedRoute>} />
                 <Route path="/portal/purchase-order/detail" element={<ProtectedRoute><DetailPurchaseOrder /></ProtectedRoute>} />
+
+                {/* Inventory & Warehouse */}
+                <Route path="/portal/inventory/dashboard" element={<ProtectedRoute><DashboardInventory /></ProtectedRoute>} />
+
+                <Route path="/portal/inventory/master-item" element={<ProtectedRoute><MasterItemMaterial /></ProtectedRoute>} />
+                <Route path="/portal/inventory/master-item/create" element={<ProtectedRoute><CreateMasterItemMaterial /></ProtectedRoute>} />
+                <Route path="/portal/inventory/master-item/edit" element={<ProtectedRoute><EditMasterItemMaterial /></ProtectedRoute>} />
+                <Route path="/portal/inventory/master-item/detail" element={<ProtectedRoute><DetailMasterItemMaterial /></ProtectedRoute>} />
+                
+                <Route path="/portal/inventory/category-unit" element={<ProtectedRoute><KategoriSatuan /></ProtectedRoute>} />
+                <Route path="/portal/inventory/category-unit/create-hierarki" element={<ProtectedRoute><TambahHierarkiKelompok /></ProtectedRoute>} />
+                <Route path="/portal/inventory/category-unit/edit-hierarki" element={<ProtectedRoute><EditHierarkiKelompok /></ProtectedRoute>} />
+                <Route path="/portal/inventory/category-unit/create-satuan" element={<ProtectedRoute><TambahSatuan /></ProtectedRoute>} />
+                <Route path="/portal/inventory/category-unit/edit-satuan" element={<ProtectedRoute><EditSatuan /></ProtectedRoute>} />
+                
+                <Route path="/portal/inventory/goods-receipt" element={<ProtectedRoute><GoodsReceipt /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-receipt/create" element={<ProtectedRoute><TambahGoodsReceipt /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-receipt/edit" element={<ProtectedRoute><EditGoodsReceipt /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-receipt/detail" element={<ProtectedRoute><DetailGoodsReceipt /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-receipt/print" element={<ProtectedRoute><PrintGoodsReceipt /></ProtectedRoute>} />
+                
+                <Route path="/portal/inventory/goods-issue" element={<ProtectedRoute><GoodsIssue /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-issue/create" element={<ProtectedRoute><CreateGoodsIssue /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-issue/edit" element={<ProtectedRoute><EditGoodsIssue /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-issue/detail" element={<ProtectedRoute><DetailGoodsIssue /></ProtectedRoute>} />
+                <Route path="/portal/inventory/goods-issue/print" element={<ProtectedRoute><PrintGoodsIssue /></ProtectedRoute>} />
+                
+                <Route path="/portal/inventory/stock-opname" element={<ProtectedRoute><StockOpname /></ProtectedRoute>} />
+                <Route path="/portal/inventory/stock-adjustment" element={<ProtectedRoute><StockAdjustment /></ProtectedRoute>} />
+                <Route path="/portal/inventory/stock-adjustment/create" element={<ProtectedRoute><CreateStockAdjustment /></ProtectedRoute>} />
+                <Route path="/portal/inventory/stock-adjustment/detail" element={<ProtectedRoute><DetailStockAdjustment /></ProtectedRoute>} />
+                
+                <Route path="/portal/inventory/inter-warehouse-transfer" element={<ProtectedRoute><InterWarehouseTf /></ProtectedRoute>} />
+                <Route path="/portal/inventory/inter-warehouse-transfer/create" element={<ProtectedRoute><CreateInterWarehouseTf /></ProtectedRoute>} />
+                <Route path="/portal/inventory/inter-warehouse-transfer/detail" element={<ProtectedRoute><DetailInterWarehouseTf /></ProtectedRoute>} />
+                <Route path="/portal/inventory/inter-warehouse-transfer/print" element={<ProtectedRoute><PrintInterWarehouseTf /></ProtectedRoute>} />
+                
+                <Route path="/portal/inventory/warehouse" element={<ProtectedRoute><WarehouseManagement /></ProtectedRoute>} />
+                <Route path="/portal/inventory/warehouse/create" element={<ProtectedRoute><CreateWarehouseManagement /></ProtectedRoute>} />
+                <Route path="/portal/inventory/warehouse/edit" element={<ProtectedRoute><EditWarehouseManagement /></ProtectedRoute>} />
+                <Route path="/portal/inventory/warehouse/detail" element={<ProtectedRoute><DetailWarehouseManagement /></ProtectedRoute>} />
+                
+                <Route path="/portal/finance/dashboard" element={<ProtectedRoute><FinanceDashboard /></ProtectedRoute>} />
+
+                <Route path="/portal/finance/coa" element={<ProtectedRoute><FinanceCOA /></ProtectedRoute>} />
+                <Route path="/portal/finance/coa/create" element={<ProtectedRoute><CreateFinanceCOA /></ProtectedRoute>} />
+                <Route path="/portal/finance/coa/edit" element={<ProtectedRoute><EditFinanceCOA /></ProtectedRoute>} />
+                <Route path="/portal/finance/coa/detail" element={<ProtectedRoute><DetailFinanceCOA /></ProtectedRoute>} />
+                
+                <Route path="/portal/finance/journal-entry" element={<ProtectedRoute><JournalEntry /></ProtectedRoute>} />
+                <Route path="/portal/finance/journal-entry/create" element={<ProtectedRoute><CreateJournalEntry /></ProtectedRoute>} />
+                <Route path="/portal/finance/journal-entry/edit" element={<ProtectedRoute><EditJournalEntry /></ProtectedRoute>} />
+                <Route path="/portal/finance/journal-entry/detail" element={<ProtectedRoute><DetailJournalEntry /></ProtectedRoute>} />
+                <Route path="/portal/finance/journal-entry/print" element={<ProtectedRoute><PrintJournalEntry /></ProtectedRoute>} />
+                
+                <Route path="/portal/finance/general-ledger" element={<ProtectedRoute><GeneralLedger /></ProtectedRoute>} />
+                
+                <Route path="/portal/finance/account-receivable" element={<ProtectedRoute><AccountReceivable /></ProtectedRoute>} />
+                <Route path="/portal/finance/account-receivable/create-invoice" element={<ProtectedRoute><CreateAccountReceivable /></ProtectedRoute>} />
+                <Route path="/portal/finance/account-receivable/detail" element={<ProtectedRoute><DetailAccountReceivable /></ProtectedRoute>} />
+                <Route path="/portal/finance/account-receivable/edit-invoice" element={<ProtectedRoute><EditAccountReceivable /></ProtectedRoute>} />
+                
+                <Route path="/portal/finance/account-payable" element={<ProtectedRoute><AccountPayable /></ProtectedRoute>} />
+                <Route path="/portal/finance/account-payable/create" element={<ProtectedRoute><CreateAccountPayable /></ProtectedRoute>} />
+                <Route path="/portal/finance/account-payable/edit" element={<ProtectedRoute><EditAccountPayable /></ProtectedRoute>} />
+                <Route path="/portal/finance/account-payable/detail" element={<ProtectedRoute><DetailAccountPayable /></ProtectedRoute>} />
+
+                <Route path="/portal/finance/petty-cash" element={<ProtectedRoute><PettyCash /></ProtectedRoute>} />
+                <Route path="/portal/finance/petty-cash/create" element={<ProtectedRoute><CreatePettyCash /></ProtectedRoute>} />
+                <Route path="/portal/finance/petty-cash/edit" element={<ProtectedRoute><EditPettyCash /></ProtectedRoute>} />
+                <Route path="/portal/finance/petty-cash/detail" element={<ProtectedRoute><DetailPettyCash /></ProtectedRoute>} />
+
                 <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
             </Routes>
         </BrowserRouter>
