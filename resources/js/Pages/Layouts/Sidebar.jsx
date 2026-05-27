@@ -60,6 +60,14 @@ const navItems = [
                         path: '/portal/purchase-request',
                     },
                     {
+                        label: 'Request for Quotation',
+                        path: '/portal/request-quotation',
+                    },
+                    {
+                        label: 'Vendor Selection',
+                        path: '/portal/vendor-selection',
+                    },
+                    {
                         label: 'Purchase Order',
                         path: '/portal/purchase-order',
                     }

@@ -27,6 +27,23 @@ import RealisasiBudget from '@/Pages/Admin/Budget/RealisasiBudget/realisasi_budg
 import CreateRealisasiBudget from '@/Pages/Admin/Budget/RealisasiBudget/create_realisasi_budget';
 import DetailRealisasiBudget from '@/Pages/Admin/Budget/RealisasiBudget/detail_realisasi_budget';
 
+// Module Procurement
+import PurchaseRequest from '@/Pages/Admin/Procurement/PR/Purchase_request';
+import CreatePurchaseRequest from '@/Pages/Admin/Procurement/PR/create_purchase_request';
+import DetailPurchaseRequest from '@/Pages/Admin/Procurement/PR/detail_purchase_request';
+
+import RequestQuotation from '@/Pages/Admin/Procurement/RFQ/request_quotation';
+import CreateRequestQuotation from '@/Pages/Admin/Procurement/RFQ/create_request_quotation';
+import DetailRequestQuotation from '@/Pages/Admin/Procurement/RFQ/detail_request_quotation';
+
+import VendorSelection from '@/Pages/Admin/Procurement/Vendor/vendor_selection';
+import ProsesVendorSelection from '@/Pages/Admin/Procurement/Vendor/proses_vendor_selection';
+import BeritaAcaraVendorSelection from '@/Pages/Admin/Procurement/Vendor/ba_vendor_selection';
+
+import PurchaseOrder from '@/Pages/Admin/Procurement/PO/purchase_order';
+import CreatePurchaseOrder from '@/Pages/Admin/Procurement/PO/create_purchase_order';
+import DetailPurchaseOrder from '@/Pages/Admin/Procurement/PO/detail_purchase_order';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -59,6 +76,23 @@ function AppRoutes() {
                 <Route path="/portal/budget/realisasi" element={<ProtectedRoute><RealisasiBudget /></ProtectedRoute>} />
                 <Route path="/portal/budget/realisasi/create" element={<ProtectedRoute><CreateRealisasiBudget /></ProtectedRoute>} />
                 <Route path="/portal/budget/realisasi/detail" element={<ProtectedRoute><DetailRealisasiBudget /></ProtectedRoute>} />
+
+                {/* Module Procurement */}
+                <Route path="/portal/purchase-request" element={<ProtectedRoute><PurchaseRequest /></ProtectedRoute>} />
+                <Route path="/portal/purchase-request/create" element={<ProtectedRoute><CreatePurchaseRequest /></ProtectedRoute>} />
+                <Route path="/portal/purchase-request/detail" element={<ProtectedRoute><DetailPurchaseRequest /></ProtectedRoute>} />
+                
+                <Route path="/portal/request-quotation" element={<ProtectedRoute><RequestQuotation /></ProtectedRoute>} />
+                <Route path="/portal/request-quotation/create" element={<ProtectedRoute><CreateRequestQuotation /></ProtectedRoute>} />
+                <Route path="/portal/request-quotation/detail" element={<ProtectedRoute><DetailRequestQuotation /></ProtectedRoute>} />
+                
+                <Route path="/portal/vendor-selection" element={<ProtectedRoute><VendorSelection /></ProtectedRoute>} />
+                <Route path="/portal/vendor-selection/proses" element={<ProtectedRoute><ProsesVendorSelection /></ProtectedRoute>} />
+                <Route path="/portal/vendor-selection/berita-acara" element={<ProtectedRoute><BeritaAcaraVendorSelection /></ProtectedRoute>} />\
+                
+                <Route path="/portal/purchase-order" element={<ProtectedRoute><PurchaseOrder /></ProtectedRoute>} />
+                <Route path="/portal/purchase-order/create" element={<ProtectedRoute><CreatePurchaseOrder /></ProtectedRoute>} />
+                <Route path="/portal/purchase-order/detail" element={<ProtectedRoute><DetailPurchaseOrder /></ProtectedRoute>} />
                 <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
             </Routes>
         </BrowserRouter>
