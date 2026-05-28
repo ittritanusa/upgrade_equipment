@@ -7,8 +7,19 @@ import { AuthProvider, useAuth } from '@/Utils/Contexts/AuthContext';
 import { ThemeProvider } from '@/Utils/Contexts/ThemeContext';
 import queryClient from '@/Utils/Libs/QueryClient';
 
+// Landing Page
+import LandingPage from '@/Pages/Landing/landing_page';
+import TentangKami from '@/Pages/Landing/about_us';
+import Layanan from '@/Pages/Landing/service_page';
+import Proyek from '@/Pages/Landing/portfolio_project';
+import Berita from '@/Pages/Landing/news_article';
+import Kontak from '@/Pages/Landing/contact_page';
+
 // Auth
 import Login from '@/Pages/Auth/Login/Login';
+
+// Not Found
+import NotFoundPage from '@/Pages/NotFound/NotFoundPage';
 
 // Dashboard
 import Dashboard from '@/Pages/Admin/Dashboard/Dashboard';
@@ -167,7 +178,15 @@ function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
+                {/* Landing Page */}
+                <Route path="/" element={<GuestRoute><LandingPage /></GuestRoute>} />
+                <Route path="/tentang-kami" element={<GuestRoute><TentangKami /></GuestRoute>} />
+                <Route path="/layanan" element={<GuestRoute><Layanan /></GuestRoute>} />
+                <Route path="/proyek" element={<GuestRoute><Proyek /></GuestRoute>} />
+                <Route path="/berita" element={<GuestRoute><Berita /></GuestRoute>} />
+                <Route path="/kontak" element={<GuestRoute><Kontak /></GuestRoute>} />
+
+                <Route path="/employee-portal" element={<GuestRoute><Login /></GuestRoute>} />
                 <Route path="/portal/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
 
                 {/* Module Project */}
@@ -306,10 +325,26 @@ function AppRoutes() {
                 
                 <Route path="/portal/reports" element={<ProtectedRoute><ReportAnalytics /></ProtectedRoute>} />
 
-                <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
+                <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>
         </BrowserRouter>
     );
+}
+
+function GlobalNotFoundHandler() {
+    const { isAuthenticated } = useAuth();
+
+    // Jika sudah login, bungkus dengan ProtectedRoute agar ada Sidebar/Navbar
+    if (isAuthenticated) {
+        return (
+            <ProtectedRoute>
+                <NotFoundPage />
+            </ProtectedRoute>
+        );
+    }
+
+    // Jika belum login, tampilkan halaman 404 polos (tanpa sidebar/dashboard layout)
+    return <NotFoundPage />;
 }
 
 const el = document.getElementById('app');

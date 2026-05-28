@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 import {
     ChevronDown,
@@ -24,6 +25,15 @@ const tabs = [
     'Subkontraktor',
     'Equipment',
     'Additional Scope',
+];
+
+const dataKurvaS = [
+  { name: 'Jan', rencana: 0, aktual: 0 },
+  { name: 'Feb', rencana: 20, aktual: 15 },
+  { name: 'Mar', rencana: 45, aktual: 40 },
+  { name: 'Apr', rencana: 65, aktual: 60 },
+  { name: 'Mei', rencana: 85, aktual: 75 },
+  { name: 'Jun', rencana: 100, aktual: 90 },
 ];
 
 export default function DetailProject() {
@@ -503,72 +513,42 @@ export default function DetailProject() {
 
                             {/* TASK PROGRESS */}
                             <div className="bg-white border rounded-2xl p-5">
-
-                                <div className="flex items-center justify-between mb-5">
-
-                                    <div>
-                                        <h3 className="font-semibold text-gray-800">
-                                            Progress Schedule Project
-                                        </h3>
-
-                                        <p className="text-sm text-gray-500 mt-1">
-                                            Monitoring progress pekerjaan
-                                        </p>
-                                    </div>
-                                </div>
-
+                                <h3 className="font-semibold text-gray-800 mb-5">Progress Schedule Project</h3>
                                 <div className="space-y-5">
-
                                     {[
-                                        {
-                                            title: 'Pekerjaan Pondasi',
-                                            progress: '90%',
-                                            width: '90%',
-                                            color: 'bg-green-500',
-                                        },
-                                        {
-                                            title: 'Pekerjaan Struktur',
-                                            progress: '70%',
-                                            width: '70%',
-                                            color: 'bg-blue-500',
-                                        },
-                                        {
-                                            title: 'MEP',
-                                            progress: '45%',
-                                            width: '45%',
-                                            color: 'bg-yellow-500',
-                                        },
-                                        {
-                                            title: 'Finishing',
-                                            progress: '15%',
-                                            width: '15%',
-                                            color: 'bg-red-500',
-                                        },
+                                        { title: 'Pekerjaan Pondasi', progress: '90%', width: '90%', color: 'bg-green-500' },
+                                        { title: 'Pekerjaan Struktur', progress: '70%', width: '70%', color: 'bg-blue-500' },
+                                        { title: 'MEP', progress: '45%', width: '45%', color: 'bg-yellow-500' },
+                                        { title: 'Finishing', progress: '15%', width: '15%', color: 'bg-red-500' },
                                     ].map((item, index) => (
                                         <div key={index}>
-
                                             <div className="flex items-center justify-between mb-2">
-
-                                                <p className="text-sm font-medium text-gray-700">
-                                                    {item.title}
-                                                </p>
-
-                                                <p className="text-sm font-semibold text-gray-800">
-                                                    {item.progress}
-                                                </p>
+                                                <p className="text-sm font-medium text-gray-700">{item.title}</p>
+                                                <p className="text-sm font-semibold text-gray-800">{item.progress}</p>
                                             </div>
-
                                             <div className="w-full h-3 rounded-full bg-gray-100 overflow-hidden">
-
-                                                <div
-                                                    className={`h-full rounded-full ${item.color}`}
-                                                    style={{
-                                                        width: item.width,
-                                                    }}
-                                                />
+                                                <div className={`h-full rounded-full ${item.color}`} style={{ width: item.width }} />
                                             </div>
                                         </div>
                                     ))}
+                                </div>
+                            </div>
+
+                            {/* KURVA S CHART */}
+                            <div className="bg-white border rounded-2xl p-5">
+                                <h3 className="font-semibold text-gray-800 mb-5">Kurva S Monitoring</h3>
+                                <div className="h-[250px] w-full">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <LineChart data={dataKurvaS}>
+                                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                                            <XAxis dataKey="name" fontSize={12} />
+                                            <YAxis fontSize={12} unit="%" />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Line type="monotone" dataKey="rencana" stroke="#94a3b8" strokeWidth={2} name="Rencana" />
+                                            <Line type="monotone" dataKey="aktual" stroke="#2563eb" strokeWidth={2} name="Aktual" />
+                                        </LineChart>
+                                    </ResponsiveContainer>
                                 </div>
                             </div>
 
