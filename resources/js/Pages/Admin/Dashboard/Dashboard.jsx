@@ -1,39 +1,141 @@
 import React from 'react';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
-import { useDashboard } from './Hooks/useDashboard';
+import { Briefcase, DollarSign, Users, AlertCircle, Package, FileText } from 'lucide-react';
 
 export default function Dashboard() {
-    const { user, isLoading, handleLogout } = useDashboard();
-
+    const projectStats = [
+        { label: 'Selesai', value: '18', color: 'bg-blue-500', pct: 37.5 },
+        { label: 'On Progress', value: '14', color: 'bg-emerald-500', pct: 29.2 },
+        { label: 'Terlambat', value: '10', color: 'bg-rose-500', pct: 20.8 },
+        { label: 'Belum Mulai', value: '6', color: 'bg-gray-300', pct: 12.5 },
+    ];
+    
     return (
         <PortalLayout>
             <div className="space-y-6">
+                {/* Header & Filters */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
-                        <p className="text-sm text-muted-foreground mt-1">
-                            {/* Selamat datang{user ? `, ${user.name}` : ''}! */}
-                            Monitor seluruh aktivitas proyek secara real time
-                        </p>
+                        <h1 className="text2xl font-semibold text-gray-900">Dashboard</h1>
+                        <p className="text-sm text-gray-500">Monitor seluruh aktivitas proyek secara real time</p>
+                    </div>
+                    <div className="flex gap-2">
+                        <select className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                            <option>Semua Proyek</option>
+                        </select>
+                        <input type="month" className="border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white" defaultValue="2026-05" />
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {/* Top Statistics */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                     {[
-                        { label: 'Total Proyek', value: '-', desc: 'Proyek aktif' },
-                        { label: 'Total Pekerja', value: '-', desc: 'Pekerja terdaftar' },
-                        { label: 'Material', value: '-', desc: 'Item tersedia' },
-                        { label: 'Pengeluaran', value: '-', desc: 'Bulan ini' },
-                    ].map((stat) => (
-                        <div
-                            key={stat.label}
-                            className="bg-card border border-border rounded-xl p-6"
-                        >
-                            <p className="text-sm text-muted-foreground">{stat.label}</p>
-                            <p className="text-3xl font-semibold text-foreground mt-1">{stat.value}</p>
-                            <p className="text-xs text-muted-foreground mt-1">{stat.desc}</p>
+                        { label: 'Total Project', val: '48', icon: Briefcase, color: 'text-indigo-600' },
+                        { label: 'Total Revenue', val: 'Rp 188.185.268', icon: DollarSign, color: 'text-amber-600' },
+                        { label: 'Total Cost', val: 'Rp 188.185.268', icon: DollarSign, color: 'text-amber-600' },
+                        { label: 'Profit', val: 'Rp 188.185.268', icon: DollarSign, color: 'text-amber-600' },
+                        { label: 'Manpower', val: '50', icon: Users, color: 'text-emerald-600' },
+                    ].map((stat, i) => (
+                        <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+                            <div className={`p-3 bg-gray-50 rounded-lg ${stat.color}`}><stat.icon size={20} /></div>
+                            <div>
+                                <p className="text-xs text-gray-400">{stat.label}</p>
+                                <p className="font-bold text-gray-900">{stat.val}</p>
+                            </div>
                         </div>
                     ))}
+                </div>
+
+                {/* Charts Area */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Pie Chart (Progress) */}
+                    <div className="bg-white p-6 rounded-xl border shadow-sm flex flex-col items-center">
+                        <h3 className="font-semibold mb-4 w-full">Project Progress</h3>
+                        <div className="relative w-32 h-32 rounded-full border-8 border-gray-100 border-t-blue-500 flex items-center justify-center">
+                            <span className="font-bold text-xl">48</span>
+                        </div>
+                        <div className="mt-4 grid grid-cols-2 gap-2 text-xs w-full">
+                            {projectStats.map(s => <div key={s.label} className="flex items-center gap-1"><span className={`w-2 h-2 ${s.color} rounded-full`}/> {s.label}</div>)}
+                        </div>
+                    </div>
+
+                    {/* Bar Chart (Budget vs Actual) */}
+                    <div className="bg-white p-6 rounded-xl border shadow-sm col-span-2">
+                        <h3 className="font-semibold mb-6">Budget vs Actual (YTD)</h3>
+                        <div className="flex items-end justify-between h-40 gap-2">
+                            {[40, 60, 80, 50, 90, 70].map((h, i) => (
+                                <div key={i} className="flex flex-col items-center gap-1">
+                                    <div className="flex gap-1 w-12"><div className="w-1/2 bg-blue-500 h-24"/><div className="w-1/2 bg-emerald-500 h-32"/></div>
+                                    <span className="text-[10px]">Bulan {i+1}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Middle Stats Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                    {[
+                        { label: 'Outstanding PO', val: '48' }, { label: 'Request Material', val: '48' },
+                        { label: 'Equipment Idle', val: '48' }, { label: 'Low Stock', val: '48' },
+                        { label: 'Over Budget', val: '48' }, { label: 'Plutang Invoice', val: '48' },
+                    ].map((m, i) => (
+                        <div key={i} className="bg-white p-4 rounded-xl border shadow-sm text-center">
+                            <p className="text-xs text-gray-400">{m.label}</p>
+                            <p className="text-xl font-bold">{m.val}</p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Reminders & Alerts Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Reminder Invoice */}
+                    <div className="bg-white p-6 rounded-xl border shadow-sm">
+                        <h3 className="font-semibold mb-4">Reminder Invoice</h3>
+                        {/* Tambahkan max-h-[240px] dan overflow-y-auto */}
+                        <div className="space-y-3 max-h-[240px] overflow-y-auto pr-2">
+                            {[1, 2, 3, 4, 5, 6].map(i => (
+                                <div key={i} className="flex justify-between items-center p-3 bg-red-50 rounded-lg border border-red-100">
+                                    <span className="text-sm font-medium text-red-700">SPK/AGS/0526/000{i}</span>
+                                    <span className="text-sm font-bold">Rp 100.000.000</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Stock Alert */}
+                    <div className="bg-white p-6 rounded-xl border shadow-sm">
+                        <h3 className="font-semibold mb-4">Stock Alert</h3>
+                        {/* Tambahkan max-h-[240px] dan overflow-y-auto */}
+                        <div className="space-y-3 max-h-[240px] overflow-y-auto pr-2">
+                            {[1, 2, 3, 4, 5, 6].map(i => (
+                                <div key={i} className="flex justify-between items-center p-3 bg-orange-50 rounded-lg border border-orange-100">
+                                    <span className="text-sm font-medium text-orange-700">Semen Tiga Roda</span>
+                                    <span className="text-sm font-bold text-red-600">Stock 8 PCS</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Project Table */}
+                <div className="bg-white p-6 rounded-xl border shadow-sm">
+                    <h3 className="font-semibold mb-4">Project Progress Table</h3>
+                    <table className="w-full text-sm">
+                        <thead className="bg-gray-50">
+                            <tr>{['Project', 'Lokasi', 'Progress', 'Budget', 'Actual', 'Status'].map(h => <th key={h} className="p-3 text-left">{h}</th>)}</tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="p-3">Pembangunan Gedung A</td>
+                                <td className="p-3">DKI Jakarta</td>
+                                <td className="p-3"><div className="w-full bg-gray-200 h-2 rounded"><div className="w-3/4 bg-green-500 h-2 rounded"></div></div></td>
+                                <td className="p-3">Rp 15.000.000</td>
+                                <td className="p-3">Rp 9.000.000</td>
+                                <td className="p-3"><span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs">Aktif</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </PortalLayout>

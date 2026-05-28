@@ -148,6 +148,9 @@ import DetailKPISetting from '@/Pages/Admin/HR/KPI/detail_kpi_setting';
 import KPIMonitoring from '@/Pages/Admin/HR/KPI/kpi_monitoring';
 import DetailKPIMonitoring from '@/Pages/Admin/HR/KPI/detail_kpi_monitoring';
 
+// Module Reports & Analytics
+import ReportAnalytics from '@/Pages/Admin/Report/report_analytics';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -300,6 +303,8 @@ function AppRoutes() {
                 
                 <Route path="/portal/manpower/kpi-monitoring" element={<ProtectedRoute><KPIMonitoring /></ProtectedRoute>} />
                 <Route path="/portal/manpower/kpi-monitoring/detail" element={<ProtectedRoute><DetailKPIMonitoring /></ProtectedRoute>} />
+                
+                <Route path="/portal/reports" element={<ProtectedRoute><ReportAnalytics /></ProtectedRoute>} />
 
                 <Route path="*" element={<Navigate to="/portal/dashboard" replace />} />
             </Routes>
