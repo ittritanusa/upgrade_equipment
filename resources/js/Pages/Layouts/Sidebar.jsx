@@ -13,252 +13,113 @@ import {
     ClipboardList,
     Settings,
     ChevronDown,
+    BriefcaseBusiness,
+    Building2,
+    Building,
+    CalendarDays,
+    HandCoins,
+    ShoppingCart,
+    UserCheck,
+    FileText,
+    UserCog
 } from 'lucide-react';
 
 const navItems = [
     {
         group: 'General',
         items: [
-            {
-                label: 'Dashboard',
-                path: '/portal/dashboard',
-                icon: LayoutDashboard,
-            },
+            { label: 'Dashboard', path: '/portal/dashboard', icon: LayoutDashboard },
         ],
     },
-
+    {
+        group: 'Master Data',
+        items: [
+            { label: 'Data Departemen', path: '/portal/master/departments', icon: Building2 },
+            { label: 'Data Jabatan', path: '/portal/master/jabatan', icon: BriefcaseBusiness },
+            { label: 'Data Karyawan', path: '/portal/master/employees', icon: Users },
+            { label: 'Data Supplier / Vendor', path: '/portal/master/vendors', icon: Building },
+            { label: 'Data Alasan Cuti', path: '/portal/master/leave-reasons', icon: CalendarDays },
+            { label: 'Cash & Bank', path: '/portal/master/cash-bank', icon: HandCoins },
+        ],
+    },
     {
         group: 'Fitur',
         items: [
-            {
-                label: 'Project Management',
-                path: '/portal/project',
-                icon: FolderOpen,
-            },
-
-            // Dropdown Budget & RAB
+            { label: 'Project Management', path: '/portal/project', icon: FolderOpen },
             {
                 label: 'Budget & RAB',
                 icon: HardHat,
                 children: [
-                    {
-                        label: 'RAB Project',
-                        path: '/portal/budget/rab-project',
-                    },
-                    {
-                        label: 'Realisasi Budget',
-                        path: '/portal/budget/realisasi',
-                    }
+                    { label: 'RAB Project', path: '/portal/budget/rab-project' },
+                    { label: 'Realisasi Budget', path: '/portal/budget/realisasi' }
                 ],
             },
-
             {
                 label: 'Procurement',
-                icon: HardHat,
+                icon: ShoppingCart,
                 children: [
-                    {
-                        label: 'Purchase Request',
-                        path: '/portal/purchase-request',
-                    },
-                    {
-                        label: 'Request for Quotation',
-                        path: '/portal/request-quotation',
-                    },
-                    {
-                        label: 'Vendor Selection',
-                        path: '/portal/vendor-selection',
-                    },
-                    {
-                        label: 'Purchase Order',
-                        path: '/portal/purchase-order',
-                    }
+                    { label: 'Purchase Request', path: '/portal/purchase-request' },
+                    { label: 'Request for Quotation', path: '/portal/request-quotation' },
+                    { label: 'Vendor Selection', path: '/portal/vendor-selection' },
+                    { label: 'Purchase Order', path: '/portal/purchase-order' }
                 ],
             },
-
             {
                 label: 'Inventory & Warehouse',
                 icon: Package,
                 children: [
-                    {
-                        label: 'Dashboard Inventory',
-                        path: '/portal/inventory/dashboard',
-                    },
-                    {
-                        label: 'Warehouse Management',
-                        path: '/portal/inventory/warehouse',
-                    },
-                    {
-                        label: 'Kategori & Satuan',
-                        path: '/portal/inventory/category-unit',
-                    },
-                    {
-                        label: 'Master Item & Material',
-                        path: '/portal/inventory/master-item',
-                    },
-                    {
-                        label: 'Goods Receipt',
-                        path: '/portal/inventory/goods-receipt',
-                    },
-                    {
-                        label: 'Goods Issue',
-                        path: '/portal/inventory/goods-issue',
-                    },
-                    {
-                        label: 'Stock Opname',
-                        path: '/portal/inventory/stock-opname',
-                    },
-                    {
-                        label: 'Stock Adjustment',
-                        path: '/portal/inventory/stock-adjustment',
-                    },
-                    {
-                        label: 'Inter Warehouse Transfer',
-                        path: '/portal/inventory/inter-warehouse-transfer',
-                    }
+                    { label: 'Dashboard Inventory', path: '/portal/inventory/dashboard' },
+                    { label: 'Warehouse Management', path: '/portal/inventory/warehouse' },
+                    { label: 'Kategori & Satuan', path: '/portal/inventory/category-unit' },
+                    { label: 'Master Item & Material', path: '/portal/inventory/master-item' },
+                    { label: 'Goods Receipt', path: '/portal/inventory/goods-receipt' },
+                    { label: 'Goods Issue', path: '/portal/inventory/goods-issue' },
+                    { label: 'Stock Opname', path: '/portal/inventory/stock-opname' },
+                    { label: 'Stock Adjustment', path: '/portal/inventory/stock-adjustment' },
+                    { label: 'Inter Warehouse Transfer', path: '/portal/inventory/inter-warehouse-transfer' }
                 ],
             },
-
             {
                 label: 'Accounting & Finance',
                 icon: Wallet,
                 children: [
-                    {
-                        label: 'Finance Dashboard',
-                        path: '/portal/finance/dashboard',
-                    },
-                    {
-                        label: 'Chart of Account (COA)',
-                        path: '/portal/finance/coa',
-                    },
-                    {
-                        label: 'Journal Entry',
-                        path: '/portal/finance/journal-entry',
-                    },
-                    {
-                        label: 'General Ledger',
-                        path: '/portal/finance/general-ledger',
-                    },
-                    {
-                        label: 'Account Receivable',
-                        path: '/portal/finance/account-receivable',
-                    },
-                    {
-                        label: 'Account Payable',
-                        path: '/portal/finance/account-payable',
-                    },
-                    {
-                        label: 'Petty Cash',
-                        path: '/portal/finance/petty-cash',
-                    }
+                    { label: 'Finance Dashboard', path: '/portal/finance/dashboard' },
+                    { label: 'Chart of Account (COA)', path: '/portal/finance/coa' },
+                    { label: 'Journal Entry', path: '/portal/finance/journal-entry' },
+                    { label: 'General Ledger', path: '/portal/finance/general-ledger' },
+                    { label: 'Account Receivable', path: '/portal/finance/account-receivable' },
+                    { label: 'Account Payable', path: '/portal/finance/account-payable' },
+                    { label: 'Petty Cash', path: '/portal/finance/petty-cash' }
                 ],
             },
-
             {
                 label: 'Tax Management',
                 icon: Receipt,
                 children: [
-                    {
-                        label: 'Tax Dashboard',
-                        path: '/portal/tax/dashboard',
-                    },
-                    // {
-                    //     label: 'Tax Master',
-                    //     path: '/portal/tax/master',
-                    // },
-                    // {
-                    //     label: 'PPH',
-                    //     path: '/portal/tax/pph',
-                    // },
-                    // {
-                    //     label: 'PPN',
-                    //     path: '/portal/tax/ppn',
-                    // },
-                    // {
-                    //     label: 'Tax Invoice (Faktur Pajak)',
-                    //     path: '/portal/tax/faktur-pajak',
-                    // },
-                    {
-                        label: 'Tax Payment',
-                        path: '/portal/tax/payment',
-                    },
-                    // {
-                    //     label: 'Tax Reporting',
-                    //     path: '/portal/tax/reporting',
-                    // },
-                    // {
-                    //     label: 'Tax Reconciliation',
-                    //     path: '/portal/tax/reconciliation',
-                    // }
+                    { label: 'Tax Dashboard', path: '/portal/tax/dashboard' },
+                    { label: 'Tax Payment', path: '/portal/tax/payment' },
                 ],
             },
-
             {
                 label: 'HR & Manpower',
-                icon: HardHat,
+                icon: UserCheck,
                 children: [
-                    {
-                        label: 'HR Dashboard',
-                        path: '/portal/manpower/dashboard',
-                    },
-                    {
-                        label: 'Employee Management',
-                        path: '/portal/manpower/employee',
-                    },
-                    {
-                        label: 'Data Attendance',
-                        path: '/portal/manpower/attendance',
-                    },
-                    {
-                        label: 'Input Attendance',
-                        path: '/portal/manpower/attendance/create',
-                    },
-                    // {
-                    //     label: 'Leave Attendance',
-                    //     path: '/portal/manpower/master-leave',
-                    // },
-                    {
-                        label: 'Payroll & Compensation',
-                        path: '/portal/manpower/payroll',
-                    },
-                    {
-                        label: 'KPI Setting',
-                        path: '/portal/manpower/kpi-setting',
-                    },
-                    {
-                        label: 'KPI Monitoring',
-                        path: '/portal/manpower/kpi-monitoring',
-                    },
+                    { label: 'HR Dashboard', path: '/portal/manpower/dashboard' },
+                    { label: 'Employee Management', path: '/portal/manpower/employee' },
+                    { label: 'Data Attendance', path: '/portal/manpower/attendance' },
+                    { label: 'Payroll & Compensation', path: '/portal/manpower/payroll' },
+                    { label: 'KPI Monitoring', path: '/portal/manpower/kpi-monitoring' },
                 ],
             },
-
-            {
-                label: 'Document Management',
-                path: '/portal/document',
-                icon: Receipt,
-            },
-
-            {
-                label: 'Report & Analytics',
-                path: '/portal/reports',
-                icon: ClipboardList,
-            },
+            { label: 'Document Management', path: '/portal/document', icon: FileText },
+            { label: 'Report & Analytics', path: '/portal/reports', icon: ClipboardList },
         ],
     },
-
     {
         group: 'Sistem',
         items: [
-            {
-                label: 'Pengguna',
-                path: '/portal/users',
-                icon: Users,
-            },
-
-            {
-                label: 'Pengaturan',
-                path: '/portal/settings',
-                icon: Settings,
-            },
+            { label: 'Manajemen Pengguna', path: '/portal/system/users', icon: UserCog },
+            { label: 'Pengaturan Sistem', path: '/portal/system/settings', icon: Settings },
         ],
     },
 ];

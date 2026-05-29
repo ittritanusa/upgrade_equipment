@@ -24,6 +24,42 @@ import NotFoundPage from '@/Pages/NotFound/NotFoundPage';
 // Dashboard
 import Dashboard from '@/Pages/Admin/Dashboard/Dashboard';
 
+// Master Data Departemen
+import DataDepartemen from '@/Pages/Admin/MasterData/Departemen/departemen';
+import CreateDataDepartemen from '@/Pages/Admin/MasterData/Departemen/create_departemen';
+import EditDataDepartemen from '@/Pages/Admin/MasterData/Departemen/edit_departemen';
+import DetailDataDepartemen from '@/Pages/Admin/MasterData/Departemen/detail_departemen';
+
+// Master Data Jabatan
+import DataJabatan from '@/Pages/Admin/MasterData/Jabatan/jabatan';
+import CreateDataJabatan from '@/Pages/Admin/MasterData/Jabatan/create_jabatan';
+import EditDataJabatan from '@/Pages/Admin/MasterData/Jabatan/edit_jabatan';
+import DetailDataJabatan from '@/Pages/Admin/MasterData/Jabatan/detail_jabatan';
+
+// Master Data Employees
+import DataEmployees from '@/Pages/Admin/MasterData/Employees/employees';
+import CreateDataEmployees from '@/Pages/Admin/MasterData/Employees/create_employees';
+import EditDataEmployees from '@/Pages/Admin/MasterData/Employees/edit_employees';
+import DetailDataEmployees from '@/Pages/Admin/MasterData/Employees/detail_employees';
+
+// Master Data Supplier / Vendor
+import DataVendor from '@/Pages/Admin/MasterData/Vendor/vendor';
+import CreateDataVendor from '@/Pages/Admin/MasterData/Vendor/create_vendor';
+import EditDataVendor from '@/Pages/Admin/MasterData/Vendor/edit_vendor';
+import DetailDataVendor from '@/Pages/Admin/MasterData/Vendor/detail_vendor';
+
+// Master Data Leave Reason
+import DataLeaveReason from '@/Pages/Admin/MasterData/LeaveReason/leave_reason';
+import CreateDataLeaveReason from '@/Pages/Admin/MasterData/LeaveReason/create_leave_reason';
+import EditDataLeaveReason from '@/Pages/Admin/MasterData/LeaveReason/edit_leave_reason';
+import DetailDataLeaveReason from '@/Pages/Admin/MasterData/LeaveReason/detail_leave_reason';
+
+// Master Data Cash & Bank
+import DataCashBank from '@/Pages/Admin/MasterData/CashBank/cash_bank';
+import CreateDataCashBank from '@/Pages/Admin/MasterData/CashBank/create_cash_bank';
+import EditDataCashBank from '@/Pages/Admin/MasterData/CashBank/edit_cash_bank';
+import DetailDataCashBank from '@/Pages/Admin/MasterData/CashBank/detail_cash_bank';
+
 // Module Projects
 import Project from '@/Pages/Admin/Project/Project';
 import CreateProject from '@/Pages/Admin/Project/CreateProject';
@@ -188,6 +224,42 @@ function AppRoutes() {
 
                 <Route path="/employee-portal" element={<GuestRoute><Login /></GuestRoute>} />
                 <Route path="/portal/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+
+                {/* Master Data Departemen */}
+                <Route path="/portal/master/departments" element={<ProtectedRoute><DataDepartemen /></ProtectedRoute>} />
+                <Route path="/portal/master/departments/create" element={<ProtectedRoute><CreateDataDepartemen /></ProtectedRoute>} />
+                <Route path="/portal/master/departments/edit" element={<ProtectedRoute><EditDataDepartemen /></ProtectedRoute>} />
+                <Route path="/portal/master/departments/detail" element={<ProtectedRoute><DetailDataDepartemen /></ProtectedRoute>} />
+
+                {/* Master Data Jabatan */}
+                <Route path="/portal/master/jabatan" element={<ProtectedRoute><DataJabatan /></ProtectedRoute>} />
+                <Route path="/portal/master/jabatan/create" element={<ProtectedRoute><CreateDataJabatan /></ProtectedRoute>} />
+                <Route path="/portal/master/jabatan/edit" element={<ProtectedRoute><EditDataJabatan /></ProtectedRoute>} />
+                <Route path="/portal/master/jabatan/detail" element={<ProtectedRoute><DetailDataJabatan /></ProtectedRoute>} />
+
+                {/* Master Data Employee */}
+                <Route path="/portal/master/employees" element={<ProtectedRoute><DataEmployees /></ProtectedRoute>} />
+                <Route path="/portal/master/employees/create" element={<ProtectedRoute><CreateDataEmployees /></ProtectedRoute>} />
+                <Route path="/portal/master/employees/edit" element={<ProtectedRoute><EditDataEmployees /></ProtectedRoute>} />
+                <Route path="/portal/master/employees/detail" element={<ProtectedRoute><DetailDataEmployees /></ProtectedRoute>} />
+                
+                {/* Master Data Supplier / Vendor */}
+                <Route path="/portal/master/vendors" element={<ProtectedRoute><DataVendor /></ProtectedRoute>} />
+                <Route path="/portal/master/vendors/create" element={<ProtectedRoute><CreateDataVendor /></ProtectedRoute>} />
+                <Route path="/portal/master/vendors/edit" element={<ProtectedRoute><EditDataVendor /></ProtectedRoute>} />
+                <Route path="/portal/master/vendors/detail" element={<ProtectedRoute><DetailDataVendor /></ProtectedRoute>} />
+                
+                {/* Master Data Alasan Cuti */}
+                <Route path="/portal/master/leave-reasons" element={<ProtectedRoute><DataLeaveReason /></ProtectedRoute>} />
+                <Route path="/portal/master/leave-reasons/create" element={<ProtectedRoute><CreateDataLeaveReason /></ProtectedRoute>} />
+                <Route path="/portal/master/leave-reasons/edit" element={<ProtectedRoute><EditDataLeaveReason /></ProtectedRoute>} />
+                <Route path="/portal/master/leave-reasons/detail" element={<ProtectedRoute><DetailDataLeaveReason /></ProtectedRoute>} />
+                
+                {/* Master Data Cash & Bank */}
+                <Route path="/portal/master/cash-bank" element={<ProtectedRoute><DataCashBank /></ProtectedRoute>} />
+                <Route path="/portal/master/cash-bank/create" element={<ProtectedRoute><CreateDataCashBank /></ProtectedRoute>} />
+                <Route path="/portal/master/cash-bank/edit" element={<ProtectedRoute><EditDataCashBank /></ProtectedRoute>} />
+                <Route path="/portal/master/cash-bank/detail" element={<ProtectedRoute><DetailDataCashBank /></ProtectedRoute>} />
 
                 {/* Module Project */}
                 <Route path="/portal/project" element={<ProtectedRoute><Project /></ProtectedRoute>} />
