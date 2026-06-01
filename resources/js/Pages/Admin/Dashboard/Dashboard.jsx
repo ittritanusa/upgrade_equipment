@@ -1,6 +1,6 @@
 import React from 'react';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
-import { Briefcase, DollarSign, Users, AlertCircle, Package, FileText } from 'lucide-react';
+import { Briefcase, DollarSign, Users, AlertCircle, AlertTriangle, Package, FileText } from 'lucide-react';
 
 export default function Dashboard() {
     const projectStats = [
@@ -34,7 +34,6 @@ export default function Dashboard() {
                         { label: 'Total Revenue', val: 'Rp 188.185.268', icon: DollarSign, color: 'text-amber-600' },
                         { label: 'Total Cost', val: 'Rp 188.185.268', icon: DollarSign, color: 'text-amber-600' },
                         { label: 'Profit', val: 'Rp 188.185.268', icon: DollarSign, color: 'text-amber-600' },
-                        { label: 'Manpower', val: '50', icon: Users, color: 'text-emerald-600' },
                     ].map((stat, i) => (
                         <div key={i} className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
                             <div className={`p-3 bg-gray-50 rounded-lg ${stat.color}`}><stat.icon size={20} /></div>
@@ -91,13 +90,32 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Reminder Invoice */}
                     <div className="bg-white p-6 rounded-xl border shadow-sm">
-                        <h3 className="font-semibold mb-4">Reminder Invoice</h3>
-                        {/* Tambahkan max-h-[240px] dan overflow-y-auto */}
-                        <div className="space-y-3 max-h-[240px] overflow-y-auto pr-2">
-                            {[1, 2, 3, 4, 5, 6].map(i => (
-                                <div key={i} className="flex justify-between items-center p-3 bg-red-50 rounded-lg border border-red-100">
-                                    <span className="text-sm font-medium text-red-700">SPK/AGS/0526/000{i}</span>
-                                    <span className="text-sm font-bold">Rp 100.000.000</span>
+                        <h3 className="font-semibold mb-4 text-gray-800">Reminder Invoice</h3>
+                        
+                        <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                            {[
+                                { spk: 'SPK/AGS/USR/0526/0004', project: 'Pembangunan Gedung Hotel - Bali', amount: 'Rp100.000.000', date: 'Due Date: 23 May 2026' },
+                                { spk: 'SPK/AGS/USR/0526/0003', project: 'Pembangunan Gedung Apartment - IKN Kalimantan Timur', amount: 'Rp50.000.000', date: 'Due Date: 25 May 2026' },
+                                { spk: 'SPK/AGS/USR/0526/0002', project: 'Pembangunan Perumahan - Demak', amount: 'Rp30.000.000', date: 'Due Date: 26 May 2026' },
+                                { spk: 'SPK/AGS/USR/0526/0001', project: 'Pembangunan Gedung Kantor - DKI Jakarta', amount: 'Rp25.000.000', date: 'Due Date: 27 May 2026' },
+                            ].map((item, index) => (
+                                <div key={index} className="flex items-center gap-4 p-4 rounded-xl border border-gray-200 hover:border-amber-300 transition-colors">
+                                    {/* Ikon Warning */}
+                                    <div className="flex-shrink-0">
+                                        <AlertCircle className="text-amber-500" size={32} />
+                                    </div>
+                                    
+                                    {/* Bagian Kiri: SPK & Project */}
+                                    <div className="flex-grow min-w-0">
+                                        <p className="text-sm font-bold text-gray-900 truncate">{item.spk}</p>
+                                        <p className="text-xs text-gray-500 truncate">{item.project}</p>
+                                    </div>
+                                    
+                                    {/* Bagian Kanan: Nominal & Date */}
+                                    <div className="flex-shrink-0 text-right">
+                                        <p className="text-sm font-bold text-gray-900">{item.amount}</p>
+                                        <p className="text-xs text-gray-500">{item.date}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
@@ -105,13 +123,31 @@ export default function Dashboard() {
 
                     {/* Stock Alert */}
                     <div className="bg-white p-6 rounded-xl border shadow-sm">
-                        <h3 className="font-semibold mb-4">Stock Alert</h3>
-                        {/* Tambahkan max-h-[240px] dan overflow-y-auto */}
-                        <div className="space-y-3 max-h-[240px] overflow-y-auto pr-2">
-                            {[1, 2, 3, 4, 5, 6].map(i => (
-                                <div key={i} className="flex justify-between items-center p-3 bg-orange-50 rounded-lg border border-orange-100">
-                                    <span className="text-sm font-medium text-orange-700">Semen Tiga Roda</span>
-                                    <span className="text-sm font-bold text-red-600">Stock 8 PCS</span>
+                        <h3 className="font-semibold mb-4 text-gray-800">Stock Alert</h3>
+                        
+                        <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                            {[
+                                { item: 'Semen Tiga Roda', project: 'Pembangunan Gedung Kantor - DKI Jakarta', stock: 'Stock 8 PCS' },
+                                { item: 'Semen Tiga Roda', project: 'Pembangunan Gedung Kantor - DKI Jakarta', stock: 'Stock 8 PCS' },
+                                { item: 'Semen Tiga Roda', project: 'Pembangunan Gedung Kantor - DKI Jakarta', stock: 'Stock 8 PCS' },
+                                { item: 'Semen Tiga Roda', project: 'Pembangunan Gedung Kantor - DKI Jakarta', stock: 'Stock 8 PCS' },
+                            ].map((data, index) => (
+                                <div key={index} className="flex items-center gap-4 p-4 rounded-xl border border-gray-200 hover:border-red-200 transition-colors">
+                                    {/* Ikon Alert */}
+                                    <div className="flex-shrink-0">
+                                        <AlertTriangle className="text-red-500" size={32} />
+                                    </div>
+                                    
+                                    {/* Bagian Kiri: Nama Item & Project */}
+                                    <div className="flex-grow min-w-0">
+                                        <p className="text-sm font-bold text-gray-900 truncate">{data.item}</p>
+                                        <p className="text-xs text-gray-500 truncate">{data.project}</p>
+                                    </div>
+                                    
+                                    {/* Bagian Kanan: Stock */}
+                                    <div className="flex-shrink-0">
+                                        <p className="text-sm font-bold text-red-600 whitespace-nowrap">{data.stock}</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>

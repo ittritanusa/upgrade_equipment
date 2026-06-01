@@ -50,31 +50,68 @@ export default function DetailProject() {
     // DATA TASK
     // =========================
     const [tasks, setTasks] = useState([
-        {
-            task: 'Mobilisasi dan Persiapan',
-            pic: 'Joko Susilo',
-            start: '24 Mei 2026',
-            end: '30 Mei 2026',
-            priority: 'High',
-            progress: '90%',
-            status: 'In Progress',
-        },
-        {
-            task: 'Pekerjaan Pondasi',
-            pic: 'Budi Santoso',
-            start: '01 Juni 2026',
-            end: '20 Juni 2026',
-            priority: 'Medium',
-            progress: '65%',
-            status: 'Done',
-        },
+        { id: 1, parentId: null, task: 'Pekerjaan Struktur', pic: 'Joko', priority: 'High', progress: '50%', status: 'In Progress' },
+        { id: 2, parentId: 1, task: 'Pemasangan Bekisting', pic: 'Budi', priority: 'High', progress: '80%', status: 'In Progress' },
+        { id: 3, parentId: 2, task: 'Pemasangan Besi Tulangan', pic: 'Andi', priority: 'High', progress: '20%', status: 'On Track' },
     ]);
+
+    const renderTaskRow = (task, level = 0) => {
+        const subtasks = tasks.filter(t => t.parentId === task.id);
+        
+        return (
+            <React.Fragment key={task.id}>
+                <tr className="border-t hover:bg-gray-50">
+                    <td className="px-5 py-4 font-medium text-gray-700" style={{ paddingLeft: `${20 + (level * 25)}px` }}>
+                        <div className="flex items-center">
+                            {level > 0 && <span className="mr-2 text-gray-400">↳</span>}
+                            {task.task}
+                        </div>
+                    </td>
+                    <td className="px-5 py-4">{task.pic}</td>
+                    <td className="px-5 py-4">{task.start}</td>
+                    <td className="px-5 py-4">{task.end}</td>
+                    <td className="px-5 py-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            task.priority === 'High' ? 'bg-red-100 text-red-600' : 
+                            task.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700'
+                        }`}>
+                            {task.priority}
+                        </span>
+                    </td>
+                    <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div className="h-full bg-blue-600 rounded-full" style={{ width: task.progress }} />
+                            </div>
+                            <span className="text-xs font-medium text-gray-600">{task.progress}</span>
+                        </div>
+                    </td>
+                    <td className="px-5 py-4">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            task.status === 'Delayed' ? 'bg-red-100 text-red-600' : 
+                            task.status === 'Done' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'
+                        }`}>
+                            {task.status}
+                        </span>
+                    </td>
+                    <td className="p-3 text-center">
+                        <button onClick={() => setIsStatusTaskModalOpen(true)} className="border border-gray-300 hover:bg-gray-50 text-gray-600 px-2 py-1 rounded text-[11px] font-medium">
+                            Ubah Status
+                        </button>
+                    </td>
+                </tr>
+                {/* REKURSIF: Memanggil dirinya sendiri untuk sub-tugas */}
+                {subtasks.map(sub => renderTaskRow(sub, level + 1))}
+            </React.Fragment>
+        );
+    };
 
     // =========================
     // FORM STATE
     // =========================
     const [taskForm, setTaskForm] = useState({
         task: '',
+        parentId: '',
         pic: '',
         start: '',
         end: '',
@@ -620,95 +657,7 @@ export default function DetailProject() {
                                         </thead>
 
                                         <tbody>
-                                            {tasks.map((item, index) => (
-                                                <tr
-                                                    key={index}
-                                                    className="border-t"
-                                                >
-
-                                                    <td className="px-5 py-4 font-medium text-gray-700">
-                                                        {item.task}
-                                                    </td>
-
-                                                    <td className="px-5 py-4">
-                                                        {item.pic}
-                                                    </td>
-
-                                                    <td className="px-5 py-4">
-                                                        {item.start}
-                                                    </td>
-
-                                                    <td className="px-5 py-4">
-                                                        {item.end}
-                                                    </td>
-
-                                                    <td className="px-5 py-4">
-
-                                                        <span
-                                                            className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                                item.priority === 'High'
-                                                                    ? 'bg-red-100 text-red-600'
-                                                                    : item.priority ===
-                                                                    'Medium'
-                                                                    ? 'bg-yellow-100 text-yellow-700'
-                                                                    : 'bg-green-100 text-green-700'
-                                                            }`}
-                                                        >
-                                                            {item.priority}
-                                                        </span>
-                                                    </td>
-
-                                                    <td className="px-5 py-4">
-
-                                                        <div className="flex items-center gap-3">
-
-                                                            <div className="w-24 h-2 bg-gray-100 rounded-full overflow-hidden">
-
-                                                                <div
-                                                                    className="h-full bg-blue-600 rounded-full"
-                                                                    style={{
-                                                                        width:
-                                                                            item.progress,
-                                                                    }}
-                                                                />
-                                                            </div>
-
-                                                            <span className="text-xs font-medium text-gray-600">
-                                                                {item.progress}
-                                                            </span>
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="px-5 py-4">
-
-                                                        <span
-                                                            className={`px-3 py-1 rounded-full text-xs font-medium ${
-                                                                item.status ===
-                                                                'Delayed'
-                                                                    ? 'bg-red-100 text-red-600'
-                                                                    : item.status ===
-                                                                    'Done'
-                                                                    ? 'bg-green-100 text-green-600'
-                                                                    : 'bg-blue-100 text-blue-600'
-                                                            }`}
-                                                        >
-                                                            {item.status}
-                                                        </span>
-                                                    </td>
-
-                                                    <td className="p-3 text-center">
-                                                        <button
-                                                            onClick={() =>
-                                                                setIsStatusTaskModalOpen(true)
-                                                            }
-                                                            className="border border-gray-300 hover:bg-gray-50 text-gray-600 px-2 py-1 rounded text-[11px] font-medium flex items-center gap-1 mx-auto"
-                                                        >
-                                                            Ubah Status
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-
+                                            {tasks.filter(t => t.parentId === null).map(task => renderTaskRow(task))}
                                         </tbody>
                                     </table>
                                 </div>
@@ -2828,6 +2777,13 @@ export default function DetailProject() {
                                         className="w-full h-11 rounded-xl border border-gray-300 px-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                                     />
                                 </div>
+
+                                <select name="parentId" onChange={handleTaskChange} className="...">
+                                    <option value="">Pilih Parent Task (Opsional)</option>
+                                    {tasks.map(t => (
+                                        <option key={t.id} value={t.id}>{t.task}</option>
+                                    ))}
+                                </select>
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
