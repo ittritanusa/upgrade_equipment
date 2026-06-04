@@ -333,7 +333,7 @@ Hasil:
 - container `fms-laravel-staging-app` berhasil recreate
 - container `fms-laravel-staging-db` tetap `healthy`
 
-### 15. Verifikasi staging setelah deploy
+### 15. Verifikasi staging setelah deploy awal
 
 Verifikasi publik:
 
@@ -348,11 +348,65 @@ Smoke test staging:
 
 Verifikasi halaman baru:
 
-- bundle aktif staging memuat marker halaman `Rules and Deployment Playbook`
-- asset terverifikasi di:
+- bundle aktif staging saat deploy awal terverifikasi di:
   - `/build/assets/App-4a2LxF_2.js`
+- route SPA `Rules & Docs` ikut terbawa dalam bundle staging
 
 Kesimpulan:
 
 - branch ops sudah live di staging
 - menu dan halaman `Rules & Docs` sudah ikut terdeploy ke bundle staging
+
+### 16. Rapikan layout halaman Rules & Docs
+
+Temuan manual dari browser:
+
+- layout halaman `Rules & Docs` masih melebar ke kanan
+- kolom `Notes` pada langkah workflow terlihat terjepit
+- horizontal overflow masih muncul saat sidebar portal terbuka
+
+Analisa:
+
+- komponen `RulesPlaybook` sudah memakai grid yang aman
+- sumber overflow tersisa ada pada wrapper `PortalLayout`
+- flex item utama belum memakai `min-w-0`, sehingga blok command panjang masih bisa mendorong kanvas ke kanan
+
+Perbaikan:
+
+- update `resources/js/Pages/Layouts/PortalLayout.jsx`
+- tambahkan `min-w-0` pada wrapper utama konten
+- tambahkan `overflow-x-hidden` pada elemen `main`
+
+Commit:
+
+- `b59afe8` `fix: prevent portal layout overflow on staging docs`
+
+Verifikasi local:
+
+- frontend build ulang berhasil
+- bundle local hasil build:
+  - `/build/assets/App-i-9iucBB.js`
+
+Deploy ulang staging:
+
+- artifact branch baru dibuat dan di-upload ulang ke server 155
+- app staging direbuild ulang
+- cache Laravel dibersihkan dengan `php artisan optimize:clear`
+
+Verifikasi akhir staging:
+
+- homepage publik memuat bundle baru:
+  - `/build/assets/App-BBf_KUxV.js`
+- smoke test staging tetap lulus:
+  - `LOGIN_STATUS=200`
+  - `ME_STATUS=200`
+  - `UNIT_STATUS=200`
+  - `TIPE_STATUS=200`
+- browser-like auth flow tetap sehat:
+  - `POST /api/auth/login` -> `200`
+  - `GET /portal/staging/rules` -> `200`
+
+Catatan verifikasi SPA:
+
+- route `/portal/staging/rules` mengembalikan app shell HTML, jadi marker judul halaman tidak selalu terlihat di HTML mentah
+- validasi yang dipakai sebagai acuan adalah bundle aktif terbaru, login sukses, dan route `200` setelah session terbentuk

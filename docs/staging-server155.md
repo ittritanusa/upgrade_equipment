@@ -113,9 +113,22 @@ Important risk:
 
 Status deploy 4 Juni 2026:
 
-- bundle staging sudah terverifikasi memuat halaman `Rules & Docs`
-- marker halaman ditemukan pada asset:
+- deploy awal memuat halaman `Rules & Docs` pada bundle:
   - `/build/assets/App-4a2LxF_2.js`
+- setelah rapikan overflow layout portal, staging direbuild ulang dan sekarang memuat bundle:
+  - `/build/assets/App-BBf_KUxV.js`
+- verifikasi akhir yang dipakai:
+  - `GET /` memuat bundle terbaru
+  - `POST /api/auth/login` -> `200`
+  - `GET /portal/staging/rules` -> `200`
+  - smoke test modul dasar tetap `200`
+
+Catatan layout:
+
+- jika halaman `Rules & Docs` terlihat melebar ke kanan, cek `resources/js/Pages/Layouts/PortalLayout.jsx`
+- wrapper utama portal harus memakai `min-w-0`
+- elemen `main` harus membatasi `overflow-x-hidden`
+- route SPA tidak selalu menampilkan judul halaman pada HTML mentah; untuk verifikasi pakai bundle aktif + session login + status route
 
 ## Server 155 note
 
