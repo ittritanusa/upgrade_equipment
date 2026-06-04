@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\MerkKendaraanController;
 use App\Http\Controllers\Api\TipeKendaraanController;
 use App\Http\Controllers\Api\UnitKendaraanController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,14 @@ Route::middleware('web')->group(function () {
             Route::post('/create/save', [TipeKendaraanController::class, 'store'])->name('tipe-kendaraan.store');
             Route::post('/edit/save/{id}', [TipeKendaraanController::class, 'update'])->name('tipe-kendaraan.update');
             Route::delete('/delete/save/{id}', [TipeKendaraanController::class, 'destroy'])->name('tipe-kendaraan.delete');
+        });
+
+        Route::prefix('merk-kendaraan')->group(function () {
+            Route::get('/', [MerkKendaraanController::class, 'index'])->name('merk-kendaraan');
+            Route::get('/{id}', [MerkKendaraanController::class, 'show'])->name('merk-kendaraan.detail');
+            Route::post('/create/save', [MerkKendaraanController::class, 'store'])->name('merk-kendaraan.store');
+            Route::post('/edit/save/{id}', [MerkKendaraanController::class, 'update'])->name('merk-kendaraan.update');
+            Route::delete('/delete/save/{id}', [MerkKendaraanController::class, 'destroy'])->name('merk-kendaraan.delete');
         });
     });
 });

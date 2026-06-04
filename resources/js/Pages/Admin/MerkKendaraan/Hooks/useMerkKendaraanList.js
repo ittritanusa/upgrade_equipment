@@ -4,24 +4,25 @@ import {
     useQueryClient,
 } from '@tanstack/react-query';
 
-import { unitKendaraanApi } from '@/Utils/Apis/UnitKendaraanApi';
+import { merkKendaraanApi } from '@/Utils/Apis/MerkKendaraanApi';
 
-export function useUnitKendaraanList({
-    search = '',
-    limit = 100,
-    page = 1,
-} = {}) {
+export function useMerkKendaraanList({
+    search,
+    limit,
+    page,
+}) {
     return useQuery({
         queryKey: [
-            'unit-kendaraan',
+            'merk-kendaraan',
             search,
             limit,
             page,
         ],
 
         queryFn: async () => {
+
             const response =
-                await unitKendaraanApi.getAll({
+                await merkKendaraanApi.getAll({
                     search,
                     limit,
                     page,
@@ -34,14 +35,14 @@ export function useUnitKendaraanList({
     });
 }
 
-export function useDeleteUnitKendaraan() {
+export function useDeleteMerkKendaraan() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (id) => unitKendaraanApi.delete(id),
+        mutationFn: (id) => merkKendaraanApi.delete(id),
         onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey: ['unit-kendaraan'],
+                queryKey: ['merk-kendaraan'],
             });
         },
     });

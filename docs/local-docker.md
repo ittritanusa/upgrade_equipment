@@ -49,11 +49,18 @@ Migration lokal sekarang membuat:
 - tabel default Laravel untuk session, cache, jobs
 - tabel `permissions`/`roles` dari Spatie
 - tabel legacy `m_user` sesuai schema production yang dipakai login
+- tabel master minimum `m_unit_kendaraan`, `m_type_kendaraan`, dan `m_merk_kendaraan` untuk smoke test local setelah sync dari `main`
 
 Seeder lokal membuat user:
 
 - `username`: `developer`
 - `password`: `password`
+
+Seeder lokal juga mengisi data minimum:
+
+- `m_unit_kendaraan`
+- `m_type_kendaraan`
+- `m_merk_kendaraan`
 
 ## Catatan penting
 

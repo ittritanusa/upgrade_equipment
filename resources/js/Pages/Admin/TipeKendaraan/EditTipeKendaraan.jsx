@@ -14,8 +14,8 @@ export default function EditTipeKendaraan() {
     const [realId, setRealId] = useState(null);
 
     const updateMutation = useUpdateUnitKendaraan();
-    const { data: listUnit } = useUnitKendaraanList({ limit: 100 }); // Ambil data unit
-    const units = listUnit?.data?.data || [];
+    const { data: listUnit, isLoading: loadingUnit } = useUnitKendaraanList({ limit: 100 });
+    const units = listUnit?.data || [];
 
     const [formData, setFormData] = useState({
         KodeUnit: '', 
@@ -111,9 +111,38 @@ export default function EditTipeKendaraan() {
                             </select>
                         </div>
                     </div>
-                    <button type="submit" disabled={updateMutation.isPending} className="mt-8 bg-blue-600 text-white px-6 h-11 rounded-lg">
-                        {updateMutation.isPending ? 'Menyimpan...' : 'Simpan Perubahan'}
-                    </button>
+                    
+                    {/* Footer */}
+                    <div className="flex items-center gap-3 mt-8 pt-6 border-t border-slate-200">
+
+                        <button
+                            type="submit"
+                            disabled={
+                                updateMutation.isPending
+                            }
+                            className="flex items-center gap-2 h-11 px-6 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+                        >
+                            <Save size={16} />
+
+                            {updateMutation.isPending
+                                ? 'Menyimpan...'
+                                : 'Simpan Perubahan'}
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() =>
+                                navigate(
+                                    '/portal/master/merk-kendaraan'
+                                )
+                            }
+                            className="flex items-center gap-2 h-11 px-6 rounded-lg border border-slate-300 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50"
+                        >
+                            <X size={16} />
+                            Batal
+                        </button>
+
+                    </div>
                 </form>
             </div>
         </PortalLayout>
