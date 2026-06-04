@@ -223,6 +223,11 @@ Contoh:
 git push -u origin codex/local-staging-ops
 ```
 
+Catatan operasional:
+
+- jika tool atau policy kerja menahan `git push` karena dianggap transfer kode keluar, proses staging berhenti di sini sampai ada persetujuan eksplisit
+- jangan menyiasati blokir push dengan transfer alternatif yang tidak disetujui
+
 ### 2. Pastikan server 155 memakai branch yang sama
 
 Di server:
