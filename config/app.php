@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => "PT. Anugrah Guna Semesta",
+    'name' => "FMS | Tirta Logistics Group",
 
     /*
     |--------------------------------------------------------------------------

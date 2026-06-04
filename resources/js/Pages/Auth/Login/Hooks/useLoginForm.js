@@ -6,7 +6,7 @@ export function useLoginForm() {
     const navigate = useNavigate();
     const loginMutation = useLogin();
 
-    const [form, setForm] = useState({ email: '', password: '' });
+    const [form, setForm] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
@@ -18,7 +18,7 @@ export function useLoginForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const newErrors = {};
-        if (!form.email) newErrors.email = 'Email wajib diisi.';
+        if (!form.username) newErrors.username = 'Username wajib diisi.';
         if (!form.password) newErrors.password = 'Password wajib diisi.';
         if (Object.keys(newErrors).length) {
             setErrors(newErrors);
@@ -26,11 +26,17 @@ export function useLoginForm() {
         }
 
         loginMutation.mutate(form, {
-            onSuccess: () => navigate('/portal/dashboard'),
+            onSuccess: () => {
+                navigate('/portal/dashboard');
+            },
             onError: (error) => {
-                const msg = error?.response?.data?.message || 'Login gagal.';
-                const emailErr = error?.response?.data?.errors?.email?.[0];
-                setErrors(emailErr ? { email: emailErr } : { general: msg });
+                const msg =
+                    error?.response?.data?.message ||
+                    'Login gagal.';
+
+                setErrors({
+                    general: msg,
+                });
             },
         });
     };

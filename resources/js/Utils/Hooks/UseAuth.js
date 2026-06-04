@@ -3,32 +3,49 @@ import { authApi } from '@/Utils/Apis/AuthApi';
 import { useAuth } from '@/Utils/Contexts/AuthContext';
 
 export function useLogin() {
+
     const { login } = useAuth();
 
     return useMutation({
-        mutationFn: (credentials) => authApi.login(credentials),
-        onSuccess: ({ data }) => {
-            login(data.user, data.token);
+        mutationFn: (credentials) =>
+            authApi.login(credentials),
+
+        onSuccess: (response) => {
+
+            console.log(
+                'LOGIN RESPONSE:',
+                response.data
+            );
+
+            login(response.data.user);
         },
     });
 }
 
 export function useLogout() {
+
     const { logout } = useAuth();
 
     return useMutation({
         mutationFn: () => authApi.logout(),
-        onSuccess: () => logout(),
-        onError: () => logout(),
+
+        onSuccess: () => {
+            logout();
+        },
+
+        onError: () => {
+            logout();
+        },
     });
 }
 
 export function useMe() {
-    const { token } = useAuth();
 
     return useQuery({
         queryKey: ['me'],
-        queryFn: () => authApi.me().then((r) => r.data),
-        enabled: !!token,
+        queryFn: () =>
+            authApi.me().then(
+                (response) => response.data
+            ),
     });
 }

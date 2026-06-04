@@ -20,7 +20,7 @@ import '../css/app.css';
 
 function ProtectedRoute({ children }) {
     const { isAuthenticated } = useAuth();
-    return isAuthenticated ? children : <Navigate to="/employee-portal" replace />;
+    return isAuthenticated ? children : <Navigate to="/" replace />;
 }
 
 function GuestRoute({ children }) {

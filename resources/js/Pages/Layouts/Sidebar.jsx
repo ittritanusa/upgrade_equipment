@@ -3,95 +3,189 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { cn } from '@/Utils/Helpers/Utils';
 
 import {
-    LayoutDashboard, FolderOpen, Users, HardHat, Package, Wallet, Receipt, 
-    ClipboardList, Settings, ChevronDown, BriefcaseBusiness, Building, 
-    CalendarDays, HandCoins, ShoppingCart, UserCheck, FileText, UserCog, 
-    FileImage, Info, Briefcase, Newspaper, MapPin, Building2 
+    LayoutDashboard, BarChart3, Monitor, Bell, Truck, Bus, BadgeInfo, CircleDot, Car,
+    MapPinned, Building2, Wrench, Package2, ClipboardCheck, ShieldCheck, Route, Map,
+    FileCheck, FileText, Settings2, History, ShoppingCart, PackagePlus, PackageMinus,
+    Boxes, Users, Shield, ChevronDown
 } from 'lucide-react';
 
 const navItems = [
     {
-        group: 'General',
+        group: 'GENERAL',
         items: [{ label: 'Dashboard', path: '/portal/dashboard', icon: LayoutDashboard }],
     },
     {
-        group: 'Master Data',
+        group: 'MASTER DATA',
         items: [
-            { label: 'Data Departemen', path: '/portal/master/departments', icon: Building2 },
-            { label: 'Data Jabatan', path: '/portal/master/jabatan', icon: BriefcaseBusiness },
-            { label: 'Data Karyawan', path: '/portal/master/employees', icon: Users },
-            { label: 'Data Supplier / Vendor', path: '/portal/master/vendors', icon: Building },
-            { label: 'Data Alasan Cuti', path: '/portal/master/leave-reasons', icon: CalendarDays },
-            { label: 'Cash & Bank', path: '/portal/master/cash-bank', icon: HandCoins },
-        ],
+            {
+                label: 'Kendaraan',
+                icon: Truck,
+                children: [
+                    {
+                        label: 'Unit Kendaraan',
+                        path: '/portal/master/unit-kendaraan',
+                        icon: Bus
+                    },
+                    {
+                        label: 'Tipe Kendaraan',
+                        path: '/portal/master/tipe-kendaraan',
+                        icon: Truck
+                    },
+                    {
+                        label: 'Merk Kendaraan',
+                        path: '/portal/master/merk-kendaraan',
+                        icon: BadgeInfo
+                    },
+                    {
+                        label: 'Tire Type Kendaraan',
+                        path: '/portal/master/tire-type',
+                        icon: CircleDot
+                    },
+                    {
+                        label: 'Kendaraan',
+                        path: '/portal/master/kendaraan',
+                        icon: Car
+                    }
+                ]
+            },
+
+            {
+                label: 'Corporate',
+                icon: Building2,
+                children: [
+                    {
+                        label: 'Area Unit',
+                        path: '/portal/master/area-unit',
+                        icon: MapPinned
+                    },
+                    {
+                        label: 'Unit Bisnis',
+                        path: '/portal/master/unit-bisnis',
+                        icon: Building2
+                    },
+                    {
+                        label: 'Kode Pos',
+                        path: '/portal/master/kode-pos',
+                        icon: Building2
+                    }
+                ]
+            },
+
+            {
+                label: 'Items Sparepart',
+                path: '/portal/master/sparepart',
+                icon: Wrench
+            },
+
+            {
+                label: 'Items Operasional',
+                path: '/portal/master/operasional',
+                icon: Package2
+            }
+        ]
     },
     {
-        group: 'Fitur',
+        group: 'OPERASIONAL',
         items: [
-            { label: 'Project Management', path: '/portal/project', icon: FolderOpen },
-            { label: 'Budget & RAB', icon: HardHat, children: [
-                { label: 'RAB Project', path: '/portal/budget/rab-project' },
-                { label: 'Realisasi Budget', path: '/portal/budget/realisasi' }
-            ]},
-            { label: 'Procurement', icon: ShoppingCart, children: [
-                { label: 'Purchase Request', path: '/portal/purchase-request' },
-                { label: 'Request for Quotation', path: '/portal/request-quotation' },
-                { label: 'Vendor Selection', path: '/portal/vendor-selection' },
-                { label: 'Purchase Order', path: '/portal/purchase-order' }
-            ]},
-            { label: 'Inventory & Warehouse', icon: Package, children: [
-                { label: 'Dashboard Inventory', path: '/portal/inventory/dashboard' },
-                { label: 'Warehouse Management', path: '/portal/inventory/warehouse' },
-                { label: 'Kategori & Satuan', path: '/portal/inventory/category-unit' },
-                { label: 'Master Item & Material', path: '/portal/inventory/master-item' },
-                { label: 'Goods Receipt', path: '/portal/inventory/goods-receipt' },
-                { label: 'Goods Issue', path: '/portal/inventory/goods-issue' },
-                { label: 'Stock Opname', path: '/portal/inventory/stock-opname' },
-                { label: 'Stock Adjustment', path: '/portal/inventory/stock-adjustment' },
-                { label: 'Inter Warehouse Transfer', path: '/portal/inventory/inter-warehouse-transfer' }
-            ]},
-            { label: 'Accounting & Finance', icon: Wallet, children: [
-                { label: 'Finance Dashboard', path: '/portal/finance/dashboard' },
-                { label: 'Chart of Account (COA)', path: '/portal/finance/coa' },
-                { label: 'Journal Entry', path: '/portal/finance/journal-entry' },
-                { label: 'General Ledger', path: '/portal/finance/general-ledger' },
-                { label: 'Account Receivable', path: '/portal/finance/account-receivable' },
-                { label: 'Account Payable', path: '/portal/finance/account-payable' },
-                { label: 'Petty Cash', path: '/portal/finance/petty-cash' }
-            ]},
-            { label: 'Tax Management', icon: Receipt, children: [
-                { label: 'Tax Dashboard', path: '/portal/tax/dashboard' },
-                { label: 'Tax Payment', path: '/portal/tax/payment' },
-            ]},
-            { label: 'HR & Manpower', icon: UserCheck, children: [
-                { label: 'HR Dashboard', path: '/portal/manpower/dashboard' },
-                { label: 'Employee Management', path: '/portal/manpower/employee' },
-                { label: 'Data Attendance', path: '/portal/manpower/attendance' },
-                { label: 'Payroll & Compensation', path: '/portal/manpower/payroll' },
-                { label: 'KPI Monitoring', path: '/portal/manpower/kpi-monitoring' },
-            ]},
-            { label: 'Document Management', path: '/portal/document', icon: FileText },
-            { label: 'Report & Analytics', path: '/portal/reports', icon: ClipboardList },
-        ],
+            {
+                label: 'P2H',
+                icon: ShieldCheck,
+                children: [
+                    {
+                        label: 'Item P2H',
+                        path: '/portal/p2h/item'
+                    },
+                    {
+                        label: 'List P2H',
+                        path: '/portal/p2h/list'
+                    },
+                    {
+                        label: 'Report P2H',
+                        path: '/portal/p2h/report'
+                    }
+                ]
+            },
+
+            {
+                label: 'Operasional Unit',
+                icon: Truck,
+                children: [
+                    {
+                        label: 'Kendaraan',
+                        path: '/portal/operasional-unit/kendaraan'
+                    },
+                    {
+                        label: 'Reachstacker',
+                        path: '/portal/operasional-unit/reachstacker'
+                    },
+                    {
+                        label: 'Report',
+                        path: '/portal/operasional-unit/report'
+                    }
+                ]
+            },
+        ]
     },
     {
-        group: 'Content Landing Page',
+        group: 'MAINTENANCE',
         items: [
-            { label: 'Banner / Hero', path: '/portal/cms/banner', icon: FileImage },
-            { label: 'About Us', path: '/portal/cms/about', icon: Info },
-            { label: 'Services', path: '/portal/cms/services', icon: Settings },
-            { label: 'Projects / Portofolio', path: '/portal/cms/projects', icon: Briefcase },
-            { label: 'News / Article', path: '/portal/cms/news', icon: Newspaper },
-            { label: 'Contact Info', path: '/portal/cms/contact', icon: MapPin },
-        ],
+            {
+                label: 'Work Order (SPK)',
+                path: '/portal/maintenance/spk',
+                icon: FileText
+            },
+            {
+                label: 'Maintenance Process',
+                path: '/portal/maintenance/process',
+                icon: Settings2
+            },
+            {
+                label: 'Maintenance History',
+                path: '/portal/maintenance/history',
+                icon: History
+            }
+        ]
     },
     {
-        group: 'Sistem',
+        group: 'INVENTORY',
         items: [
-            { label: 'Manajemen Pengguna', path: '/portal/system/users', icon: UserCog },
-            { label: 'Pengaturan Sistem', path: '/portal/system/settings', icon: Settings },
-        ],
+            {
+                label: 'Purchase Request',
+                path: '/portal/inventory/pr',
+                icon: ShoppingCart
+            },
+            {
+                label: 'Penerimaan (GR)',
+                path: '/portal/inventory/gr',
+                icon: PackagePlus
+            },
+            {
+                label: 'Pengeluaran (GI)',
+                path: '/portal/inventory/gi',
+                icon: PackageMinus
+            },
+            {
+                label: 'Stock',
+                path: '/portal/inventory/stock',
+                icon: Boxes
+            }
+        ]
     },
+    {
+        group: 'TOOLS & UTILITIES',
+        items: [
+            {
+                label: 'Manajemen Users',
+                path: '/portal/system/users',
+                icon: Users
+            },
+            {
+                label: 'Management Roles',
+                path: '/portal/system/roles',
+                icon: Shield
+            }
+        ]
+    }
 ];
 
 export default function Sidebar() {
@@ -106,7 +200,7 @@ export default function Sidebar() {
         <aside className="w-64 shrink-0 border-r border-border bg-card flex flex-col h-screen sticky top-0">
             {/* Logo */}
             <div className="h-16 flex items-center justify-center px-6 border-b border-border shrink-0">
-                <img src="/assets/img/logo_ags.png" alt="AGS Logo" className="h-10 object-contain" />
+                <img src="/assets/img/logo_tirta_group.png" alt="AGS Logo" className="h-10 object-contain" />
             </div>
 
             {/* Navigation (Scrollable Area) */}

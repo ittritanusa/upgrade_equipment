@@ -13,9 +13,9 @@ export default function Login() {
             <div className="fixed inset-0 w-full h-full flex bg-[#edf2f7] overflow-hidden">
                 
                 {/* SISI KIRI: GAMBAR LATAR BELAKANG PROYEK (Mengambil 55% Lebar Layar) */}
-                <div className="hidden md:block md:w-[55%] h-full relative">
+                <div className="hidden md:block md:w-[85%] h-full relative">
                     <img
-                        src="/assets/img/bg_login_construction.png" 
+                        src="/assets/img/bg_login.png" 
                         alt="Construction Crane Background"
                         className="w-full h-full object-cover"
                     />
@@ -35,7 +35,7 @@ export default function Login() {
                         {/* LOGO & SALAM */}
                         <div className="flex flex-col items-center justify-center text-center space-y-4">
                             <img
-                                src="/assets/img/logo_ags.png"
+                                src="/assets/img/logo_tirta_group.png"
                                 alt="AGS Logo"
                                 className="h-20 lg:h-24 object-contain"
                             />
@@ -44,7 +44,7 @@ export default function Login() {
                                     Selamat Datang Kembali!
                                 </h1>
                                 <p className="text-xs lg:text-sm text-gray-500 font-medium">
-                                    Silahkan Masukan Email dan Password!
+                                    Silahkan Masukan Username dan Password!
                                 </p>
                             </div>
                         </div>
@@ -52,27 +52,27 @@ export default function Login() {
                         {/* INPUT FORM UTAMA */}
                         <form onSubmit={handleSubmit} className="space-y-5">
                             
-                            {/* FIELD INPUT EMAIL */}
+                            {/* FIELD INPUT USERNAME */}
                             <div className="space-y-1.5">
                                 <label className="block text-xs font-semibold text-gray-700">
-                                    Email
+                                    Username
                                 </label>
                                 <div className="relative flex items-center">
                                     <span className="absolute left-4 text-gray-400">
                                         <Mail size={16} />
                                     </span>
                                     <input
-                                        type="email"
-                                        name="email"
-                                        value={form.email}
+                                        type="text"
+                                        name="username"
+                                        value={form.username}
                                         onChange={handleChange}
                                         className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl bg-white text-gray-800 text-xs font-medium placeholder-gray-400 focus:outline-none focus:border-[#0a3a58] focus:ring-1 focus:ring-[#0a3a58] transition-all shadow-sm"
-                                        placeholder="Silahkan Masukan Email Anda"
+                                        placeholder="Silahkan Masukan Username Anda"
                                         disabled={isLoading}
                                     />
                                 </div>
-                                {errors.email && (
-                                    <p className="text-red-500 text-[11px] mt-1 pl-1">{errors.email}</p>
+                                {errors.username && (
+                                    <p className="text-red-500 text-[11px] mt-1 pl-1">{errors.username}</p>
                                 )}
                             </div>
 
@@ -127,7 +127,7 @@ export default function Login() {
 
                     {/* HAK CIPTA DI BAGIAN BAWAH KANAN */}
                     <div className="text-center text-[10px] text-gray-400 font-medium pt-8">
-                        © Copyrights 2026 PT Anugrah Guna Semesta | All Rights Reserved
+                        Powered By IT TIRTA Group. All rights reserved. Version 01.24-01
                     </div>
                 </div>
 

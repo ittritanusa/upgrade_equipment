@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useMe, useLogout } from '@/Utils/Hooks/UseAuth';
+import { useLogout } from '@/Utils/Hooks/UseAuth';
+import { useAuth } from '@/Utils/Contexts/AuthContext';
 import ThemeToggle from '@/Pages/Components/ThemeToggle';
 import { LogOut, User, ChevronDown } from 'lucide-react';
 
 export default function Header() {
     const navigate = useNavigate();
-    const { data: user } = useMe();
+    const { user } = useAuth();
     const logoutMutation = useLogout();
     const [open, setOpen] = useState(false);
     const ref = useRef(null);
@@ -35,29 +36,47 @@ export default function Header() {
 
                 <div className="relative" ref={ref}>
                     <button
-                        onClick={() => setOpen((v) => !v)}
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm text-foreground hover:bg-accent transition-colors"
+                        onClick={() => setOpen(!open)}
+                        className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded-lg"
                     >
-                        <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-semibold">
-                            {user?.name?.[0]?.toUpperCase() ?? <User size={14} />}
+                        <div className="w-8 h-8 rounded bg-gray-100 flex items-center justify-center border">
+                            <User size={16} />
                         </div>
-                        <span className="font-medium">{user?.name ?? '...'}</span>
-                        <ChevronDown size={14} className="text-muted-foreground" />
+
+                        <div className="text-left hidden md:block">
+                            <div className="text-xs font-semibold text-gray-800">
+                                {user?.nama || '-'}
+                            </div>
+
+                            <div className="text-[10px] text-gray-500">
+                                {user?.role || ''} - {user?.unitbisnis || ''}
+                            </div>
+                        </div>
+
+                        <ChevronDown size={14} />
                     </button>
 
                     {open && (
-                        <div className="absolute right-0 mt-1 w-48 bg-card border border-border rounded-lg shadow-md py-1 z-50">
-                            <div className="px-3 py-2 border-b border-border">
-                                <p className="text-sm font-medium text-foreground">{user?.name}</p>
-                                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                        <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-lg border shadow-lg z-50">
+                            
+                            <div className="p-3 border-b">
+                                <div className="font-medium text-sm">
+                                    {user?.nama}
+                                </div>
+
+                                <div className="text-xs text-gray-500">
+                                    {user?.unitbisnis || ''} - {user?.working_area || ''}
+                                </div>
                             </div>
+
                             <button
                                 onClick={handleLogout}
-                                className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-accent transition-colors"
+                                className="w-full text-left flex items-center gap-2 px-3 py-3 text-red-600 hover:bg-red-50"
                             >
-                                <LogOut size={14} />
-                                Keluar
+                                <LogOut size={16} />
+                                Logout
                             </button>
+
                         </div>
                     )}
                 </div>

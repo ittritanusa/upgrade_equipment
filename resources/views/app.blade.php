@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="icon" type="image/png" href="{{ asset('assets/img/ags_logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/logo_tnp.png') }}">
         <title>{{ config('app.name', 'Construction Management') }}</title>
         @viteReactRefresh
         @vite(['resources/css/app.css', 'resources/js/App.jsx'])
