@@ -6,8 +6,15 @@ export const tipeKendaraanApi = {
         return axios.get('/unit-kendaraan');
     },
 
-    getAll() {
-        return axios.get('/tipe-kendaraan');
+    getAll(params) {
+
+        return axios.get(
+            '/tipe-kendaraan',
+            {
+                params,
+            }
+        );
+
     },
 
     getById(id) {

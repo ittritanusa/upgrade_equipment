@@ -1,10 +1,36 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+    useQuery,
+    useMutation,
+    useQueryClient,
+} from '@tanstack/react-query';
+
 import { unitKendaraanApi } from '@/Utils/Apis/UnitKendaraanApi';
 
-export function useUnitKendaraanList(params = {}) {
+export function useUnitKendaraanList({
+    search,
+    limit,
+    page,
+}) {
     return useQuery({
-        queryKey: ['unit-kendaraan', params],
-        queryFn: () => unitKendaraanApi.getAll(params),
+        queryKey: [
+            'unit-kendaraan',
+            search,
+            limit,
+            page,
+        ],
+
+        queryFn: async () => {
+
+            const response =
+                await unitKendaraanApi.getAll({
+                    search,
+                    limit,
+                    page,
+                });
+
+            return response.data;
+        },
+
         keepPreviousData: true,
     });
 }

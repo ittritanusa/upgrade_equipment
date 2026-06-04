@@ -1,9 +1,15 @@
 import axios from '@/Utils/Libs/Axios';
 
 export const unitKendaraanApi = {
+    getAll(params) {
 
-    getAll() {
-        return axios.get('/unit-kendaraan');
+        return axios.get(
+            '/unit-kendaraan',
+            {
+                params,
+            }
+        );
+
     },
 
     getById(id) {

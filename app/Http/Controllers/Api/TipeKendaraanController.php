@@ -11,26 +11,57 @@ class TipeKendaraanController extends Controller
     /**
      * List Data
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
 
-            $data = TipeKendaraanModel::orderBy(
-                'id',
-                'desc'
-            )->get();
+            $search = $request->search;
+            $limit  = $request->limit ?? 10;
+
+            $query = TipeKendaraanModel::query();
+
+            if (!empty($search)) {
+
+                $query->where(function ($q) use ($search) {
+
+                    $q->where(
+                        'KodeUnit',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'KodeType',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'Type',
+                        'like',
+                        "%{$search}%"
+                    );
+                });
+            }
+
+            $data = $query
+                ->orderBy('id', 'desc')
+                ->paginate($limit);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Data berhasil diambil',
-                'data'    => $data,
+                'data' => $data->items(),
+                'meta' => [
+                    'current_page' => $data->currentPage(),
+                    'last_page'    => $data->lastPage(),
+                    'per_page'     => $data->perPage(),
+                    'total'        => $data->total(),
+                ]
             ]);
 
         } catch (\Throwable $e) {
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => $e->getMessage()
             ], 500);
 
         }

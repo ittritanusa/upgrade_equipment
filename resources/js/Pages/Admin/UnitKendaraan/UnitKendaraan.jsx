@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
-import { Plus, Pencil, Trash2, Search } from 'lucide-react';
+import { Plus, Pencil, Trash2, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useUnitKendaraanList, useDeleteUnitKendaraan } from './Hooks/useUnitKendaraanList';
 import { encodeId } from '@/Utils/Helpers/IdHelper';
 
@@ -11,17 +11,14 @@ export default function UnitKendaraan() {
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
 
     const { data, isLoading } = useUnitKendaraanList({ search, limit });
     const rawRows = Array.isArray(data?.data?.data) ? data.data.data : [];
 
-    const rows = rawRows.filter((item) => {
-        const searchLower = search.toLowerCase();
-        return (
-            item.Kode?.toLowerCase().includes(searchLower) ||
-            item.Unit?.toLowerCase().includes(searchLower)
-        );
-    });
+    // Mengambil data dan meta dari response API
+    const rows = data?.data || [];
+    const meta = data?.meta;
 
     const deleteMutation = useDeleteUnitKendaraan();
 
@@ -77,16 +74,27 @@ export default function UnitKendaraan() {
                     <div className="p-5">
                         {/* Filter Input */}
                         <div className="flex justify-between mb-4">
-                            <select value={limit} onChange={(e) => setLimit(Number(e.target.value))} className="border rounded-lg px-3 h-10">
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
+                            <select
+                                value={limit}
+                                onChange={(e) => {
+                                    setLimit(Number(e.target.value));
+                                    setPage(1);
+                                }}
+                                className="border rounded-lg px-3 h-10"
+                            >
+                                <option value={10}>10</option>
+                                <option value={25}>25</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
                             </select>
                             <div className="relative">
                                 <Search size={16} className="absolute left-3 top-3 text-slate-400" />
                                 <input
                                     value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
+                                    onChange={(e) => { 
+                                        setSearch(e.target.value); 
+                                        setPage(1); // Reset ke halaman 1 saat search berubah
+                                    }}
                                     placeholder="Cari data..."
                                     className="pl-10 h-10 border rounded-lg w-72"
                                 />
@@ -143,6 +151,49 @@ export default function UnitKendaraan() {
                                 </tbody>
                             </table>
                         </div>
+
+                        {/* Pagination Footer */}
+                        {meta && (
+                            <div className="flex justify-between items-center mt-4 border-t pt-4">
+                                <span className="text-sm text-slate-600">
+                                    Menampilkan {(meta.current_page - 1) * meta.per_page + 1} - {Math.min(meta.current_page * meta.per_page, meta.total)} dari {meta.total} data
+                                </span>
+                                <div className="flex items-center gap-1">
+                                    <button
+                                        disabled={page === 1}
+                                        onClick={() => setPage(page - 1)}
+                                        className="h-9 w-9 border rounded-lg"
+                                    >
+                                        <ChevronLeft size={16} />
+                                    </button>
+
+                                    {Array.from(
+                                        { length: meta?.last_page || 1 },
+                                        (_, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setPage(i + 1)}
+                                                className={`h-9 w-9 rounded-lg border ${
+                                                    page === i + 1
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'bg-white'
+                                                }`}
+                                            >
+                                                {i + 1}
+                                            </button>
+                                        )
+                                    )}
+
+                                    <button
+                                        disabled={page === meta?.last_page}
+                                        onClick={() => setPage(page + 1)}
+                                        className="h-9 w-9 border rounded-lg"
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

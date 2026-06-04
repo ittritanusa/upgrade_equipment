@@ -11,26 +11,52 @@ class UnitKendaraanController extends Controller
     /**
      * List Data
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
 
-            $data = UnitKendaraanModel::orderBy(
-                'Kode',
-                'asc'
-            )->get();
+            $search = $request->search;
+            $limit  = $request->limit ?? 10;
+
+            $query = UnitKendaraanModel::query();
+
+            if (!empty($search)) {
+
+                $query->where(function ($q) use ($search) {
+
+                    $q->where(
+                        'kode_unit',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'nama_unit',
+                        'like',
+                        "%{$search}%"
+                    );
+                });
+            }
+
+            $data = $query
+                ->orderBy('id', 'desc')
+                ->paginate($limit);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Data berhasil diambil',
-                'data'    => $data,
+                'data' => $data->items(),
+                'meta' => [
+                    'current_page' => $data->currentPage(),
+                    'last_page'    => $data->lastPage(),
+                    'per_page'     => $data->perPage(),
+                    'total'        => $data->total(),
+                ]
             ]);
 
         } catch (\Throwable $e) {
 
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => $e->getMessage()
             ], 500);
 
         }
