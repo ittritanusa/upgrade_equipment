@@ -16,4 +16,12 @@ Route::middleware('web')->group(function () {
         Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\UnitKendaraanController@update')->name('unit-kendaraan.update');
         Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\UnitKendaraanController@destroy')->name('unit-kendaraan.delete');
     });
+
+    Route::prefix('tipe-kendaraan')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\TipeKendaraanController@index')->name('unit-kendaraan');
+        Route::get('/{id}', 'App\Http\Controllers\Api\TipeKendaraanController@show')->name('unit-kendaraan.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\TipeKendaraanController@store')->name('unit-kendaraan.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\TipeKendaraanController@update')->name('unit-kendaraan.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\TipeKendaraanController@destroy')->name('unit-kendaraan.delete');
+    });
 });
