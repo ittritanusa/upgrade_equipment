@@ -16,6 +16,11 @@ import NotFoundPage from '@/Pages/NotFound/NotFoundPage';
 // Dashboard
 import Dashboard from '@/Pages/Admin/Dashboard/Dashboard';
 
+// Master Data
+import UnitKendaraan from '@/Pages/Admin/UnitKendaraan/UnitKendaraan';
+import CreateUnitKendaraan from '@/Pages/Admin/UnitKendaraan/CreateUnitKendaraan';
+import EditUnitKendaraan from '@/Pages/Admin/UnitKendaraan/EditUnitKendaraan';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -34,6 +39,11 @@ function AppRoutes() {
             <Routes>
                 <Route path="/" element={<GuestRoute><Login /></GuestRoute>} />
                 <Route path="/portal/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+
+                {/* Master Data */}
+                <Route path="/portal/master/unit-kendaraan" element={<ProtectedRoute><UnitKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/unit-kendaraan/create" element={<ProtectedRoute><CreateUnitKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/unit-kendaraan/edit/:id" element={<ProtectedRoute><EditUnitKendaraan /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>
