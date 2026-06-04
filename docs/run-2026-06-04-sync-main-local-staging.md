@@ -17,6 +17,9 @@
 - branch aktif: `codex/local-staging-ops`
 - `origin/main` terbaru berada 1 commit di atas basis branch kerja
 - branch kerja masih berisi perubahan local atau staging yang belum seluruhnya ter-checkpoint
+- host PHP local masih `7.4.33`
+- Docker Desktop pada awal run belum aktif
+- local hostname `http://local.fms-lvl/` belum dianggap pasti sehat
 
 ## Langkah yang dijalankan
 
@@ -50,6 +53,11 @@ Commit yang dibuat:
 
 - `841adb0` `chore: checkpoint local staging workflow baseline`
 - `a66b354` `chore: add local and staging workflow assets`
+
+Catatan tambahan:
+
+- kejadian ini menjadi dasar rule baru bahwa checkpoint harus dilakukan berurutan
+- setelah `git add`, selalu verifikasi dulu dengan `git status -sb` sebelum `git commit`
 
 ### 3. Merge `origin/main` ke branch kerja
 
@@ -124,6 +132,7 @@ Setelah itu:
 - bootstrap local dapat berjalan
 - `mariadb`, `redis`, dan `app` berhasil hidup
 - asset frontend build berhasil
+- namun smoke test belum bisa dianggap final karena parity schema modul master belum lengkap
 
 ### 7. Jalankan smoke test local pertama
 
@@ -204,6 +213,14 @@ Hasil final:
 - `UNIT_STATUS=200`
 - `TIPE_STATUS=200`
 
+Tambahan verifikasi:
+
+- container local final:
+  - `repo-app-1`
+  - `repo-mariadb-1`
+  - `repo-redis-1`
+- local test final dijalankan melalui fallback resmi `http://localhost:8000`
+
 ## Temuan penting dari run ini
 
 ### Temuan 1
@@ -244,7 +261,10 @@ Tindak lanjut:
 - conflict route sudah diselesaikan
 - bootstrap local branch-only berhasil
 - smoke test local final berhasil
-- branch masih perlu commit akhir untuk menutup merge dan perubahan parity local
+- merge dan dokumentasi akhir sudah tertutup di commit:
+  - `f3a6408` `merge: sync origin main into local staging ops`
+  - `60a6d48` `docs: record main sync execution status`
+- branch local saat akhir dokumentasi berada dalam keadaan bersih
 
 ## Status staging
 

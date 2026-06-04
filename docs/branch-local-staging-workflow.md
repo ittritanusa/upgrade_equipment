@@ -68,6 +68,11 @@ Default staging yang disarankan:
 6. Jalankan deploy staging dari branch yang sama.
 7. Jalankan smoke test.
 
+Fallback operasional yang perlu diingat:
+
+- local test boleh memakai `http://localhost:8000` bila `http://local.fms-lvl/` belum sehat
+- validasi Laravel local dilakukan melalui Docker, bukan PHP host WAMP
+
 ## Catatan penting
 
 - Jangan edit file PHP atau JS langsung di server 155.

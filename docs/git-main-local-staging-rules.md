@@ -29,6 +29,28 @@ Dokumen ini menjadi acuan setiap kali:
   - script smoke test
   - dokumentasi operasional
 
+## Preflight checklist sebelum mulai
+
+Checklist ini wajib dicek sebelum menjalankan workflow.
+
+### Preflight local
+
+- branch aktif bukan `main`
+- `git status -sb` dipahami hasilnya
+- Docker Desktop aktif
+- port `8000`, `3307`, dan `6379` tidak bentrok dengan stack repo lama
+- jika ingin tes lewat hostname, `http://local.fms-lvl/` harus aktif
+- jika hostname WAMP tidak aktif, siapkan fallback ke `http://localhost:8000`
+
+### Preflight staging
+
+- branch kerja sudah ada di remote
+- repo staging di server 155 track branch kerja yang sama
+- `.env` staging sesuai `.env.staging.example`
+- container runtime server 155 sehat
+- domain `https://staging-fms-laravel.tirtanusa.com/` merespons
+- jika policy kerja menahan `git push`, proses berhenti sampai ada persetujuan eksplisit
+
 ## Klasifikasi perubahan code
 
 ### Boleh tetap di branch local or staging saja
@@ -79,11 +101,30 @@ Pastikan tidak ada file sementara yang ikut mengganggu:
 - dump manual
 - artifact smoke test
 
+Command yang disarankan:
+
+```bash
+git checkout codex/local-staging-ops
+git status -sb
+```
+
+Expected:
+
+- branch aktif `codex/local-staging-ops`
+- jika working tree kotor, pahami dulu apakah itu perubahan yang memang akan di-checkpoint
+
 ### 2. Ambil update terbaru dari remote
 
 ```bash
 git fetch origin
 git merge origin/main
+```
+
+Command verifikasi yang disarankan:
+
+```bash
+git ls-remote --heads origin main
+git log --oneline --decorate -n 3 origin/main
 ```
 
 Jika ada conflict:
@@ -98,6 +139,12 @@ Jika ada conflict:
   - `scripts/bootstrap-local.ps1`
   - `scripts/deploy-staging.sh`
   - `scripts/smoke-test-fms.ps1`
+
+Aturan merge yang wajib:
+
+- checkpoint branch kerja dulu sebelum merge
+- `git add` lalu `git commit` jalankan berurutan, jangan paralel
+- jika conflict menyangkut route auth, session, atau Docker env, pilih hasil akhir yang tetap aman untuk local dan staging
 
 ## Urutan penyesuaian code setelah pull dari `main`
 
@@ -166,6 +213,12 @@ Verifikasi file berikut tidak hilang atau tertimpa:
 - `scripts/deploy-staging.sh`
 - `scripts/smoke-test-fms.ps1`
 
+Jika salah satu file branch-only berubah karena merge dari `main`:
+
+- review isinya
+- kembalikan behavior branch-only yang benar
+- dokumentasikan penyesuaian itu di run log
+
 ## Tes lokal yang wajib
 
 ### Bootstrap local
@@ -173,6 +226,18 @@ Verifikasi file berikut tidak hilang atau tertimpa:
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/bootstrap-local.ps1 -RefreshEnv
 ```
+
+Expected:
+
+- image `app` berhasil dibuild
+- service `repo-app-1`, `repo-mariadb-1`, dan `repo-redis-1` hidup
+- asset frontend build berhasil
+
+Jika gagal:
+
+- jika Docker daemon mati, nyalakan Docker Desktop dulu
+- jika port `3307` bentrok, bersihkan stack compose repo lama
+- jika perlu reset total, gunakan mode `-Fresh`
 
 Jika perlu reset total local DB volume:
 
@@ -193,12 +258,30 @@ Command:
 powershell -ExecutionPolicy Bypass -File scripts/smoke-test-fms.ps1 -BaseUrl http://local.fms-lvl -Username developer -Password password
 ```
 
+Fallback resmi bila hostname WAMP tidak aktif:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/smoke-test-fms.ps1 -BaseUrl http://localhost:8000 -Username developer -Password password
+```
+
 Minimal hasil yang harus lolos:
 
 - `LOGIN_STATUS=200`
 - `ME_STATUS=200`
 - `UNIT_STATUS=200`
 - `TIPE_STATUS=200`
+
+Jika smoke test local gagal:
+
+- `Unable to connect to the remote server`
+  - cek container app sudah `Up`
+  - coba ulang ke `http://localhost:8000`
+- `500` pada `Unit` atau `Tipe`
+  - cek log `docker compose -f docker-compose.local.yml logs app --tail 200`
+  - verifikasi migration parity local untuk master kendaraan sudah ada
+- `401`
+  - verifikasi login response
+  - verifikasi route auth tetap berada di `web` dan protected route berada di `auth:web`
 
 ### Tes manual local
 
@@ -208,6 +291,7 @@ Minimal cek manual:
 - login berhasil
 - halaman `Unit Kendaraan` tampil
 - halaman `Tipe Kendaraan` tampil
+- halaman `Merk Kendaraan` tampil bila modul itu ikut dari `main`
 - pagination tidak error
 - logout berhasil
 
@@ -228,12 +312,24 @@ Catatan operasional:
 - jika tool atau policy kerja menahan `git push` karena dianggap transfer kode keluar, proses staging berhenti di sini sampai ada persetujuan eksplisit
 - jangan menyiasati blokir push dengan transfer alternatif yang tidak disetujui
 
+Expected:
+
+- branch kerja tersedia di remote
+- server 155 bisa checkout branch yang sama
+
 ### 2. Pastikan server 155 memakai branch yang sama
 
 Di server:
 
 - repo staging harus checkout `codex/local-staging-ops`
 - file `.env` staging harus mengikuti nilai aman dari `.env.staging.example`
+
+Command verifikasi yang disarankan di server:
+
+```bash
+git branch --show-current
+docker compose -p fms-laravel-staging -f docker-compose.staging.yml ps
+```
 
 Default aman staging:
 
@@ -251,6 +347,12 @@ Di server:
 ```bash
 DEPLOY_BRANCH=codex/local-staging-ops ./scripts/deploy-staging.sh
 ```
+
+Expected:
+
+- container DB sehat
+- container app berhasil rebuild dan restart
+- smoke check dasar domain tidak gagal
 
 ## Tes staging yang wajib
 
@@ -270,6 +372,11 @@ Minimal hasil yang harus lolos:
 - `ME_STATUS=200`
 - `UNIT_STATUS=200`
 - `TIPE_STATUS=200`
+
+Tambahan bila modul `Merk Kendaraan` dipakai:
+
+- cek halaman `Merk Kendaraan` secara manual
+- pastikan create atau edit tidak error
 
 ### Tes manual staging
 
@@ -323,6 +430,8 @@ Pertanyaan review:
 - apakah perubahan ini murni bug fix aplikasi
 - apakah response API tetap kompatibel
 - apakah migration baru benar-benar wajib
+- apakah perubahan ini hanya untuk parity local branch-only
+- apakah perubahan ini aman untuk developer lain yang tidak memakai server 155
 
 ### 3. Merge atau cherry-pick ke branch yang akan masuk `main`
 
@@ -347,6 +456,24 @@ Minimal ulang:
 - Jangan pakai DB production langsung untuk staging jika tujuan utamanya hanya quick test biasa
 - Jangan merge file env staging atau local ke `main` tanpa alasan kuat
 - Jangan anggap page yang terbuka berarti fitur sudah benar; smoke test auth dan API tetap wajib
+- Jangan mengandalkan PHP host WAMP untuk validasi repo ini selama requirement aplikasi masih `>= 8.2`
+
+## Checklist ringkas per run
+
+Gunakan checklist ini untuk tiap eksekusi:
+
+1. `git checkout codex/local-staging-ops`
+2. `git status -sb`
+3. `git fetch origin`
+4. checkpoint branch jika masih ada perubahan
+5. `git merge origin/main`
+6. selesaikan conflict bila ada
+7. `powershell -ExecutionPolicy Bypass -File scripts/bootstrap-local.ps1 -RefreshEnv`
+8. `powershell -ExecutionPolicy Bypass -File scripts/smoke-test-fms.ps1 -BaseUrl http://localhost:8000 -Username developer -Password password`
+9. commit hasil sync dan fix parity jika ada
+10. `git push -u origin codex/local-staging-ops`
+11. deploy staging dari branch yang sama
+12. smoke test staging
 
 ## Dokumen pendamping
 
