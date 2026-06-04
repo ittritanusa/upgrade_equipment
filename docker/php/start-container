@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+set -e
+
+cd /var/www/html
+
+ENV_TEMPLATE_FILE="${ENV_TEMPLATE_FILE:-.env.docker.example}"
+
+if [ ! -f .env ]; then
+    cp "$ENV_TEMPLATE_FILE" .env
+fi
+
+if [ ! -d vendor ]; then
+    composer install
+fi
+
+php artisan key:generate --force
+php artisan optimize:clear
+php artisan migrate --seed --force
+
+exec php artisan serve --host=0.0.0.0 --port=8000

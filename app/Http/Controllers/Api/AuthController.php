@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -76,6 +77,9 @@ class AuthController extends Controller
                 ], 403);
             }
 
+            Auth::guard('web')->login($user);
+            $request->session()->regenerate();
+
             // Session seperti CI
             Session::put([
                 'id'           => $user->id,
@@ -100,6 +104,8 @@ class AuthController extends Controller
                 !empty($user->id_erp)
             ) {
                 Session::put('idErp', $user->id_erp);
+            } else {
+                Session::forget('idErp');
             }
 
             return response()->json([
@@ -130,7 +136,13 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        if (Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+        }
+
         Session::flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json([
             'success' => true,
@@ -140,14 +152,29 @@ class AuthController extends Controller
 
     public function me()
     {
+        $user = Auth::guard('web')->user();
+
+        if (!$user) {
+            return response()->json([
+                'id'           => null,
+                'username'     => null,
+                'name'         => null,
+                'role'         => null,
+                'jabatan'      => null,
+                'unitbisnis'   => null,
+                'working_area' => null,
+                'idErp'        => null,
+            ]);
+        }
+
         return response()->json([
-            'id'           => Session::get('id'),
-            'username'     => Session::get('username'),
-            'name'         => Session::get('name'),
-            'role'         => Session::get('role'),
-            'jabatan'      => Session::get('jabatan'),
-            'unitbisnis'   => Session::get('unitbisnis'),
-            'working_area' => Session::get('working_area'),
+            'id'           => $user->id,
+            'username'     => $user->username,
+            'name'         => $user->nama,
+            'role'         => $user->role,
+            'jabatan'      => $user->jabatan,
+            'unitbisnis'   => $user->unitbisnis,
+            'working_area' => $user->working_area,
             'idErp'        => Session::get('idErp'),
         ]);
     }

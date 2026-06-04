@@ -28,12 +28,18 @@ import EditTipeKendaraan from '@/Pages/Admin/TipeKendaraan/EditTipeKendaraan';
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isCheckingAuth } = useAuth();
+    if (isCheckingAuth) {
+        return null;
+    }
     return isAuthenticated ? children : <Navigate to="/" replace />;
 }
 
 function GuestRoute({ children }) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isCheckingAuth } = useAuth();
+    if (isCheckingAuth) {
+        return null;
+    }
     return isAuthenticated ? <Navigate to="/portal/dashboard" replace /> : children;
 }
 
@@ -60,7 +66,11 @@ function AppRoutes() {
 }
 
 function GlobalNotFoundHandler() {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isCheckingAuth } = useAuth();
+
+    if (isCheckingAuth) {
+        return null;
+    }
 
     // Jika sudah login, bungkus dengan ProtectedRoute agar ada Sidebar/Navbar
     if (isAuthenticated) {

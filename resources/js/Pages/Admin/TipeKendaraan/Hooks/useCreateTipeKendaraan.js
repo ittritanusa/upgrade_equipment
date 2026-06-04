@@ -13,16 +13,8 @@ export function useCreateTipeKendaraan() {
         onSuccess: () => {
 
             queryClient.invalidateQueries({
-                queryKey: ['unit-kendaraan'],
+                queryKey: ['tipe-kendaraan'],
             });
         },
-    });
-}
-
-export function useTipeKendaraanList(params = {}) {
-    return useQuery({
-        queryKey: ['tipe-kendaraan', params],
-        queryFn: () => tipeKendaraanApi.getUnitKendaraan(params),
-        keepPreviousData: true,
     });
 }
