@@ -13,7 +13,7 @@ export default function PortalLayout({ children }) {
                 <Sidebar />
             )}
 
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="min-w-0 flex-1 flex-col overflow-hidden">
 
                 <Header
                     toggleSidebar={() =>
@@ -21,7 +21,7 @@ export default function PortalLayout({ children }) {
                     }
                 />
 
-                <main className="flex-1 overflow-y-auto p-5">
+                <main className="min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-5">
                     {children}
                 </main>
 
