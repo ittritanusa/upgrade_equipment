@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { tipeKendaraanApi } from '@/Utils/Apis/TipeKendaraanApi';
+import { tireTypeKendaraanApi } from '@/Utils/Apis/TireTypeKendaraanApi';
 
-export function useCreateTipeKendaraan() {
+export function useCreateTireTypeKendaraan() {
 
     const queryClient = useQueryClient();
 
     return useMutation({
 
         mutationFn: (payload) =>
-            tipeKendaraanApi.create(payload),
+            tireTypeKendaraanApi.create(payload),
 
         onSuccess: () => {
 
             queryClient.invalidateQueries({
-                queryKey: ['tipe-kendaraan'],
+                queryKey: ['tire-type'],
             });
         },
     });
 }
 
-export function useTipeKendaraanList(params = {}) {
+export function useTireTypeKendaraanList(params = {}) {
     return useQuery({
         queryKey: ['tipe-kendaraan', params],
-        queryFn: () => tipeKendaraanApi.getUnitKendaraan(params),
+        queryFn: () => tireTypeKendaraanApi.getUnitKendaraan(params),
         keepPreviousData: true,
     });
 }

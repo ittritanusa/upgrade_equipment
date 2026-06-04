@@ -29,6 +29,10 @@ import MerkKendaraan from '@/Pages/Admin/MerkKendaraan/MerkKendaraan';
 import CreateMerkKendaraan from '@/Pages/Admin/MerkKendaraan/CreateMerkKendaraan';
 import EditMerkKendaraan from '@/Pages/Admin/MerkKendaraan/EditMerkKendaraan';
 
+import TireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/tire_type_kendaraan';
+import CreateTireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/create_tire_type_kendaraan';
+import EditTireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/edit_tire_type_kendaraan';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -60,6 +64,10 @@ function AppRoutes() {
                 <Route path="/portal/master/merk-kendaraan" element={<ProtectedRoute><MerkKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/merk-kendaraan/create" element={<ProtectedRoute><CreateMerkKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/merk-kendaraan/edit/:id" element={<ProtectedRoute><EditMerkKendaraan /></ProtectedRoute>} />
+                
+                <Route path="/portal/master/tire-type" element={<ProtectedRoute><TireTypeKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/tire-type/create" element={<ProtectedRoute><CreateTireTypeKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/tire-type/edit/:id" element={<ProtectedRoute><EditTireTypeKendaraan /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>

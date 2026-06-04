@@ -4,22 +4,20 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
 import { Save, X, ArrowLeft } from 'lucide-react';
-import { useCreateTipeKendaraan } from './Hooks/useCreateTipeKendaraan';
-// Tambahkan hook untuk mengambil data list unit
-import { useUnitKendaraanList } from '../UnitKendaraan/Hooks/useUnitKendaraanList'; 
+import { useCreateTireTypeKendaraan } from './Hooks/useCreateTireTypeKendaraan';
+// hook untuk mengambil data list tipe kendaraan
+import { useTipeKendaraanList } from '../TipeKendaraan/Hooks/useTipeKendaraanList'; 
 
-export default function CreateTipeKendaraan() {
+export default function CreateTireTypeKendaraan() {
     const navigate = useNavigate();
-    const mutation = useCreateTipeKendaraan();
+    const mutation = useCreateTireTypeKendaraan();
     
-    // 1. Ambil data unit dari API
-    const { data: listUnit, isLoading: loadingUnit } = useUnitKendaraanList({ limit: 100 });
-    const units = listUnit?.data || [];
+    const { data: listType, isLoading: loadingType } = useTipeKendaraanList({ limit: 100 });
+    const units = listType?.data || [];
 
     const [formData, setFormData] = useState({
-        KodeUnit: '',
         KodeType: '',
-        Type: '',
+        Tire: '',
     });
 
     const handleSubmit = (e) => {
@@ -27,7 +25,7 @@ export default function CreateTipeKendaraan() {
 
         Swal.fire({
             title: 'Simpan Data?',
-            text: "Pastikan data Tipe Kendaraan sudah benar.",
+            text: "Pastikan data Tire Type Kendaraan sudah benar.",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#2563eb',
@@ -41,12 +39,12 @@ export default function CreateTipeKendaraan() {
                     onSuccess: () => {
                         Swal.fire({
                             title: 'Berhasil!',
-                            text: 'Data Tipe kendaraan telah disimpan.',
+                            text: 'Data Tire Type Kendaraan telah disimpan.',
                             icon: 'success',
                             timer: 2000,
                             showConfirmButton: false
                         });
-                        navigate('/portal/master/tipe-kendaraan');
+                        navigate('/portal/master/tire-type');
                     },
                     onError: (error) => {
                         Swal.fire({
@@ -64,10 +62,10 @@ export default function CreateTipeKendaraan() {
     return (
         <PortalLayout>
             <div className="space-y-6">
-                {/* Header (Sama seperti sebelumnya) */}
+                {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold text-slate-800">Tambah Tipe Kendaraan</h1>
+                        <h1 className="text-2xl font-semibold text-slate-800">Tambah Tire Type Kendaraan</h1>
 
                         <div className="flex items-center gap-2 mt-1 text-sm">
                             <span className="text-slate-400">
@@ -79,7 +77,7 @@ export default function CreateTipeKendaraan() {
                             </span>
 
                             <span className="text-slate-400">
-                                Tipe Kendaraan
+                                Tire Type Kendaraan
                             </span>
 
                             <span className="text-slate-300">
@@ -87,7 +85,7 @@ export default function CreateTipeKendaraan() {
                             </span>
 
                             <span className="text-blue-600 font-medium">
-                                Tambah Tipe Kendaraan
+                                Tambah Tire Type Kendaraan
                             </span>
                         </div>
                     </div>
@@ -97,49 +95,36 @@ export default function CreateTipeKendaraan() {
                 </div>
                 
                 <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-xl p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         
-                        {/* Kode Unit (Diubah menjadi Select) */}
+                        {/* Tipe Kendaraan */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Pilih Kode Unit *</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Pilih Tipe Kendaraan *</label>
                             <select
                                 required
-                                value={formData.KodeUnit}
-                                onChange={(e) => setFormData({...formData, KodeUnit: e.target.value})}
+                                value={formData.KodeType}
+                                onChange={(e) => setFormData({...formData, KodeType: e.target.value})}
                                 className="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm bg-white"
-                                disabled={loadingUnit}
+                                disabled={loadingType}
                             >
                                 <option value="">-- Choose Option --</option>
                                 {units.map((u) => (
-                                    <option key={u.id} value={u.Kode}>
-                                        {u.Kode} - {u.Unit}
+                                    <option key={u.id} value={u.KodeType}>
+                                        {u.KodeType} - {u.Type}
                                     </option>
                                 ))}
                             </select>
                         </div>
 
-                        {/* Kode Type */}
+                        {/* Jumlah Tire */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Kode Type *</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Jumlah Tire *</label>
                             <input
                                 type="text"
                                 required
-                                value={formData.KodeType}
-                                onChange={(e) => setFormData({...formData, KodeType: e.target.value})}
+                                value={formData.Tire}
+                                onChange={(e) => setFormData({...formData, Tire: e.target.value})}
                                 placeholder="Contoh : UNT001"
-                                className="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm"
-                            />
-                        </div>
-
-                        {/* Nama Tipe (Tipe Kendaraan) */}
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Nama Tipe Kendaraan *</label>
-                            <input
-                                type="text"
-                                required
-                                value={formData.Type}
-                                onChange={(e) => setFormData({...formData, Type: e.target.value})}
-                                placeholder="Contoh : Dump Truck"
                                 className="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm"
                             />
                         </div>
