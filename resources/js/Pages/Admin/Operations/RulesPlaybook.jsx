@@ -65,7 +65,7 @@ const preflightSections = [
         items: [
             'Pastikan branch aktif bukan main dan git status sudah dipahami.',
             'Docker Desktop harus aktif sebelum bootstrap local dijalankan.',
-            'Pastikan port 8000, 3307, dan 6379 tidak bentrok dengan stack lama.',
+            'Pastikan port 8000, 3315, dan 6379 tidak bentrok dengan stack lama.',
             'Jika local.fms-lvl tidak aktif, gunakan fallback resmi ke http://localhost:8000.',
             'Semua validasi Laravel local harus lewat Docker PHP 8.2, bukan PHP host WAMP.',
         ],
@@ -109,7 +109,7 @@ const workflowSteps = [
         ],
         notes: [
             'Gunakan mode Fresh bila DB local atau port lama mengganggu.',
-            'Jika port 3307 bentrok, turunkan stack compose repo lama terlebih dahulu.',
+            'Jika port 3315 bentrok, turunkan stack compose repo lama atau ganti service DB host Windows yang masih aktif.',
         ],
     },
     {

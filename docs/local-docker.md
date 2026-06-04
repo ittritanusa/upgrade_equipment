@@ -11,7 +11,7 @@
 
 - `app`: PHP 8.2 CLI + Composer, menjalankan `php artisan serve`.
 - `node`: Vite dev server untuk React, opsional jika sedang aktif mengerjakan frontend.
-- `mysql`: DB utama lokal, dipublish ke host port `3307` supaya tidak bentrok dengan WAMP.
+- `mysql`: DB utama lokal, dipublish ke host port `3315` supaya tidak bentrok dengan WAMP atau MariaDB host Windows.
 - `redis`: disediakan bila nanti queue/cache dipindah dari database.
 
 ## Langkah jalankan
@@ -40,7 +40,22 @@ Setelah container `app` hidup:
 - Domain utama via Apache WAMP proxy: `http://local.fms-lvl/`
 - Laravel direct debug port: `http://localhost:8000`
 - Vite dev server opsional: `http://localhost:5173`
-- MySQL host access: `127.0.0.1:3307`
+- MySQL host access: `127.0.0.1:3315`
+
+## SQLyog local
+
+Gunakan koneksi berikut untuk DB local Docker:
+
+- Host: `127.0.0.1`
+- Port: `3315`
+- User: `fms`
+- Password: `fms_secret`
+- Database: `db_trucking_system`
+
+Catatan:
+
+- port `3315` dipakai sebagai port khusus agar tidak bentrok dengan MariaDB atau MySQL host Windows
+- jika SQLyog masih gagal, pastikan Anda tidak memakai koneksi lama yang masih menunjuk port `3307`
 
 ## Database lokal
 

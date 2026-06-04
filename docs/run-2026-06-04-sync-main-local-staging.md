@@ -410,3 +410,26 @@ Catatan verifikasi SPA:
 
 - route `/portal/staging/rules` mengembalikan app shell HTML, jadi marker judul halaman tidak selalu terlihat di HTML mentah
 - validasi yang dipakai sebagai acuan adalah bundle aktif terbaru, login sukses, dan route `200` setelah session terbentuk
+
+### 17. Penyesuaian port DB local untuk SQLyog
+
+Temuan:
+
+- SQLyog local gagal meski user `fms` di container valid
+- port host `3307` ternyata masih ikut dipakai `mysqld.exe` dari host Windows
+- akibatnya koneksi SQLyog local berisiko masuk ke DB host, bukan ke MariaDB Docker repo ini
+
+Keputusan:
+
+- host port DB local dipindah ke `3315`
+
+Penyesuaian:
+
+- update `docker-compose.local.yml`
+- update `docker-compose.yml`
+- update dokumentasi local dan SOP agar SQLyog memakai `127.0.0.1:3315`
+
+Verifikasi:
+
+- container `repo-mariadb-1` berhasil recreate dengan mapping host baru
+- port baru `3315` disiapkan sebagai endpoint SQLyog local yang bersih dari bentrok WAMP

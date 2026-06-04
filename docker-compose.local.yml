@@ -42,7 +42,7 @@ services:
       MARIADB_PASSWORD: fms_secret
       MARIADB_ROOT_PASSWORD: rootpassword
     ports:
-      - "3307:3306"
+      - "3315:3306"
     volumes:
       - mariadb_local_data:/var/lib/mysql
       - ./docker/mysql/init:/docker-entrypoint-initdb.d

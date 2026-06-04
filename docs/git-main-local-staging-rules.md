@@ -38,7 +38,7 @@ Checklist ini wajib dicek sebelum menjalankan workflow.
 - branch aktif bukan `main`
 - `git status -sb` dipahami hasilnya
 - Docker Desktop aktif
-- port `8000`, `3307`, dan `6379` tidak bentrok dengan stack repo lama
+- port `8000`, `3315`, dan `6379` tidak bentrok dengan stack repo lama
 - jika ingin tes lewat hostname, `http://local.fms-lvl/` harus aktif
 - jika hostname WAMP tidak aktif, siapkan fallback ke `http://localhost:8000`
 
@@ -236,7 +236,7 @@ Expected:
 Jika gagal:
 
 - jika Docker daemon mati, nyalakan Docker Desktop dulu
-- jika port `3307` bentrok, bersihkan stack compose repo lama
+- jika port `3315` bentrok, bersihkan stack compose repo lama atau cek service DB host Windows yang mengambil port itu
 - jika perlu reset total, gunakan mode `-Fresh`
 
 Jika perlu reset total local DB volume:
