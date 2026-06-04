@@ -268,17 +268,91 @@ Tindak lanjut:
 
 ## Status staging
 
-- belum selesai dijalankan pada log ini
+### 11. Push branch ops ke remote
 
-Kondisi terakhir:
+Dilakukan:
 
-- branch local sudah bersih di commit `f3a6408`
-- percobaan `git push -u origin codex/local-staging-ops` ditahan guardrail tool
-- alasan penahanan: dianggap sebagai transfer kode keluar yang perlu persetujuan eksplisit tambahan
+```bash
+git push -u origin codex/local-staging-ops
+```
 
-Langkah berikutnya setelah ada persetujuan eksplisit untuk push atau transfer ke remote:
+Hasil:
 
-- push branch ops ke remote
-- sync branch yang sama di server 155
-- jalankan deploy staging
-- jalankan smoke test staging
+- branch `codex/local-staging-ops` berhasil dibuat di remote
+- branch remote ini siap dipakai sebagai referensi source staging
+
+### 12. Audit source staging di server 155
+
+Temuan:
+
+- folder runtime aktif `/home/it/fms-laravel-staging` bukan checkout Git
+- clone Git yang ditemukan di `/home/it/staging-equipment` tidak cocok dipakai langsung:
+  - branch masih `master`
+  - working tree kotor besar
+  - remote `origin` tidak siap dipakai untuk sync branch baru
+
+Keputusan operasional:
+
+- deploy staging dilakukan dari artifact branch yang sudah lolos local test
+- bukan dari `git pull` langsung di runtime server
+
+### 13. Deploy source branch ops ke server 155
+
+Dilakukan:
+
+- buat artifact branch dari local:
+
+```bash
+git archive --format=tar.gz -o ..\tmp-fms-laravel-staging-ops-20260604.tar.gz HEAD
+```
+
+- upload artifact ke server 155
+- extract artifact ke `/home/it/fms-laravel-staging`
+- aktifkan:
+
+```env
+VITE_SHOW_STAGING_RULES=true
+```
+
+Catatan:
+
+- backup pre-extract sempat gagal karena quoting timestamp shell Linux dibaca keliru oleh PowerShell host
+- deploy tetap dilanjutkan dengan artifact yang sudah diverifikasi di local
+
+### 14. Rebuild app staging
+
+Dilakukan di server:
+
+```bash
+docker-compose -p fms-laravel-staging -f docker-compose.staging.yml up -d --build app
+```
+
+Hasil:
+
+- image frontend dan app berhasil dibuild
+- container `fms-laravel-staging-app` berhasil recreate
+- container `fms-laravel-staging-db` tetap `healthy`
+
+### 15. Verifikasi staging setelah deploy
+
+Verifikasi publik:
+
+- `https://staging-fms-laravel.tirtanusa.com/` -> `200 OK`
+
+Smoke test staging:
+
+- `LOGIN_STATUS=200`
+- `ME_STATUS=200`
+- `UNIT_STATUS=200`
+- `TIPE_STATUS=200`
+
+Verifikasi halaman baru:
+
+- bundle aktif staging memuat marker halaman `Rules and Deployment Playbook`
+- asset terverifikasi di:
+  - `/build/assets/App-4a2LxF_2.js`
+
+Kesimpulan:
+
+- branch ops sudah live di staging
+- menu dan halaman `Rules & Docs` sudah ikut terdeploy ke bundle staging

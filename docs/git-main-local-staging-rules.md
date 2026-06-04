@@ -331,6 +331,20 @@ git branch --show-current
 docker compose -p fms-laravel-staging -f docker-compose.staging.yml ps
 ```
 
+Jika runtime staging aktif bukan checkout Git:
+
+- gunakan artifact dari branch yang sudah diuji local
+- contoh:
+  - `git archive --format=tar.gz ... HEAD`
+  - upload ke server
+  - extract ke folder runtime staging
+  - rebuild app container
+
+Aturan:
+
+- branch sumber tetap harus branch ops yang sama
+- jangan deploy dari working copy acak yang tidak terlacak
+
 Default aman staging:
 
 - `CLONE_SOURCE_DB_FULL=true`
@@ -353,6 +367,7 @@ Expected:
 - container DB sehat
 - container app berhasil rebuild dan restart
 - smoke check dasar domain tidak gagal
+- jika halaman `Rules & Docs` dipakai, bundle staging harus memuat marker `Rules and Deployment Playbook`
 
 ## Tes staging yang wajib
 

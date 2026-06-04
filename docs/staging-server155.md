@@ -111,6 +111,12 @@ Important risk:
 - Route yang dipakai: `/portal/staging/rules`
 - Halaman ini merangkum SOP sync dari `main`, bootstrap local, deploy staging, dan highlight run terakhir.
 
+Status deploy 4 Juni 2026:
+
+- bundle staging sudah terverifikasi memuat halaman `Rules & Docs`
+- marker halaman ditemukan pada asset:
+  - `/build/assets/App-4a2LxF_2.js`
+
 ## Server 155 note
 
 - Server 155 already runs `erp_tms_staging_app` on PHP 8.2 and `erp_tms_staging_db` on `mariadb:10.6`.
