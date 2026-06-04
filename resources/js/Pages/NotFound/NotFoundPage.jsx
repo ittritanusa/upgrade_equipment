@@ -71,7 +71,7 @@ const NotFoundPage = () => {
           onClick={handleGoHome}
           className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black rounded-none uppercase shadow-[5px_5px_0px_0px_rgba(255,255,255,0.1)] transition-all"
         >
-          {isAuthenticated ? 'Ke Dashboard' : 'Ke Beranda'}
+          {isAuthenticated ? 'Ke Dashboard' : 'Ke Login'}
         </motion.button>
       </div>
     </div>
