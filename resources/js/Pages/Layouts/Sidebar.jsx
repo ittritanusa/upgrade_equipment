@@ -6,10 +6,14 @@ import {
     LayoutDashboard, BarChart3, Monitor, Bell, Truck, Bus, BadgeInfo, CircleDot, Car,
     MapPinned, Building2, Wrench, Package2, ClipboardCheck, ShieldCheck, Route, Map,
     FileCheck, FileText, Settings2, History, ShoppingCart, PackagePlus, PackageMinus,
-    Boxes, Users, Shield, ChevronDown
+    Boxes, Users, Shield, ChevronDown, BookOpenCheck
 } from 'lucide-react';
 
-const navItems = [
+const showOperationalDocs =
+    import.meta.env.VITE_SHOW_STAGING_RULES === 'true' ||
+    window.location.hostname === 'staging-fms-laravel.tirtanusa.com';
+
+const baseNavItems = [
     {
         group: 'GENERAL',
         items: [{ label: 'Dashboard', path: '/portal/dashboard', icon: LayoutDashboard }],
@@ -191,6 +195,22 @@ const navItems = [
 export default function Sidebar() {
     const location = useLocation();
     const [openMenus, setOpenMenus] = useState({});
+
+    const navItems = showOperationalDocs
+        ? [
+              ...baseNavItems,
+              {
+                  group: 'STAGING OPERATIONS',
+                  items: [
+                      {
+                          label: 'Rules & Docs',
+                          path: '/portal/staging/rules',
+                          icon: BookOpenCheck,
+                      },
+                  ],
+              },
+          ]
+        : baseNavItems;
 
     const toggleMenu = (label) => {
         setOpenMenus((prev) => ({ ...prev, [label]: !prev[label] }));

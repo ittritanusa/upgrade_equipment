@@ -480,3 +480,10 @@ Gunakan checklist ini untuk tiap eksekusi:
 - [branch-local-staging-workflow.md](C:/wamp64/www/FMS-LRVL/repo/docs/branch-local-staging-workflow.md)
 - [local-docker.md](C:/wamp64/www/FMS-LRVL/repo/docs/local-docker.md)
 - [staging-server155.md](C:/wamp64/www/FMS-LRVL/repo/docs/staging-server155.md)
+
+## View dari dalam aplikasi staging
+
+- Di environment staging, sidebar portal dapat menampilkan menu `Rules & Docs`.
+- Route halaman: `/portal/staging/rules`
+- Flag env yang dipakai: `VITE_SHOW_STAGING_RULES=true`
+- Tujuannya agar operator staging dapat membaca SOP, fallback, dan ringkasan run terakhir tanpa membuka repo secara langsung.

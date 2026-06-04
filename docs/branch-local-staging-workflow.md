@@ -51,6 +51,12 @@ Default staging yang disarankan:
 - `QUEUE_CONNECTION=sync`
 - `SKIP_DB_BOOTSTRAP=true`
 
+Menu operasional tambahan:
+
+- di staging, sidebar portal dapat menampilkan menu `Rules & Docs`
+- menu ini diarahkan ke `/portal/staging/rules`
+- flag utama yang mengaktifkannya adalah `VITE_SHOW_STAGING_RULES=true`
+
 ## Urutan update rutin
 
 1. Checkout branch lokal/staging.

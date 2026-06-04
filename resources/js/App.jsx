@@ -28,6 +28,7 @@ import EditTipeKendaraan from '@/Pages/Admin/TipeKendaraan/EditTipeKendaraan';
 import MerkKendaraan from '@/Pages/Admin/MerkKendaraan/MerkKendaraan';
 import CreateMerkKendaraan from '@/Pages/Admin/MerkKendaraan/CreateMerkKendaraan';
 import EditMerkKendaraan from '@/Pages/Admin/MerkKendaraan/EditMerkKendaraan';
+import RulesPlaybook from '@/Pages/Admin/Operations/RulesPlaybook';
 
 import '../css/app.css';
 
@@ -66,6 +67,8 @@ function AppRoutes() {
                 <Route path="/portal/master/merk-kendaraan" element={<ProtectedRoute><MerkKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/merk-kendaraan/create" element={<ProtectedRoute><CreateMerkKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/merk-kendaraan/edit/:id" element={<ProtectedRoute><EditMerkKendaraan /></ProtectedRoute>} />
+
+                <Route path="/portal/staging/rules" element={<ProtectedRoute><RulesPlaybook /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>

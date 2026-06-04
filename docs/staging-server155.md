@@ -104,6 +104,13 @@ Important risk:
 - `scripts/smoke-test-fms.ps1`
 - `docs/branch-local-staging-workflow.md`
 
+## Menu khusus staging
+
+- Staging dapat menampilkan menu khusus `Rules & Docs` di sidebar portal.
+- Menu ini muncul bila `VITE_SHOW_STAGING_RULES=true` atau hostname aktif adalah `staging-fms-laravel.tirtanusa.com`.
+- Route yang dipakai: `/portal/staging/rules`
+- Halaman ini merangkum SOP sync dari `main`, bootstrap local, deploy staging, dan highlight run terakhir.
+
 ## Server 155 note
 
 - Server 155 already runs `erp_tms_staging_app` on PHP 8.2 and `erp_tms_staging_db` on `mariadb:10.6`.
