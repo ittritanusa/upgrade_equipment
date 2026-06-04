@@ -1,25 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; // 1. Tambahkan useState
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
 import { Save, X, ArrowLeft } from 'lucide-react';
-import { useCreateTipeKendaraan } from './Hooks/useCreateTipeKendaraan';
-// Tambahkan hook untuk mengambil data list unit
-import { useUnitKendaraanList } from '../UnitKendaraan/Hooks/useUnitKendaraanList'; 
+import { useCreateMerkKendaraan } from './Hooks/useCreateMerkKendaraan'; // 2. Import hook
 
-export default function CreateUnitKendaraan() {
+export default function CreateMerkKendaraan() {
     const navigate = useNavigate();
-    const mutation = useCreateTipeKendaraan();
-    
-    // 1. Ambil data unit dari API
-    const { data: listUnit, isLoading: loadingUnit } = useUnitKendaraanList({ limit: 100 });
-    const units = listUnit?.data || [];
+    const mutation = useCreateMerkKendaraan(); // 3. Panggil hook mutasi
 
+    // 4. Buat state untuk form
     const [formData, setFormData] = useState({
-        KodeUnit: '',
-        KodeType: '',
-        Type: '',
+        KodeMerk: '',
+        Merk: '',
     });
 
     const handleSubmit = (e) => {
@@ -27,7 +21,7 @@ export default function CreateUnitKendaraan() {
 
         Swal.fire({
             title: 'Simpan Data?',
-            text: "Pastikan data Tipe Kendaraan sudah benar.",
+            text: "Pastikan data Merk Kendaraan sudah benar.",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#2563eb',
@@ -41,12 +35,12 @@ export default function CreateUnitKendaraan() {
                     onSuccess: () => {
                         Swal.fire({
                             title: 'Berhasil!',
-                            text: 'Data Tipe kendaraan telah disimpan.',
+                            text: 'Data Merk Kendaraan telah disimpan.',
                             icon: 'success',
                             timer: 2000,
                             showConfirmButton: false
                         });
-                        navigate('/portal/master/tipe-kendaraan');
+                        navigate('/portal/master/merk-kendaraan');
                     },
                     onError: (error) => {
                         Swal.fire({
@@ -67,7 +61,7 @@ export default function CreateUnitKendaraan() {
                 {/* Header (Sama seperti sebelumnya) */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold text-slate-800">Tambah Tipe Kendaraan</h1>
+                        <h1 className="text-2xl font-semibold text-slate-800">Tambah Merk Kendaraan</h1>
 
                         <div className="flex items-center gap-2 mt-1 text-sm">
                             <span className="text-slate-400">
@@ -79,7 +73,7 @@ export default function CreateUnitKendaraan() {
                             </span>
 
                             <span className="text-slate-400">
-                                Tipe Kendaraan
+                                Merk Kendaraan
                             </span>
 
                             <span className="text-slate-300">
@@ -87,7 +81,7 @@ export default function CreateUnitKendaraan() {
                             </span>
 
                             <span className="text-blue-600 font-medium">
-                                Tambah Tipe Kendaraan
+                                Tambah Merk Kendaraan
                             </span>
                         </div>
                     </div>
@@ -95,51 +89,33 @@ export default function CreateUnitKendaraan() {
                         <ArrowLeft size={16} /> Kembali
                     </button>
                 </div>
-                
-                <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-xl p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        
-                        {/* Kode Unit (Diubah menjadi Select) */}
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Pilih Kode Unit *</label>
-                            <select
-                                required
-                                value={formData.KodeUnit}
-                                onChange={(e) => setFormData({...formData, KodeUnit: e.target.value})}
-                                className="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm bg-white"
-                                disabled={loadingUnit}
-                            >
-                                <option value="">-- Choose Option --</option>
-                                {units.map((u) => (
-                                    <option key={u.id} value={u.Kode}>
-                                        {u.Kode} - {u.Unit}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
 
-                        {/* Kode Type */}
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-xl p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        {/* Kode Merk */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Kode Type *</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Kode Merk *</label>
                             <input
                                 type="text"
                                 required
-                                value={formData.KodeType}
-                                onChange={(e) => setFormData({...formData, KodeType: e.target.value})}
+                                value={formData.KodeMerk}
+                                onChange={(e) => setFormData({...formData, KodeMerk: e.target.value})}
                                 placeholder="Contoh : UNT001"
                                 className="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm"
                             />
                         </div>
 
-                        {/* Nama Tipe (Tipe Kendaraan) */}
+                        {/* Merk Kendaraan */}
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Nama Tipe Kendaraan *</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Merk Kendaraan *</label>
                             <input
                                 type="text"
                                 required
-                                value={formData.Type}
-                                onChange={(e) => setFormData({...formData, Type: e.target.value})}
-                                placeholder="Contoh : Dump Truck"
+                                value={formData.Merk}
+                                onChange={(e) => setFormData({...formData, Merk: e.target.value})}
+                                placeholder="Contoh : Trucking Jakarta"
                                 className="w-full h-11 rounded-lg border border-slate-300 px-4 text-sm"
                             />
                         </div>
@@ -153,8 +129,12 @@ export default function CreateUnitKendaraan() {
                         >
                             <Save size={16} /> {mutation.isPending ? 'Menyimpan...' : 'Simpan Data'}
                         </button>
-                        <button type="button" onClick={() => navigate(-1)} className="border border-slate-300 px-6 h-11 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50">
-                            Batal
+                        <button
+                            type="button"
+                            onClick={() => navigate('/portal/master/merk-kendaraan')}
+                            className="flex items-center gap-2 h-11 px-6 rounded-lg border border-slate-300 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50 transition"
+                        >
+                            <X size={16} /> Batal
                         </button>
                     </div>
                 </form>

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\UnitKendaraanModel;
+use App\Models\MerkKendaraanModel;
 use Illuminate\Http\Request;
 
-class UnitKendaraanController extends Controller
+class MerkKendaraanController extends Controller
 {
     /**
      * List Data
@@ -18,19 +18,19 @@ class UnitKendaraanController extends Controller
             $search = $request->search;
             $limit  = $request->limit ?? 10;
 
-            $query = UnitKendaraanModel::query();
+            $query = MerkKendaraanModel::query();
 
             if (!empty($search)) {
 
                 $query->where(function ($q) use ($search) {
 
                     $q->where(
-                        'Kode',
+                        'KodeMerk',
                         'like',
                         "%{$search}%"
                     )
                     ->orWhere(
-                        'Unit',
+                        'Merk',
                         'like',
                         "%{$search}%"
                     );
@@ -69,7 +69,7 @@ class UnitKendaraanController extends Controller
     {
         try {
 
-            $data = UnitKendaraanModel::find($id);
+            $data = MerkKendaraanModel::find($id);
 
             if (!$data) {
 
@@ -103,13 +103,13 @@ class UnitKendaraanController extends Controller
         try {
 
             $validated = $request->validate([
-                'Kode' => 'required|max:50|unique:m_unit_kendaraan,Kode',
-                'Unit' => 'required|max:255',
+                'KodeMerk'  => 'required|max:50|unique:m_merk_kendaraan,KodeMerk',
+                'Merk'      => 'required|max:255',
             ]);
 
-            $data = UnitKendaraanModel::insert([
-                'Kode' => trim($validated['Kode']),
-                'Unit' => trim($validated['Unit']),
+            $data = MerkKendaraanModel::insert([
+                'KodeMerk'  => trim($validated['KodeMerk']),
+                'Merk'      => trim($validated['Merk']),
                 'status'    => 1,
             ]);
 
@@ -135,7 +135,7 @@ class UnitKendaraanController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $data = UnitKendaraanModel::find($id);
+            $data = MerkKendaraanModel::find($id);
 
             if (!$data) {
                 return response()->json([
@@ -146,16 +146,16 @@ class UnitKendaraanController extends Controller
 
             // 2. Validasi input
             $validated = $request->validate([
-                'Kode' => 'required|max:50|unique:m_unit_kendaraan,Kode,' . $id . ',id',
-                'Unit' => 'required|max:255',
+                'KodeMerk'  => 'required|max:50|unique:m_merk_kendaraan,KodeMerk,' . $id . ',id',
+                'Merk'      => 'required|max:255',
                 'Status'    => 'required|integer|in:1,2',
             ]);
 
             // Sesuaikan key array dengan nama kolom di database Anda
-            $update = UnitKendaraanModel::where('id', $id)->update([
-                'Kode'   => trim($validated['Kode']),
-                'Unit'   => trim($validated['Unit']),
-                'Status' => $validated['Status'],
+            $update = MerkKendaraanModel::where('id', $id)->update([
+                'KodeMerk'  => trim($validated['KodeMerk']),
+                'Merk'      => trim($validated['Merk']),
+                'Status'    => $validated['Status'],
             ]);
 
             return response()->json([
@@ -186,7 +186,7 @@ class UnitKendaraanController extends Controller
     {
         try {
 
-            $data = UnitKendaraanModel::find($id);
+            $data = MerkKendaraanModel::find($id);
 
             if (!$data) {
 
@@ -198,7 +198,7 @@ class UnitKendaraanController extends Controller
             }
 
             // hapus data
-            UnitKendaraanModel::where('id', $id)->delete();
+            MerkKendaraanModel::where('id', $id)->delete();
 
             return response()->json([
                 'success' => true,

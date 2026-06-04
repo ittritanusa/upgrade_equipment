@@ -25,6 +25,10 @@ import TipeKendaraan from '@/Pages/Admin/TipeKendaraan/TipeKendaraan';
 import CreateTipeKendaraan from '@/Pages/Admin/TipeKendaraan/CreateTipeKendaraan';
 import EditTipeKendaraan from '@/Pages/Admin/TipeKendaraan/EditTipeKendaraan';
 
+import MerkKendaraan from '@/Pages/Admin/MerkKendaraan/MerkKendaraan';
+import CreateMerkKendaraan from '@/Pages/Admin/MerkKendaraan/CreateMerkKendaraan';
+import EditMerkKendaraan from '@/Pages/Admin/MerkKendaraan/EditMerkKendaraan';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -52,6 +56,10 @@ function AppRoutes() {
                 <Route path="/portal/master/tipe-kendaraan" element={<ProtectedRoute><TipeKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/tipe-kendaraan/create" element={<ProtectedRoute><CreateTipeKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/tipe-kendaraan/edit/:id" element={<ProtectedRoute><EditTipeKendaraan /></ProtectedRoute>} />
+                
+                <Route path="/portal/master/merk-kendaraan" element={<ProtectedRoute><MerkKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/merk-kendaraan/create" element={<ProtectedRoute><CreateMerkKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/merk-kendaraan/edit/:id" element={<ProtectedRoute><EditMerkKendaraan /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>
