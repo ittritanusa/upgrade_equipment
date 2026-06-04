@@ -10,6 +10,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
+
     protected $table = 'm_user';
 
     protected $fillable = [

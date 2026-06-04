@@ -25,6 +25,19 @@ export default defineConfig({
         },
     },
     server: {
+        host: '0.0.0.0',
+        port: 5173,
+        strictPort: true,
+        origin: 'http://localhost:5173',
+        cors: {
+            origin: 'http://local.fms-lvl',
+            credentials: true,
+        },
+        hmr: {
+            host: 'localhost',
+            protocol: 'ws',
+            port: 5173,
+        },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
