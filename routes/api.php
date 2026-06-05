@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\MerkKendaraanController;
 use App\Http\Controllers\Api\TipeKendaraanController;
+use App\Http\Controllers\Api\TireTypeKendaraanController;
 use App\Http\Controllers\Api\UnitKendaraanController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,14 @@ Route::middleware('web')->group(function () {
             Route::post('/create/save', [MerkKendaraanController::class, 'store'])->name('merk-kendaraan.store');
             Route::post('/edit/save/{id}', [MerkKendaraanController::class, 'update'])->name('merk-kendaraan.update');
             Route::delete('/delete/save/{id}', [MerkKendaraanController::class, 'destroy'])->name('merk-kendaraan.delete');
+        });
+
+        Route::prefix('tire-type')->group(function () {
+            Route::get('/', [TireTypeKendaraanController::class, 'index'])->name('tire-type');
+            Route::get('/{id}', [TireTypeKendaraanController::class, 'show'])->name('tire-type.detail');
+            Route::post('/create/save', [TireTypeKendaraanController::class, 'store'])->name('tire-type.store');
+            Route::post('/edit/save/{id}', [TireTypeKendaraanController::class, 'update'])->name('tire-type.update');
+            Route::delete('/delete/save/{id}', [TireTypeKendaraanController::class, 'destroy'])->name('tire-type.delete');
         });
     });
 });

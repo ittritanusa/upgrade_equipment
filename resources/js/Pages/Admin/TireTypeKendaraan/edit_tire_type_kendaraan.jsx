@@ -5,42 +5,40 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
 import { Save, X, ArrowLeft } from 'lucide-react';
 import { decodeId } from '@/Utils/Helpers/IdHelper';
-import { useTipeKendaraanDetail, useUpdateTipeKendaraan } from './Hooks/useEditTipeKendaraan';
-import { useUnitKendaraanList } from '../UnitKendaraan/Hooks/useUnitKendaraanList'; // Sesuaikan path
+import { useTireTypeKendaraanDetail, useUpdateTireTypeKendaraan } from './Hooks/useEditTireTypeKendaraan';
+import { useTipeKendaraanList } from '../TipeKendaraan/Hooks/useTipeKendaraanList'; 
 
-export default function EditTipeKendaraan() {
+export default function EditTireTypeKendaraan() {
     const navigate = useNavigate();
     const { id: encodedId } = useParams();
     const [realId, setRealId] = useState(null);
 
-    const updateMutation = useUpdateTipeKendaraan();
-    const { data: listUnit, isLoading: loadingUnit } = useUnitKendaraanList({ limit: 100 });
-    const units = listUnit?.data || [];
+    const updateMutation = useUpdateTireTypeKendaraan();
+    const { data: listType, isLoading: loadingType } = useTipeKendaraanList({ limit: 100 });
+    const tipe = listType?.data || [];
 
     const [formData, setFormData] = useState({
-        KodeUnit: '', 
         KodeType: '',
-        Type: '',
+        Tire: '',
         Status: '1',
     });
 
     useEffect(() => {
         const decoded = decodeId(encodedId);
         if (!decoded) {
-            navigate('/portal/master/tipe-kendaraan');
+            navigate('/portal/master/tire-type');
             return;
         }
         setRealId(decoded);
     }, [encodedId, navigate]);
 
-    const { data, isLoading } = useTipeKendaraanDetail(realId);
+    const { data, isLoading } = useTireTypeKendaraanDetail(realId);
 
     useEffect(() => {
         if (data) {
             setFormData({
-                KodeUnit: data.KodeUnit || '',
                 KodeType: data.KodeType || '',
-                Type: data.Type || '',
+                Tire: data.Tire || '',
                 Status: String(data.Status ?? '1'),
             });
         }
@@ -51,7 +49,7 @@ export default function EditTipeKendaraan() {
         updateMutation.mutate({ id: realId, payload: formData }, {
             onSuccess: () => {
                 Swal.fire('Berhasil', 'Data berhasil diperbarui', 'success');
-                navigate('/portal/master/tipe-kendaraan');
+                navigate('/portal/master/tire-type');
             },
             onError: (err) => Swal.fire('Gagal', err?.response?.data?.message || 'Terjadi kesalahan', 'error')
         });
@@ -64,7 +62,7 @@ export default function EditTipeKendaraan() {
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold text-slate-800">Edit Tipe Kendaraan</h1>
+                        <h1 className="text-2xl font-semibold text-slate-800">Edit Tire Type Kendaraan</h1>
 
                         <div className="flex items-center gap-2 mt-1 text-sm">
                             <span className="text-slate-400">
@@ -76,7 +74,7 @@ export default function EditTipeKendaraan() {
                             </span>
 
                             <span className="text-slate-400">
-                                Tipe Kendaraan
+                                Tire Type Kendaraan
                             </span>
 
                             <span className="text-slate-300">
@@ -84,48 +82,40 @@ export default function EditTipeKendaraan() {
                             </span>
 
                             <span className="text-blue-600 font-medium">
-                                Edit Tipe Kendaraan
+                                Edit Tire Type Kendaraan
                             </span>
                         </div>
                     </div>
-
+                    
                     <button onClick={() => navigate(-1)} className="border px-4 h-10 rounded-lg flex items-center gap-2">
                         <ArrowLeft size={16} /> Kembali
                     </button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="bg-white border rounded-xl p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {/* Kode Unit (Dropdown) */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {/* Tipe Kendaraan */}
                         <div>
-                            <label className="block text-sm font-medium mb-2">Kode Unit *</label>
+                            <label className="block text-sm font-medium mb-2">Tipe Kendaraan *</label>
                             <select
                                 required
-                                // Gunakan KodeUnit sebagai value
-                                value={formData.KodeUnit} 
-                                // Update state dengan key yang benar
-                                onChange={(e) => setFormData({...formData, KodeUnit: e.target.value})}
+                                value={formData.KodeType} 
+                                onChange={(e) => setFormData({...formData, KodeType: e.target.value})}
                                 className="w-full h-11 rounded-lg border px-4 text-sm"
                             >
                                 <option value="">-- Choose Option --</option>
-                                {units.map((u) => (
-                                    <option key={u.id} value={u.Kode}>
-                                        {u.Kode} - {u.Unit}
+                                {tipe.map((u) => (
+                                    <option key={u.id} value={u.KodeType}>
+                                        {u.KodeType} - {u.Type}
                                     </option>
                                 ))}
                             </select>
                         </div>
 
-                        {/* Kode Tipe Kendaraan */}
+                        {/* Jumlah Tire */}
                         <div>
-                            <label className="block text-sm font-medium mb-2">Kode Type *</label>
-                            <input type="text" required value={formData.KodeType} onChange={(e) => setFormData({...formData, KodeType: e.target.value})} className="w-full h-11 rounded-lg border px-4" />
-                        </div>
-                        
-                        {/* Nama Tipe Kendaraan */}
-                        <div>
-                            <label className="block text-sm font-medium mb-2">Nama Tipe Kendaraan *</label>
-                            <input type="text" required value={formData.Type} onChange={(e) => setFormData({...formData, Type: e.target.value})} className="w-full h-11 rounded-lg border px-4" />
+                            <label className="block text-sm font-medium mb-2">Jumlah Tire *</label>
+                            <input type="text" required value={formData.Tire} onChange={(e) => setFormData({...formData, Tire: e.target.value})} className="w-full h-11 rounded-lg border px-4" />
                         </div>
 
                         <div>
@@ -158,7 +148,7 @@ export default function EditTipeKendaraan() {
                             type="button"
                             onClick={() =>
                                 navigate(
-                                    '/portal/master/tipe-kendaraan'
+                                    '/portal/master/tire-type'
                                 )
                             }
                             className="flex items-center gap-2 h-11 px-6 rounded-lg border border-slate-300 bg-white text-slate-700 text-sm font-medium hover:bg-slate-50"

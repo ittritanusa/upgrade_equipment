@@ -4,24 +4,24 @@ import {
     useQueryClient,
 } from '@tanstack/react-query';
 
-import { tipeKendaraanApi } from '@/Utils/Apis/TipeKendaraanApi';
+import { tireTypeKendaraanApi } from '@/Utils/Apis/TireTypeKendaraanApi';
 
 /**
  * Detail Unit Kendaraan
  */
-export function useTipeKendaraanDetail(id) {
+export function useTireTypeKendaraanDetail(id) {
 
     return useQuery({
 
         queryKey: [
-            'tipe-kendaraan-detail',
+            'tire-type-detail',
             id,
         ],
 
         queryFn: async () => {
 
             const response =
-                await tipeKendaraanApi.getById(id);
+                await tireTypeKendaraanApi.getById(id);
 
             return response.data.data;
         },
@@ -35,7 +35,7 @@ export function useTipeKendaraanDetail(id) {
 /**
  * Update Unit Kendaraan
  */
-export function useUpdateTipeKendaraan() {
+export function useUpdateTireTypeKendaraan() {
 
     const queryClient = useQueryClient();
 
@@ -47,7 +47,7 @@ export function useUpdateTipeKendaraan() {
         }) => {
 
             const response =
-                await tipeKendaraanApi.update(
+                await tireTypeKendaraanApi.update(
                     id,
                     payload
                 );
@@ -58,12 +58,12 @@ export function useUpdateTipeKendaraan() {
         onSuccess: (_, variables) => {
 
             queryClient.invalidateQueries({
-                queryKey: ['tipe-kendaraan'],
+                queryKey: ['tire-type'],
             });
 
             queryClient.invalidateQueries({
                 queryKey: [
-                    'tipe-kendaraan-detail',
+                    'tire-type-detail',
                     variables.id,
                 ],
             });

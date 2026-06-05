@@ -30,6 +30,10 @@ import CreateMerkKendaraan from '@/Pages/Admin/MerkKendaraan/CreateMerkKendaraan
 import EditMerkKendaraan from '@/Pages/Admin/MerkKendaraan/EditMerkKendaraan';
 import RulesPlaybook from '@/Pages/Admin/Operations/RulesPlaybook';
 
+import TireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/tire_type_kendaraan';
+import CreateTireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/create_tire_type_kendaraan';
+import EditTireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/edit_tire_type_kendaraan';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -69,6 +73,10 @@ function AppRoutes() {
                 <Route path="/portal/master/merk-kendaraan/edit/:id" element={<ProtectedRoute><EditMerkKendaraan /></ProtectedRoute>} />
 
                 <Route path="/portal/staging/rules" element={<ProtectedRoute><RulesPlaybook /></ProtectedRoute>} />
+                
+                <Route path="/portal/master/tire-type" element={<ProtectedRoute><TireTypeKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/tire-type/create" element={<ProtectedRoute><CreateTireTypeKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/tire-type/edit/:id" element={<ProtectedRoute><EditTireTypeKendaraan /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>
