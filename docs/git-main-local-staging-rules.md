@@ -14,20 +14,22 @@ Dokumen ini menjadi acuan setiap kali:
 
 - `main` tidak dipakai untuk kerja harian local atau staging.
 - Semua pekerjaan local dan staging dilakukan di branch khusus.
-- Server 155 harus mengikuti branch yang sama dengan local staging, bukan `main`.
+- Server 155 tidak boleh mengikuti `main`; gunakan branch staging khusus yang hanya berisi commit yang sudah lolos local.
 - Tidak boleh edit file PHP, JS, atau env langsung di server bila fix itu sebenarnya fix aplikasi.
 - Semua fix aplikasi disimpan di branch dulu, lalu local test, staging test, baru diputuskan apakah layak merge ke `main`.
 
 ## Branch yang dipakai
 
-- Branch contoh: `codex/local-staging-ops`
-- Branch ini menjadi tempat:
+- Branch local dan integrasi: `codex/local-staging-ops`
+- Branch staging deploy candidate: `staging/fms-laravel`
+- `codex/local-staging-ops` menjadi tempat:
   - fix aplikasi yang sedang diverifikasi
   - file Docker local
   - file Docker staging
   - script deploy
   - script smoke test
   - dokumentasi operasional
+- `staging/fms-laravel` hanya diangkat dari commit `codex/local-staging-ops` yang sudah lolos test local
 
 ## Preflight checklist sebelum mulai
 
@@ -44,8 +46,8 @@ Checklist ini wajib dicek sebelum menjalankan workflow.
 
 ### Preflight staging
 
-- branch kerja sudah ada di remote
-- repo staging di server 155 track branch kerja yang sama
+- branch local dan branch staging sudah ada di remote
+- repo staging di server 155 track `staging/fms-laravel`
 - `.env` staging sesuai `.env.staging.example`
 - container runtime server 155 sehat
 - domain `https://staging-fms-laravel.tirtanusa.com/` merespons
@@ -297,14 +299,21 @@ Minimal cek manual:
 
 ## Urutan deploy staging 155
 
-### 1. Push branch local or staging ke remote
+### 1. Push branch local ke remote
 
-Staging tidak boleh menarik dari `main`. Branch kerja harus tersedia di remote.
+Staging tidak boleh menarik dari `main`. Branch local dan branch staging harus tersedia di remote.
 
 Contoh:
 
 ```bash
 git push -u origin codex/local-staging-ops
+```
+
+Lalu sinkronkan branch staging ke commit yang sama:
+
+```bash
+git branch -f staging/fms-laravel codex/local-staging-ops
+git push -u origin staging/fms-laravel
 ```
 
 Catatan operasional:
@@ -314,14 +323,15 @@ Catatan operasional:
 
 Expected:
 
-- branch kerja tersedia di remote
-- server 155 bisa checkout branch yang sama
+- branch local tersedia di remote
+- branch staging tersedia di remote
+- server 155 bisa checkout `staging/fms-laravel`
 
-### 2. Pastikan server 155 memakai branch yang sama
+### 2. Pastikan server 155 memakai branch staging
 
 Di server:
 
-- repo staging harus checkout `codex/local-staging-ops`
+- repo staging harus checkout `staging/fms-laravel`
 - file `.env` staging harus mengikuti nilai aman dari `.env.staging.example`
 
 Command verifikasi yang disarankan di server:
@@ -342,7 +352,7 @@ Jika runtime staging aktif bukan checkout Git:
 
 Aturan:
 
-- branch sumber tetap harus branch ops yang sama
+- branch sumber deploy harus `staging/fms-laravel`
 - jangan deploy dari working copy acak yang tidak terlacak
 
 Default aman staging:
@@ -359,7 +369,7 @@ Default aman staging:
 Di server:
 
 ```bash
-DEPLOY_BRANCH=codex/local-staging-ops ./scripts/deploy-staging.sh
+DEPLOY_BRANCH=staging/fms-laravel ./scripts/deploy-staging.sh
 ```
 
 Expected:
@@ -487,8 +497,9 @@ Gunakan checklist ini untuk tiap eksekusi:
 8. `powershell -ExecutionPolicy Bypass -File scripts/smoke-test-fms.ps1 -BaseUrl http://localhost:8000 -Username developer -Password password`
 9. commit hasil sync dan fix parity jika ada
 10. `git push -u origin codex/local-staging-ops`
-11. deploy staging dari branch yang sama
-12. smoke test staging
+11. update `staging/fms-laravel` ke commit local yang lolos test
+12. deploy staging dari `staging/fms-laravel`
+13. smoke test staging
 
 ## Dokumen pendamping
 

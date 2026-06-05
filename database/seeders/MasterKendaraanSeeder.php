@@ -61,5 +61,22 @@ class MasterKendaraanSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ], ['KodeMerk'], ['Merk', 'Status', 'updated_at']);
+
+        DB::table('m_tire_type_kendaraan')->upsert([
+            [
+                'KodeType' => 'CDD',
+                'Tire' => '6',
+                'Status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'KodeType' => 'DT',
+                'Tire' => '10',
+                'Status' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ], ['KodeType', 'Tire'], ['Status', 'updated_at']);
     }
 }

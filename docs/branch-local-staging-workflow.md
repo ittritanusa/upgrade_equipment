@@ -9,9 +9,15 @@
 
 ## Branch yang dipakai
 
-- Contoh branch kerja: `codex/local-staging-ops`
+- Branch kerja local dan integrasi: `codex/local-staging-ops`
+- Branch deploy candidate staging: `staging/fms-laravel`
 - Jangan deploy dari `main`.
-- Saat ada update baru dari Git, sync dulu ke branch ini, lalu jalankan bootstrap local dan deploy staging dari branch yang sama.
+- Saat ada update baru dari Git:
+  - sync dulu `origin/main` ke `codex/local-staging-ops`
+  - jalankan bootstrap dan smoke test local di branch itu
+  - jika lolos, angkat commit yang sama ke `staging/fms-laravel`
+  - deploy server 155 dari `staging/fms-laravel`
+- Dengan pola ini, local tetap leluasa menerima fix parity, sementara staging hanya menarik commit yang sudah lolos test.
 
 ## Local yang stabil
 
@@ -59,9 +65,9 @@ Menu operasional tambahan:
 
 ## Urutan update rutin
 
-1. Checkout branch lokal/staging.
+1. Checkout branch local `codex/local-staging-ops`.
 2. Tarik update terbaru `origin/main`.
-3. Merge atau rebase ke branch lokal/staging.
+3. Merge atau rebase ke branch local itu.
 4. Verifikasi file branch-only tetap utuh:
    - `.env.local.example`
    - `.env.staging.example`
@@ -71,8 +77,9 @@ Menu operasional tambahan:
    - `scripts/deploy-staging.sh`
    - `scripts/smoke-test-fms.ps1`
 5. Jalankan bootstrap local.
-6. Jalankan deploy staging dari branch yang sama.
-7. Jalankan smoke test.
+6. Sinkronkan commit lolos test ke `staging/fms-laravel`.
+7. Jalankan deploy staging dari branch `staging/fms-laravel`.
+8. Jalankan smoke test.
 
 Fallback operasional yang perlu diingat:
 
@@ -83,4 +90,5 @@ Fallback operasional yang perlu diingat:
 
 - Jangan edit file PHP atau JS langsung di server 155.
 - Kalau fix memang valid untuk aplikasi, simpan di branch ini lalu deploy ulang.
-- Jika nanti branch ini ingin dipakai jangka panjang di server 155 dengan `git pull`, branch harus dipush ke remote dan clone di server harus track branch itu, bukan `main`.
+- Server 155 idealnya track branch `staging/fms-laravel`, bukan `main`.
+- Branch `codex/local-staging-ops` tetap menjadi branch kerja yang menerima sync dari `origin/main`.

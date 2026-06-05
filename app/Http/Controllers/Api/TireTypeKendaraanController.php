@@ -110,7 +110,7 @@ class TireTypeKendaraanController extends Controller
             $data = TireTypeKendaraanModel::insert([
                 'KodeType'  => trim($validated['KodeType']),
                 'Tire'      => trim($validated['Tire']),
-                'status'    => 1,
+                'Status'    => 1,
             ]);
 
             return response()->json([

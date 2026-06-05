@@ -35,14 +35,19 @@ const references = [
 
 const quickStatus = [
     {
-        label: 'Branch Aktif',
+        label: 'Branch Local',
         value: 'codex/local-staging-ops',
-        detail: 'Branch khusus local dan staging, tidak menyentuh main.',
+        detail: 'Branch kerja untuk sync dari main, parity local, dan integrasi sebelum staging.',
+    },
+    {
+        label: 'Branch Staging',
+        value: 'staging/fms-laravel',
+        detail: 'Branch deploy candidate yang hanya diangkat dari commit local yang sudah lolos test.',
     },
     {
         label: 'Main Terakhir Diuji',
-        value: 'a7d9806',
-        detail: 'Sudah disinkronkan ke branch ops dan diverifikasi di local.',
+        value: '93f13c4',
+        detail: 'Commit terbaru dari main yang sudah disinkronkan ke branch local dan siap diangkat ke branch staging.',
     },
     {
         label: 'Staging Route',
@@ -74,7 +79,7 @@ const preflightSections = [
         title: 'Preflight Staging',
         icon: ServerCog,
         items: [
-            'Branch kerja harus sudah ada di remote sebelum staging dapat sync.',
+            'Branch local dan branch staging harus sudah ada di remote sebelum server 155 menerima candidate deploy.',
             'Runtime staging server 155 boleh memakai artifact branch yang sudah diuji jika runtime aktif bukan checkout Git bersih.',
             'Env staging harus mengikuti .env.staging.example dengan SESSION_DRIVER=file dan QUEUE_CONNECTION=sync.',
             'Container runtime staging harus sehat sebelum deploy.',
@@ -127,21 +132,24 @@ const workflowSteps = [
     {
         step: '4. Push branch untuk staging',
         icon: ExternalLink,
-        summary: 'Branch yang sama harus tersedia di remote sebelum staging dapat mengikuti source yang benar.',
+        summary: 'Branch local dan branch staging harus tersedia di remote sebelum server 155 menerima candidate deploy yang benar.',
         commands: [
             'git push -u origin codex/local-staging-ops',
+            'git branch -f staging/fms-laravel codex/local-staging-ops',
+            'git push -u origin staging/fms-laravel',
         ],
         notes: [
             'Jangan deploy staging dari main.',
+            'Branch staging hanya boleh diangkat dari commit local yang sudah lolos test.',
             'Jika push diblok policy, jangan cari jalan memutar. Minta persetujuan eksplisit dulu.',
         ],
     },
     {
         step: '5. Deploy staging',
         icon: CheckCircle2,
-        summary: 'Build ulang app staging dari branch atau artifact branch yang sudah lolos local test, lalu verifikasi domain dan smoke test.',
+        summary: 'Build ulang app staging dari branch staging atau artifact branch staging yang sudah lolos local test, lalu verifikasi domain dan smoke test.',
         commands: [
-            'DEPLOY_BRANCH=codex/local-staging-ops ./scripts/deploy-staging.sh',
+            'DEPLOY_BRANCH=staging/fms-laravel ./scripts/deploy-staging.sh',
             'powershell -ExecutionPolicy Bypass -File scripts/smoke-test-fms.ps1 -BaseUrl https://staging-fms-laravel.tirtanusa.com -Username <user-valid> -Password <password-valid>',
         ],
         notes: [
