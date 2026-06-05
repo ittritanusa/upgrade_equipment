@@ -33,6 +33,11 @@ import TireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/tire_type_kendara
 import CreateTireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/create_tire_type_kendaraan';
 import EditTireTypeKendaraan from '@/Pages/Admin/TireTypeKendaraan/edit_tire_type_kendaraan';
 
+import Kendaraan from '@/Pages/Admin/Kendaraan/kendaraan';
+import CreateKendaraan from '@/Pages/Admin/Kendaraan/create_kendaraan';
+import DetailKendaraan from '@/Pages/Admin/Kendaraan/detail_kendaraan';
+import EditKendaraan from '@/Pages/Admin/Kendaraan/edit_kendaraan';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -68,6 +73,11 @@ function AppRoutes() {
                 <Route path="/portal/master/tire-type" element={<ProtectedRoute><TireTypeKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/tire-type/create" element={<ProtectedRoute><CreateTireTypeKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/tire-type/edit/:id" element={<ProtectedRoute><EditTireTypeKendaraan /></ProtectedRoute>} />
+                
+                <Route path="/portal/master/kendaraan" element={<ProtectedRoute><Kendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/kendaraan/create" element={<ProtectedRoute><CreateKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/kendaraan/detail/:id" element={<ProtectedRoute><DetailKendaraan /></ProtectedRoute>} />
+                <Route path="/portal/master/kendaraan/edit/:id" element={<ProtectedRoute><EditKendaraan /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>

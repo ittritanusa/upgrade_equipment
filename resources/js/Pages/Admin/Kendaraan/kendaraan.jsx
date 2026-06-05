@@ -1,0 +1,179 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+import PortalLayout from '@/Pages/Layouts/PortalLayout';
+import { Plus, Pencil, Trash2, Eye, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useKendaraanList } from './Hooks/useKendaraanList';
+import { encodeId } from '@/Utils/Helpers/IdHelper';
+
+export default function Kendaraan() {
+    const navigate = useNavigate();
+    const [search, setSearch] = useState('');
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+
+    // REVISI: Pastikan objek yang dikirim ke hook mencakup 'page'
+    const { data, isLoading } = useKendaraanList({ search, limit, page });
+
+    // Mengambil data dan meta dari response API
+    const rows = data?.data || [];
+    const meta = data?.meta;
+
+    return (
+        <PortalLayout>
+            <div className="space-y-6">
+                <div>
+                    <h1 className="text-2xl font-semibold text-slate-800">Master Kendaraan</h1>
+                    <div className="flex items-center gap-2 mt-1 text-sm text-slate-400">
+                        <span>Master Data</span>
+                        <span>/</span>
+                        <span className="text-blue-600 font-medium">Kendaraan</span>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-xl border border-slate-200 shadow-sm">
+                    <div className="p-5 border-b border-slate-200 flex justify-between items-center">
+                        <h2 className="text-lg font-semibold">Data Kendaraan</h2>
+                        <button
+                            onClick={() => navigate('/portal/master/tipe-kendaraan/create')}
+                            className="bg-blue-600 text-white px-4 h-10 rounded-lg flex items-center gap-2"
+                        >
+                            <Plus size={16} /> Tambah Data
+                        </button>
+                    </div>
+
+                    <div className="p-5">
+                        <div className="flex justify-between mb-4">
+                            <select
+                                value={limit}
+                                onChange={(e) => {
+                                    setLimit(Number(e.target.value));
+                                    setPage(1);
+                                }}
+                                className="border rounded-lg px-3 h-10"
+                            >
+                                <option value={10}>10</option>
+                                <option value={25}>25</option>
+                                <option value={50}>50</option>
+                                <option value={100}>100</option>
+                            </select>
+                            <div className="relative">
+                                <Search size={16} className="absolute left-3 top-3 text-slate-400" />
+                                <input
+                                    value={search}
+                                    onChange={(e) => { 
+                                        setSearch(e.target.value); 
+                                        setPage(1); // Reset ke halaman 1 saat search berubah
+                                    }}
+                                    placeholder="Cari data..."
+                                    className="pl-10 h-10 border rounded-lg w-72"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="overflow-x-auto border rounded-xl">
+                            <table className="w-full text-sm">
+                                <thead className="bg-slate-50 border-b border-slate-200">
+                                    <tr>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">NO</th>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">NO POLISI</th>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">EXPIRE STNK</th>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">EXPIRE KIR I</th>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">EXPIRE KIR II</th>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">UNIT BISNIS</th>
+                                        <th className="px-4 py-3 text-left font-semibold text-slate-600">STATUS</th>
+                                        <th className="px-4 py-3 text-center font-semibold text-slate-600">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100">
+                                    {isLoading ? (
+                                        <tr><td colSpan="8" className="text-center py-8">Loading...</td></tr>
+                                    ) : rows.length > 0 ? (
+                                        rows.map((item, index) => (
+                                            <tr key={item.id} className="hover:bg-slate-50 transition-colors">
+                                                <td className="px-4 py-4 text-slate-600">{(meta ? (meta.current_page - 1) * meta.per_page : 0) + index + 1}</td>
+                                                <td className="px-4 py-4">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                                                        <div>
+                                                            <div className="font-bold text-slate-800">{item.NoPolisi}</div>
+                                                            <div className="text-xs text-slate-500 font-medium">
+                                                                {item.unit_kendaraan?.Unit || '-'} • {item.tipe_kendaraan?.Type || '-'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-4 py-4 text-slate-700">{item.ExpiredSTNK}</td>
+                                                <td className="px-4 py-4 text-red-500 font-medium">{item.ExpiredKIR || '-'}</td>
+                                                <td className="px-4 py-4 text-red-500 font-medium">{item.ExpiredKIR2 || '-'}</td>
+                                                <td className="px-4 py-4 text-slate-700">{item.UnitBisnis} - {item.LokasiUnit}</td>
+                                                <td className="px-4 py-3">
+                                                    <span className={`px-2 py-1 rounded-full text-xs ${item.StatusUnit == 1 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                                        {item.StatusUnit == 1 ? 'Aktif' : 'Tidak Aktif'}
+                                                    </span>
+                                                </td>
+                                                <td className="px-4 py-4">
+                                                    <div className="flex justify-center gap-2">
+                                                        <button onClick={() => navigate(`/portal/master/kendaraan/detail/${encodeId(item.id)}`)} className="p-1.5 border border-green-500 text-green-600 rounded hover:bg-green-50"><Eye size={14} /></button>
+                                                        <button onClick={() => navigate(`/portal/master/kendaraan/edit/${encodeId(item.id)}`)} className="p-1.5 border border-amber-500 text-amber-600 rounded hover:bg-amber-50"><Pencil size={14} /></button>
+                                                        <button className="p-1.5 border border-red-500 text-red-600 rounded hover:bg-red-50"><Trash2 size={14} /></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr><td colSpan="8" className="text-center py-8 text-slate-500">Tidak ada data ditemukan.</td></tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {/* Pagination Footer */}
+                        {meta && (
+                            <div className="flex justify-between items-center mt-4 border-t pt-4">
+                                <span className="text-sm text-slate-600">
+                                    Menampilkan {(meta.current_page - 1) * meta.per_page + 1} - {Math.min(meta.current_page * meta.per_page, meta.total)} dari {meta.total} data
+                                </span>
+                                <div className="flex items-center gap-1">
+                                    <button
+                                        disabled={page === 1}
+                                        onClick={() => setPage(page - 1)}
+                                        className="h-9 w-9 border rounded-lg"
+                                    >
+                                        <ChevronLeft size={16} />
+                                    </button>
+
+                                    {Array.from(
+                                        { length: meta?.last_page || 1 },
+                                        (_, i) => (
+                                            <button
+                                                key={i}
+                                                onClick={() => setPage(i + 1)}
+                                                className={`h-9 w-9 rounded-lg border ${
+                                                    page === i + 1
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'bg-white'
+                                                }`}
+                                            >
+                                                {i + 1}
+                                            </button>
+                                        )
+                                    )}
+
+                                    <button
+                                        disabled={page === meta?.last_page}
+                                        onClick={() => setPage(page + 1)}
+                                        className="h-9 w-9 border rounded-lg"
+                                    >
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        </PortalLayout>
+    );
+}

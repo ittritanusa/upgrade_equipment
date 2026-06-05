@@ -40,4 +40,12 @@ Route::middleware('web')->group(function () {
         Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\TireTypeKendaraanController@update')->name('tire-type.update');
         Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\TireTypeKendaraanController@destroy')->name('tire-type.delete');
     });
+    
+    Route::prefix('kendaraan')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\KendaraanController@index')->name('kendaraan');
+        Route::get('/{id}', 'App\Http\Controllers\Api\KendaraanController@show')->name('kendaraan.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\KendaraanController@store')->name('kendaraan.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\KendaraanController@update')->name('kendaraan.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\KendaraanController@destroy')->name('kendaraan.delete');
+    });
 });
