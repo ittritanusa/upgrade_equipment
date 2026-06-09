@@ -48,4 +48,20 @@ Route::middleware('web')->group(function () {
         Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\KendaraanController@update')->name('kendaraan.update');
         Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\KendaraanController@destroy')->name('kendaraan.delete');
     });
+
+    Route::prefix('unit-bisnis')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\UnitBisnisController@index')->name('unit-bisnis');
+        Route::get('/{id}', 'App\Http\Controllers\Api\UnitBisnisController@show')->name('unit-bisnis.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\UnitBisnisController@store')->name('unit-bisnis.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\UnitBisnisController@update')->name('unit-bisnis.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\UnitBisnisController@destroy')->name('unit-bisnis.delete');
+    });
+
+    Route::prefix('area-unit')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\AreaUnitController@index')->name('area-unit');
+        Route::get('/{id}', 'App\Http\Controllers\Api\AreaUnitController@show')->name('area-unit.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\AreaUnitController@store')->name('area-unit.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\AreaUnitController@update')->name('area-unit.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\AreaUnitController@destroy')->name('area-unit.delete');
+    });
 });

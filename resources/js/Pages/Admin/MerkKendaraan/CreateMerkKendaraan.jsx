@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
 import { Save, X, ArrowLeft } from 'lucide-react';
-import { useCreateMerkKendaraan } from './Hooks/useCreateMerkKendaraan'; // 2. Import hook
+import { useCreateMerkKendaraan } from './Hooks/useCreateMerkKendaraan';
 
 export default function CreateMerkKendaraan() {
     const navigate = useNavigate();

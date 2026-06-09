@@ -60,9 +60,9 @@ export default function DetailKendaraan() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <DetailField label="Kode Unit" value={detail?.KodeUnit} />
-                        <DetailField label="Merk" value={detail?.MerkTypeUnit} />
-                        <DetailField label="Tipe" value={detail?.TypeKendaraan} />
+                        <DetailField label="Kode Unit" value={detail?.unit_kendaraan?.Unit} />
+                        <DetailField label="Merk" value={detail?.merk_kendaraan?.Merk} />
+                        <DetailField label="Tipe" value={detail?.tipe_kendaraan?.Type} />
                         <DetailField label="Tahun" value={detail?.TahunPembuatan} />
                         
                         <DetailField label="No Polisi" value={detail?.NoPolisi} />

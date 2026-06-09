@@ -1,0 +1,230 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\AreaUnitModel;
+use Illuminate\Http\Request;
+
+class AreaUnitController extends Controller
+{
+    /**
+     * List Data
+     */
+    public function index(Request $request)
+    {
+        try {
+
+            $search = $request->search;
+            $limit  = $request->limit ?? 10;
+
+            $query = AreaUnitModel::query();
+
+            if (!empty($search)) {
+
+                $query->where(function ($q) use ($search) {
+
+                    $q->where(
+                        'UnitBisnis',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'Area',
+                        'like',
+                        "%{$search}%"
+                    )
+                    ->orWhere(
+                        'Lokasi',
+                        'like',
+                        "%{$search}%"
+                    );
+                });
+            }
+
+            $data = $query
+                ->orderBy('id', 'desc')
+                ->paginate($limit);
+
+            return response()->json([
+                'success' => true,
+                'data' => $data->items(),
+                'meta' => [
+                    'current_page' => $data->currentPage(),
+                    'last_page'    => $data->lastPage(),
+                    'per_page'     => $data->perPage(),
+                    'total'        => $data->total(),
+                ]
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+
+        }
+    }
+
+    /**
+     * Detail Data
+     */
+    public function show($id)
+    {
+        try {
+
+            $data = AreaUnitModel::find($id);
+
+            if (!$data) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 404);
+
+            }
+
+            return response()->json([
+                'success' => true,
+                'data'    => $data,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+
+        }
+    }
+
+    /**
+     * Simpan Data
+     */
+    public function store(Request $request)
+    {
+        try {
+
+            $validated = $request->validate([
+                'UnitBisnis'    => 'required|max:50',
+                'Area'          => 'required|max:50|unique:m_area_unit,Area',
+                'Lokasi'        => 'required|max:255',
+                'Keterangan'    => 'nullable|max:255',
+            ]);
+
+            $data = AreaUnitModel::insert([
+                'UnitBisnis'    => trim($validated['UnitBisnis']),
+                'Area'          => trim($validated['Area']),
+                'Lokasi'        => trim($validated['Lokasi']),
+                'Keterangan'    => trim($validated['Keterangan']),
+                'status'        => 1,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil ditambahkan',
+                'data'    => $data,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+
+        }
+    }
+
+    /**
+     * Update Data
+     */
+    public function update(Request $request, $id)
+    {
+        try {
+            $data = AreaUnitModel::find($id);
+
+            if (!$data) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 404);
+            }
+
+            // 2. Validasi input
+            $validated = $request->validate([
+                'UnitBisnis'    => 'required|max:50',
+                'Area'          => 'required|max:50|unique:m_area_unit,Area,' . $id . ',id',
+                'Lokasi'        => 'required|max:255',
+                'Keterangan'    => 'nullable|max:255',
+                'status'        => 'required|integer|in:1,2',
+            ]);
+
+            // Sesuaikan key array dengan nama kolom di database Anda
+            $update = AreaUnitModel::where('id', $id)->update([
+                'UnitBisnis'    => trim($validated['UnitBisnis']),
+                'Area'          => trim($validated['Area']),
+                'Lokasi'        => trim($validated['Lokasi']),
+                'Keterangan'    => trim($validated['Keterangan']),
+                'status'        => $validated['status'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil diperbarui',
+                'data'    => $data->fresh(),
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Menangani error validasi secara spesifik
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi gagal',
+                'errors'  => $e->errors()
+            ], 422);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan sistem: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Hapus Data
+     */
+    public function destroy($id)
+    {
+        try {
+
+            $data = AreaUnitModel::find($id);
+
+            if (!$data) {
+
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data tidak ditemukan',
+                ], 404);
+
+            }
+
+            // hapus data
+            AreaUnitModel::where('id', $id)->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil dihapus',
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+
+        }
+    }
+}

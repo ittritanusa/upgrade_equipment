@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import PortalLayout from '@/Pages/Layouts/PortalLayout';
 import { Plus, Pencil, Trash2, Eye, Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useKendaraanList } from './Hooks/useKendaraanList';
+import { useKendaraanList, useDeleteKendaraan } from './Hooks/useKendaraanList';
 import { encodeId } from '@/Utils/Helpers/IdHelper';
 
 export default function Kendaraan() {
@@ -19,6 +19,31 @@ export default function Kendaraan() {
     // Mengambil data dan meta dari response API
     const rows = data?.data || [];
     const meta = data?.meta;
+
+    const deleteMutation = useDeleteKendaraan();
+    
+    const handleDelete = (id) => {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteMutation.mutate(id, {
+                    onSuccess: () => {
+                        Swal.fire('Terhapus!', 'Data berhasil dihapus.', 'success');
+                    },
+                    onError: (error) => {
+                        // Tampilkan pesan error asli dari API
+                        const message = error?.response?.data?.message || error.message;
+                        Swal.fire('Gagal!', message, 'error'); 
+                    }
+                });
+            }
+        });
+    };
 
     return (
         <PortalLayout>
@@ -36,7 +61,7 @@ export default function Kendaraan() {
                     <div className="p-5 border-b border-slate-200 flex justify-between items-center">
                         <h2 className="text-lg font-semibold">Data Kendaraan</h2>
                         <button
-                            onClick={() => navigate('/portal/master/tipe-kendaraan/create')}
+                            onClick={() => navigate('/portal/master/kendaraan/create')}
                             className="bg-blue-600 text-white px-4 h-10 rounded-lg flex items-center gap-2"
                         >
                             <Plus size={16} /> Tambah Data
@@ -117,7 +142,12 @@ export default function Kendaraan() {
                                                     <div className="flex justify-center gap-2">
                                                         <button onClick={() => navigate(`/portal/master/kendaraan/detail/${encodeId(item.id)}`)} className="p-1.5 border border-green-500 text-green-600 rounded hover:bg-green-50"><Eye size={14} /></button>
                                                         <button onClick={() => navigate(`/portal/master/kendaraan/edit/${encodeId(item.id)}`)} className="p-1.5 border border-amber-500 text-amber-600 rounded hover:bg-amber-50"><Pencil size={14} /></button>
-                                                        <button className="p-1.5 border border-red-500 text-red-600 rounded hover:bg-red-50"><Trash2 size={14} /></button>
+                                                        <button
+                                                            onClick={() => handleDelete(item.id)}
+                                                            className="text-red-600 hover:text-red-800"
+                                                        >
+                                                            <Trash2 size={18} />
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>
