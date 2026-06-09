@@ -18,7 +18,7 @@ class AreaUnitController extends Controller
             $search = $request->search;
             $limit  = $request->limit ?? 10;
 
-            $query = AreaUnitModel::query();
+            $query = AreaUnitModel::with(['unitBisnis']);
 
             if (!empty($search)) {
 
@@ -109,7 +109,7 @@ class AreaUnitController extends Controller
 
             $validated = $request->validate([
                 'UnitBisnis'    => 'required|max:50',
-                'Area'          => 'required|max:50|unique:m_area_unit,Area',
+                'Area'          => 'required|max:50',
                 'Lokasi'        => 'required|max:255',
                 'Keterangan'    => 'nullable|max:255',
             ]);
@@ -156,10 +156,10 @@ class AreaUnitController extends Controller
             // 2. Validasi input
             $validated = $request->validate([
                 'UnitBisnis'    => 'required|max:50',
-                'Area'          => 'required|max:50|unique:m_area_unit,Area,' . $id . ',id',
+                'Area'          => 'required|max:50',
                 'Lokasi'        => 'required|max:255',
                 'Keterangan'    => 'nullable|max:255',
-                'status'        => 'required|integer|in:1,2',
+                'Status'        => 'required|integer|in:1,2',
             ]);
 
             // Sesuaikan key array dengan nama kolom di database Anda
@@ -168,7 +168,7 @@ class AreaUnitController extends Controller
                 'Area'          => trim($validated['Area']),
                 'Lokasi'        => trim($validated['Lokasi']),
                 'Keterangan'    => trim($validated['Keterangan']),
-                'status'        => $validated['status'],
+                'Status'        => $validated['Status'],
             ]);
 
             return response()->json([

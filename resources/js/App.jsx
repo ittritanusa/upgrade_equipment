@@ -38,6 +38,11 @@ import CreateKendaraan from '@/Pages/Admin/Kendaraan/create_kendaraan';
 import DetailKendaraan from '@/Pages/Admin/Kendaraan/detail_kendaraan';
 import EditKendaraan from '@/Pages/Admin/Kendaraan/edit_kendaraan';
 
+import AreaUnit from '@/Pages/Admin/AreaUnit/area_unit';
+import CreateAreaUnit from '@/Pages/Admin/AreaUnit/create_area_unit';
+import DetailAreaUnit from '@/Pages/Admin/AreaUnit/detail_area_unit';
+import EditAreaUnit from '@/Pages/Admin/AreaUnit/edit_area_unit';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -78,6 +83,11 @@ function AppRoutes() {
                 <Route path="/portal/master/kendaraan/create" element={<ProtectedRoute><CreateKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/kendaraan/detail/:id" element={<ProtectedRoute><DetailKendaraan /></ProtectedRoute>} />
                 <Route path="/portal/master/kendaraan/edit/:id" element={<ProtectedRoute><EditKendaraan /></ProtectedRoute>} />
+                
+                <Route path="/portal/master/area-unit" element={<ProtectedRoute><AreaUnit /></ProtectedRoute>} />
+                <Route path="/portal/master/area-unit/create" element={<ProtectedRoute><CreateAreaUnit /></ProtectedRoute>} />
+                <Route path="/portal/master/area-unit/detail/:id" element={<ProtectedRoute><DetailAreaUnit /></ProtectedRoute>} />
+                <Route path="/portal/master/area-unit/edit/:id" element={<ProtectedRoute><EditAreaUnit /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>
