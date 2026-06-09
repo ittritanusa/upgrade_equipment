@@ -103,7 +103,7 @@ class UnitBisnisController extends Controller
         try {
 
             $validated = $request->validate([
-                'KodeUnitBisnis' => 'required|max:20|unique:unit_bisnis,KodeUnitBisnis',
+                'KodeUnitBisnis' => 'required|max:20|unique:m_unit_bisnis,KodeUnitBisnis',
                 'UnitBisnis'     => 'required|max:50',
             ]);
 
@@ -146,7 +146,7 @@ class UnitBisnisController extends Controller
 
             // 2. Validasi input
             $validated = $request->validate([
-                'KodeUnitBisnis' => 'required|max:20|unique:unit_bisnis,KodeUnitBisnis,' . $id . ',id',
+                'KodeUnitBisnis' => 'required|max:20|unique:m_unit_bisnis,KodeUnitBisnis,' . $id . ',id',
                 'UnitBisnis'     => 'required|max:50',
             ]);
 
@@ -154,7 +154,7 @@ class UnitBisnisController extends Controller
             $update = UnitBisnisModel::where('id', $id)->update([
                 'KodeUnitBisnis' => trim($validated['KodeUnitBisnis']),
                 'UnitBisnis'     => trim($validated['UnitBisnis']),
-                'status'         => $validated['status'],
+                'Status'         => $request->input('Status', $data->Status), 
             ]);
 
             return response()->json([

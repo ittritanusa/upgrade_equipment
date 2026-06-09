@@ -43,6 +43,10 @@ import CreateAreaUnit from '@/Pages/Admin/AreaUnit/create_area_unit';
 import DetailAreaUnit from '@/Pages/Admin/AreaUnit/detail_area_unit';
 import EditAreaUnit from '@/Pages/Admin/AreaUnit/edit_area_unit';
 
+import UnitBisnis from '@/Pages/Admin/UnitBisnis/unit_bisnis';
+import CreateUnitBisnis from '@/Pages/Admin/UnitBisnis/create_unit_bisnis';
+import EditUnitBisnis from '@/Pages/Admin/UnitBisnis/edit_unit_bisnis';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -88,6 +92,10 @@ function AppRoutes() {
                 <Route path="/portal/master/area-unit/create" element={<ProtectedRoute><CreateAreaUnit /></ProtectedRoute>} />
                 <Route path="/portal/master/area-unit/detail/:id" element={<ProtectedRoute><DetailAreaUnit /></ProtectedRoute>} />
                 <Route path="/portal/master/area-unit/edit/:id" element={<ProtectedRoute><EditAreaUnit /></ProtectedRoute>} />
+
+                <Route path="/portal/master/unit-bisnis" element={<ProtectedRoute><UnitBisnis /></ProtectedRoute>} />
+                <Route path="/portal/master/unit-bisnis/create" element={<ProtectedRoute><CreateUnitBisnis /></ProtectedRoute>} />
+                <Route path="/portal/master/unit-bisnis/edit/:id" element={<ProtectedRoute><EditUnitBisnis /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>
