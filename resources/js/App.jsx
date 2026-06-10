@@ -47,6 +47,10 @@ import UnitBisnis from '@/Pages/Admin/UnitBisnis/unit_bisnis';
 import CreateUnitBisnis from '@/Pages/Admin/UnitBisnis/create_unit_bisnis';
 import EditUnitBisnis from '@/Pages/Admin/UnitBisnis/edit_unit_bisnis';
 
+import KodePos from '@/Pages/Admin/KodePos/kode_pos';
+import CreateKodePos from '@/Pages/Admin/KodePos/create_kode_pos';
+import EditKodePos from '@/Pages/Admin/KodePos/edit_kode_pos';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -96,6 +100,10 @@ function AppRoutes() {
                 <Route path="/portal/master/unit-bisnis" element={<ProtectedRoute><UnitBisnis /></ProtectedRoute>} />
                 <Route path="/portal/master/unit-bisnis/create" element={<ProtectedRoute><CreateUnitBisnis /></ProtectedRoute>} />
                 <Route path="/portal/master/unit-bisnis/edit/:id" element={<ProtectedRoute><EditUnitBisnis /></ProtectedRoute>} />
+
+                <Route path="/portal/master/kode-pos" element={<ProtectedRoute><KodePos /></ProtectedRoute>} />
+                <Route path="/portal/master/kode-pos/create" element={<ProtectedRoute><CreateKodePos /></ProtectedRoute>} />
+                <Route path="/portal/master/kode-pos/edit/:id" element={<ProtectedRoute><EditKodePos /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>

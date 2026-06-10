@@ -64,4 +64,12 @@ Route::middleware('web')->group(function () {
         Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\AreaUnitController@update')->name('area-unit.update');
         Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\AreaUnitController@destroy')->name('area-unit.delete');
     });
+
+    Route::prefix('kode-pos')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\KodePosController@index')->name('kode-pos');
+        Route::get('/{id}', 'App\Http\Controllers\Api\KodePosController@show')->name('kode-pos.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\KodePosController@store')->name('kode-pos.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\KodePosController@update')->name('kode-pos.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\KodePosController@destroy')->name('kode-pos.delete');
+    });
 });
