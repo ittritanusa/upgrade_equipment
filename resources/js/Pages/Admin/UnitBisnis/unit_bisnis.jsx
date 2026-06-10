@@ -138,40 +138,54 @@ export default function UnitBisnis() {
 
                         {/* Pagination Footer */}
                         {meta && (
-                            <div className="flex justify-between items-center mt-4 border-t pt-4">
+                            <div className="flex flex-col md:flex-row justify-between items-center mt-6 border-t pt-4 gap-4">
                                 <span className="text-sm text-slate-600">
-                                    Menampilkan {(meta.current_page - 1) * meta.per_page + 1} - {Math.min(meta.current_page * meta.per_page, meta.total)} dari {meta.total} data
+                                    Menampilkan <span className="font-semibold">{(meta.current_page - 1) * meta.per_page + 1}</span> - <span className="font-semibold">{Math.min(meta.current_page * meta.per_page, meta.total)}</span> dari <span className="font-semibold">{meta.total}</span> data
                                 </span>
+                                
                                 <div className="flex items-center gap-1">
+                                    {/* Tombol Previous */}
                                     <button
                                         disabled={page === 1}
-                                        onClick={() => setPage(page - 1)}
-                                        className="h-9 w-9 border rounded-lg"
+                                        onClick={() => setPage(p => p - 1)}
+                                        className="h-9 px-3 flex items-center justify-center border rounded-lg hover:bg-slate-50 disabled:opacity-50 transition-colors"
                                     >
                                         <ChevronLeft size={16} />
                                     </button>
 
-                                    {Array.from(
-                                        { length: meta?.last_page || 1 },
-                                        (_, i) => (
+                                    {/* Logika Pagination */}
+                                    {(() => {
+                                        let pages = [];
+                                        let startPage = Math.max(1, page - 2);
+                                        let endPage = Math.min(meta.last_page, page + 2);
+
+                                        if (startPage > 1) pages.push(1, '...');
+                                        for (let i = startPage; i <= endPage; i++) pages.push(i);
+                                        if (endPage < meta.last_page) pages.push('...', meta.last_page);
+
+                                        return pages.map((p, index) => (
                                             <button
-                                                key={i}
-                                                onClick={() => setPage(i + 1)}
-                                                className={`h-9 w-9 rounded-lg border ${
-                                                    page === i + 1
-                                                        ? 'bg-blue-600 text-white'
-                                                        : 'bg-white'
+                                                key={index}
+                                                onClick={() => typeof p === 'number' && setPage(p)}
+                                                disabled={p === '...'}
+                                                className={`h-9 min-w-[36px] px-2 rounded-lg border text-sm font-medium transition-all ${
+                                                    page === p 
+                                                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                                                        : p === '...' 
+                                                            ? 'border-transparent cursor-default' 
+                                                            : 'bg-white hover:bg-slate-50 border-slate-200'
                                                 }`}
                                             >
-                                                {i + 1}
+                                                {p}
                                             </button>
-                                        )
-                                    )}
+                                        ));
+                                    })()}
 
+                                    {/* Tombol Next */}
                                     <button
-                                        disabled={page === meta?.last_page}
-                                        onClick={() => setPage(page + 1)}
-                                        className="h-9 w-9 border rounded-lg"
+                                        disabled={page === meta.last_page}
+                                        onClick={() => setPage(p => p + 1)}
+                                        className="h-9 px-3 flex items-center justify-center border rounded-lg hover:bg-slate-50 disabled:opacity-50 transition-colors"
                                     >
                                         <ChevronRight size={16} />
                                     </button>
