@@ -72,4 +72,20 @@ Route::middleware('web')->group(function () {
         Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\KodePosController@update')->name('kode-pos.update');
         Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\KodePosController@destroy')->name('kode-pos.delete');
     });
+
+    Route::prefix('category-sparepart')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\CategorySparepartController@index')->name('category-sparepart');
+        Route::get('/{id}', 'App\Http\Controllers\Api\CategorySparepartController@show')->name('category-sparepart.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\CategorySparepartController@store')->name('category-sparepart.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\CategorySparepartController@update')->name('category-sparepart.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\CategorySparepartController@destroy')->name('category-sparepart.delete');
+    });
+
+    Route::prefix('items-sparepart')->group(function(){
+        Route::get('/', 'App\Http\Controllers\Api\ItemsSparepartController@index')->name('items-sparepart');
+        Route::get('/{id}', 'App\Http\Controllers\Api\ItemsSparepartController@show')->name('items-sparepart.detail');
+        Route::post('/create/save', 'App\Http\Controllers\Api\ItemsSparepartController@store')->name('items-sparepart.store');
+        Route::post('/edit/save/{id}', 'App\Http\Controllers\Api\ItemsSparepartController@update')->name('items-sparepart.update');
+        Route::delete('/delete/save/{id}', 'App\Http\Controllers\Api\ItemsSparepartController@destroy')->name('items-sparepart.delete');
+    });
 });

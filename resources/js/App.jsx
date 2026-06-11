@@ -51,6 +51,14 @@ import KodePos from '@/Pages/Admin/KodePos/kode_pos';
 import CreateKodePos from '@/Pages/Admin/KodePos/create_kode_pos';
 import EditKodePos from '@/Pages/Admin/KodePos/edit_kode_pos';
 
+import CategorySparepart from '@/Pages/Admin/CategorySparepart/category_sparepart';
+import CreateCategorySparepart from '@/Pages/Admin/CategorySparepart/create_category_sparepart';
+import EditCategorySparepart from '@/Pages/Admin/CategorySparepart/edit_category_sparepart';
+
+import ItemsSparepart from '@/Pages/Admin/ItemsSparepart/items_sparepart';
+import CreateItemsSparepart from '@/Pages/Admin/ItemsSparepart/create_items_sparepart';
+import EditItemsSparepart from '@/Pages/Admin/ItemsSparepart/edit_items_sparepart';
+
 import '../css/app.css';
 
 function ProtectedRoute({ children }) {
@@ -104,6 +112,14 @@ function AppRoutes() {
                 <Route path="/portal/master/kode-pos" element={<ProtectedRoute><KodePos /></ProtectedRoute>} />
                 <Route path="/portal/master/kode-pos/create" element={<ProtectedRoute><CreateKodePos /></ProtectedRoute>} />
                 <Route path="/portal/master/kode-pos/edit/:id" element={<ProtectedRoute><EditKodePos /></ProtectedRoute>} />
+                
+                <Route path="/portal/master/category-sparepart" element={<ProtectedRoute><CategorySparepart /></ProtectedRoute>} />
+                <Route path="/portal/master/category-sparepart/create" element={<ProtectedRoute><CreateCategorySparepart /></ProtectedRoute>} />
+                <Route path="/portal/master/category-sparepart/edit/:id" element={<ProtectedRoute><EditCategorySparepart /></ProtectedRoute>} />
+
+                <Route path="/portal/master/items-sparepart" element={<ProtectedRoute><ItemsSparepart /></ProtectedRoute>} />
+                <Route path="/portal/master/items-sparepart/create" element={<ProtectedRoute><CreateItemsSparepart /></ProtectedRoute>} />
+                <Route path="/portal/master/items-sparepart/edit/:id" element={<ProtectedRoute><EditItemsSparepart /></ProtectedRoute>} />
                 
                 <Route path="*" element={<GlobalNotFoundHandler />} />
             </Routes>

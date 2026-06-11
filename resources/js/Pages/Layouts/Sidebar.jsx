@@ -72,15 +72,26 @@ const navItems = [
             },
 
             {
-                label: 'Items Sparepart',
-                path: '/portal/master/sparepart',
-                icon: Wrench
+                label: 'Sparepart',
+                icon: Wrench,
+                children: [
+                    {
+                        label: 'Category Sparepart',
+                        path: '/portal/master/category-sparepart',
+                        icon: Wrench
+                    },
+                    {
+                        label: 'Items Sparepart',
+                        path: '/portal/master/items-sparepart',
+                        icon: Wrench
+                    }
+                ]
             },
 
             {
-                label: 'Items Operasional',
-                path: '/portal/master/operasional',
-                icon: Package2
+                label: 'Data Customers',
+                path: '/portal/master/data-customers',
+                icon: Users
             }
         ]
     },
